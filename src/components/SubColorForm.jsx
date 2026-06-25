@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { presetColorsByGroup } from "../data/presetColors";
+import "./SubColorForm.css";
 
 function SubColorForm({ onClose, onAdd, onUpdate, colorKey, initialData }) {
   const [name, setName] = useState(initialData?.name || "");
@@ -27,6 +28,20 @@ function SubColorForm({ onClose, onAdd, onUpdate, colorKey, initialData }) {
   // 키워드 추가·삭제 기능
   const [keywordInput, setKeywordInput] = useState("");
   const [keywords, setKeywords] = useState(initialData?.keywords || []);
+
+  const MAX_DESCRIPTION_LINES = 6;
+
+  const handleDescriptionKeyDown = (e) => {
+    if (e.key !== "Enter") return;
+
+    const lines = description.split("\n");
+
+    const hasSelectedText = e.target.selectionStart !== e.target.selectionEnd;
+
+    if (lines.length >= MAX_DESCRIPTION_LINES && !hasSelectedText) {
+      e.preventDefault();
+    }
+  };
 
   const handleKeywordKeyDown = (e) => {
     if (e.key !== "Enter") return;
@@ -98,302 +113,67 @@ function SubColorForm({ onClose, onAdd, onUpdate, colorKey, initialData }) {
   }, []);
 
   return (
-    <div
-      // onClick={onClose}
-      style={{
-        width: "min(820px, 86vw)",
-        minHeight: "500px",
-        backgroundColor: "#F8EFE4",
-        padding: "36px 48px",
-        position: "relative",
-        boxSizing: "border-box",
-        margin: "40px auto 80px",
+    <form
+      className="sub-color-form"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSave();
       }}
     >
-      <div style={{ textAlign: "center", marginBottom: "40px" }}>
-        <h1
-          style={{
-            margin: 0,
-            letterSpacing: "2px",
-            fontSize: "42px",
-            color: "#6B4E3D",
-          }}
-        >
-          EDIT PALETTE
-        </h1>
-        <p
-          style={{
-            marginTop: "14px",
-            color: "#7E6A58",
-            fontSize: "18px",
-          }}
-        >
-          For Me Only.
-        </p>
-        <div
-          style={{
-            width: "54px",
-            height: "1px",
-            backgroundColor: "rgba(107,78,61,0.28)",
-            margin: "16px auto 0",
-          }}
-        />
-        <p
-          style={{
-            marginTop: "16px",
-            color: "#9A8472",
-            fontStyle: "italic",
-            fontSize: "14px",
-            fontFamily: "Georgia, serif",
-          }}
-        >
-          This space is where I record the pieces of me.
-        </p>
-      </div>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1.2fr 0.8fr",
-          gap: "50px",
-          marginTop: "48px",
-          alignItems: "start",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "32px",
-          }}
-        >
-          <div>
-            <label
-              style={{
-                display: "block",
-                textAlign: "left",
-              }}
-            >
-              NAME
-            </label>
-
-            <input
-              placeholder="ex. 클래식"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              style={{
-                width: "100%",
-                marginTop: "8px",
-                backgroundColor: "transparent",
-                border: "1px solid rgba(90,64,44,0.14)",
-                padding: "14px 16px",
-
-                fontSize: "14px",
-                color: "#5D4634",
-                fontFamily: "'Noto Serif KR', serif",
-                outline: "none",
-                boxSizing: "border-box",
-              }}
-            />
-          </div>
-
-          <div>
-            <label
-              style={{
-                display: "block",
-                textAlign: "left",
-              }}
-            >
-              DESCRIPTION
-            </label>
-
-            <textarea
-              placeholder="이 색에 담긴 기억을 적어보세요."
-              maxLength={200}
-              value={description}
-              onChange={(e) => {
-                const value = e.target.value;
-                setDescription(value.slice(0, 200));
-              }}
-              style={{
-                width: "100%",
-                minHeight: "180px",
-                marginTop: "10px",
-                resize: "none",
-                outline: "none",
-
-                padding: "14px",
-
-                backgroundColor: "transparent",
-                border: "1px solid rgba(90,64,44,0.14)",
-
-                fontSize: "14px",
-                lineHeight: "1.6",
-                color: "#5D4634",
-                fontFamily: "'Noto Serif KR', serif",
-
-                boxSizing: "border-box",
-              }}
-            />
-            <div
-              style={{
-                textAlign: "right",
-                marginTop: "8px",
-                color: "#9A8472",
-                boxSizing: "border-box",
-              }}
-            >
-              {description.length} / 200
-            </div>
-          </div>
-
-          <div>
-            <label
-              style={{
-                display: "block",
-                textAlign: "left",
-              }}
-            >
-              KEYWORDS
-            </label>
-
-            <input
-              value={keywordInput}
-              onChange={(e) => setKeywordInput(e.target.value)}
-              onKeyDown={handleKeywordKeyDown}
-              placeholder="키워드를 입력하고 Enter"
-              style={{
-                width: "100%",
-                marginTop: "8px",
-              }}
-            />
-            <div>
-              {keywords.map((keyword, index) => (
-                <span
-                  key={index}
-                  onClick={() => removeKeyword(index)}
-                  style={{
-                    cursor: "pointer",
-                    marginRight: "8px",
-                  }}
-                >
-                  #{keyword} x
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div
-          style={{
-            borderLeft: "1px solid rgba(80, 60, 45, 0.35)",
-            paddingLeft: "48px",
-            position: "relative",
-          }}
-        >
-          <label>COLOR</label>
-
+      <div className="sub-color-form__body">
+        <section className="sub-color-form__preview-section">
+          <p className="sub-color-form__label sub-color-form__label--center">
+            COLOR
+          </p>
           <div
+            className="sub-color-form__color-preview"
             style={{
-              width: "100%",
-              aspectRatio: "3 / 4",
               backgroundColor: selectedColor.color,
-              marginTop: "16px",
             }}
           />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: "10px",
-            }}
-          >
-            <div style={{ textAlign: "left" }}>
-              <p style={{ margin: 0 }}>{selectedColor.name}</p>
-              <p style={{ margin: 0 }}>{selectedColor.color}</p>
+          <div className="sub-color-form__color-info">
+            <div>
+              <p className="sub-color-form__color-name">{selectedColor.name}</p>
+              <p className="sub-color-form__color-hex">{selectedColor.color}</p>
             </div>
 
             <button
+              type="button"
               ref={colorButtonRef}
               onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}
+              className="sub-color-form__color-button"
               style={{
-                width: "34px",
-                height: "34px",
-                borderRadius: "50%",
-                border: "2px solid #5d4634",
                 backgroundColor: selectedColor.color,
-                cursor: "pointer",
               }}
+              aria-label="색상 선택하기"
             />
           </div>
-
           {isColorPickerOpen && (
-            <div
-              ref={colorPickerRef}
-              style={{
-                position: "absolute",
-                top: "calc(100% + 4px)",
-                right: 0,
-                width: "236px",
-                padding: "10px",
-                backgroundColor: "#F8EFE4",
-                border: "1px solid rgba(90,64,44,0.18)",
-                boxShadow: "0 18px 50px rgba(0,0,0,0.18)",
-                zIndex: 10,
-              }}
-            >
-              <div
-                style={{
-                  maxHeight: "160px",
-                  overflowY: "auto",
-                  padding: "10px 10px 10px",
-                  boxSizing: "border-box",
-                  scrollbarGutter: "stable",
-                }}
-              >
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(5, 34px)",
-                    gap: "10px",
-                    justifyContent: "center",
-                  }}
-                >
+            <div ref={colorPickerRef} className="sub-color-form__color-picker">
+              <div className="sub-color-form__color-picker-scroll">
+                <div className="sub-color-form__color-grid">
                   {presetColors.slice(0, 4).map((preset) => {
                     const isSelected = selectedColor.name === preset.name;
 
                     return (
                       <button
                         key={preset.name}
+                        type="button"
                         onClick={() => setSelectedColor(preset)}
+                        className={`sub-color-form__preset-button ${
+                          isSelected ? "is-selected" : ""
+                        }`}
                         style={{
-                          width: "34px",
-                          height: "34px",
-                          borderRadius: "50%",
-                          border: isSelected
-                            ? "2px solid #5D4634"
-                            : "1px solid rgba(90,64,44,0.15)",
                           backgroundColor: preset.color,
-                          cursor: "pointer",
-                          transform: isSelected ? "scale(1.08)" : "scale(1)",
-                          transition: "all 0.2s ease",
                         }}
                       />
                     );
                   })}
 
                   <button
+                    type="button"
                     onClick={() => setShowAllColors(!showAllColors)}
-                    style={{
-                      width: "34px",
-                      height: "34px",
-                      borderRadius: "50%",
-                      border: "1px solid rgba(90,64,44,0.18)",
-                      backgroundColor: "#E8E1D8",
-                      fontSize: "9px",
-                      cursor: "pointer",
-                    }}
+                    className="sub-color-form__more-button"
                   >
                     more
                   </button>
@@ -401,36 +181,21 @@ function SubColorForm({ onClose, onAdd, onUpdate, colorKey, initialData }) {
 
                 {showAllColors && (
                   <>
-                    <div
-                      style={{
-                        borderTop: "1px solid rgba(90,64,44,0.18)",
-                        margin: "14px 0",
-                      }}
-                    />
+                    <div className="sub-color-form__picker-divider" />
 
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(5, 34px)",
-                        gap: "10px",
-                        justifyContent: "center",
-                      }}
-                    >
+                    <div className="sub-color-form__color-grid">
                       {presetColors.slice(5).map((preset) => {
                         const isSelected = selectedColor.name === preset.name;
                         return (
                           <button
                             key={preset.name}
+                            type="button"
                             onClick={() => setSelectedColor(preset)}
+                            className={`sub-color-form__preset-button ${
+                              isSelected ? "is-selected" : ""
+                            }`}
                             style={{
-                              width: "34px",
-                              height: "34px",
-                              borderRadius: "50%",
-                              border: isSelected
-                                ? "2px solid #5D4634"
-                                : "1px solid rgba(90,64,44,0.2)",
                               backgroundColor: preset.color,
-                              cursor: "pointer",
                             }}
                           />
                         );
@@ -441,23 +206,88 @@ function SubColorForm({ onClose, onAdd, onUpdate, colorKey, initialData }) {
               </div>
             </div>
           )}
-        </div>
+        </section>
+
+        <div className="sub-color-form__divider" />
+
+        <section className="sub-color-form__fields-section">
+          <div className="sub-color-form__field">
+            <label className="sub-color-form__label">TITLE</label>
+            <input
+              className="sub-color-form__input"
+              placeholder="ex. 클래식"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+
+          <div className="sub-color-form__field">
+            <label className="sub-color-form__label">DESCRIPTION</label>
+            <textarea
+              className="sub-color-form__textarea"
+              placeholder="이 색에 담긴 기억을 적어보세요."
+              maxLength={200}
+              value={description}
+              onChange={(e) => {
+                const textarea = e.target;
+                const value = e.target.value;
+
+                setDescription(value.slice(0, 200));
+
+                requestAnimationFrame(() => {
+                  if (textarea.scrollHeight > textarea.clientHeight) {
+                    setDescription(description);
+                  }
+                });
+              }}
+              onKeyDown={handleDescriptionKeyDown}
+            />
+            <div className="sub-color-form__count">
+              {description.length} / 200
+            </div>
+          </div>
+
+          <div className="sub-color-form__field">
+            <label className="sub-color-form__label">KEYWORDS</label>
+
+            <input
+              className="sub-color-form__input"
+              value={keywordInput}
+              onChange={(e) => setKeywordInput(e.target.value)}
+              onKeyDown={handleKeywordKeyDown}
+              placeholder="키워드를 입력하고 Enter"
+            />
+
+            <div className="sub-color-form__keywords">
+              {keywords.map((keyword, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => removeKeyword(index)}
+                  className="sub-color-form__keyword"
+                >
+                  #{keyword} x
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          gap: "16px",
-          borderTop: "1px solid rgba(80, 60, 45, 0.25)",
-          marginTop: "48px",
-          paddingTop: "24px",
-        }}
-      >
-        <button onClick={onClose}>취소</button>
-        <button onClick={handleSave}>저장하기</button>
+      <div className="sub-color-form__actions">
+        <button
+          type="button"
+          onClick={onClose}
+          className="sub-color-form__cancel-button"
+        >
+          취소
+        </button>
+
+        <button type="submit" className="sub-color-form__save-button">
+          저장하기
+        </button>
       </div>
-    </div>
+    </form>
   );
 }
 

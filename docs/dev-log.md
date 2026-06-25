@@ -490,3 +490,62 @@
 - `requirements.md`에 Add/Edit Page 전환 완료 내용 반영
 - `Pieces of Me` 페이지 아이디어 구체화
 - `Palette Log` 또는 Calendar 페이지 아이디어 구체화
+
+### 2026-06-25
+
+#### 오늘 한 일
+
+- `ColorEditorPage`를 postcard 형태의 Editor Page로 리디자인 시작
+- Editor Page 바깥 배경과 중앙 postcard 카드 구조 적용
+- `SubColorForm` 내부 구조를 좌측 color preview / 우측 입력폼 구조로 재배치
+- 기존 form 내부의 중복 header 영역 제거
+- preview section과 fields section 사이에 가운데 divider 영역 추가
+- Title / Description / Keywords 입력 영역을 밑줄형 input 스타일로 변경
+- Description textarea에 다이어리 줄노트 느낌의 background line 스타일 적용
+- Color preview, color name, HEX, color picker button 배치 정리
+- Save / Cancel 버튼 영역을 하단 action bar로 정리
+
+#### 문제
+
+- Description textarea에 줄노트 스타일을 적용하는 과정에서 글자 위치와 배경 줄 위치가 잘 맞지 않음
+- textarea 높이를 6줄 기준으로 고정하자 마지막 줄에서 Enter 입력 시 커서가 깜빡이는 현상이 발생함
+- 줄 수 제한을 넘는 텍스트를 붙여넣으면 기존 내용으로 되돌아가며 입력이 실패한 것처럼 보임
+
+#### 해결
+
+- `line-height`와 `repeating-linear-gradient()`의 반복 간격을 맞춰 textarea 줄노트 스타일을 조정
+- textarea 내부 스크롤을 막기 위해 `overflow: hidden` 적용
+- 붙여넣기와 줄 수 제한 UX는 현재 방식으로 완전히 해결하지 않고 후속 개선 작업으로 분리
+
+#### 배운 점
+
+- `repeating-linear-gradient()`를 사용하면 이미지 없이 CSS만으로 반복되는 줄 배경을 만들 수 있다.
+  - `to bottom`은 위에서 아래 방향으로 gradient를 만든다는 의미다.
+  - `transparent 0 ~ 24px` 구간은 보이지 않는 빈 공간이다.
+  - `rgba(...) 24px ~ 25px` 구간은 1px 두께의 선이다.
+  - 이 패턴이 반복되면서 textarea에 노트 줄 같은 배경을 만들 수 있다.
+
+- textarea에 줄노트 스타일을 적용할 때는 `height`, `line-height`, `background-image`의 반복 간격을 함께 맞춰야 한다.
+  - 예: `line-height: 25px`이면 gradient도 25px 단위로 반복되도록 맞추는 것이 좋다.
+  - `height: 150px`은 `line-height: 25px` 기준으로 6줄을 보여주는 높이가 된다.
+
+- `scrollHeight`와 `clientHeight`를 비교하면 textarea 내용이 보이는 영역을 넘었는지 확인할 수 있다.
+  - `scrollHeight`: 스크롤을 포함한 전체 콘텐츠 높이
+  - `clientHeight`: 실제 화면에 보이는 요소 높이
+  - `scrollHeight > clientHeight`이면 입력 내용이 textarea 높이를 넘친 상태다.
+
+- `requestAnimationFrame()`은 브라우저가 다음 화면을 그리기 전에 콜백을 실행한다.
+  - state 변경 후 실제 DOM 높이를 확인해야 할 때 사용할 수 있다.
+  - 다만 입력 후 이전 state로 되돌리는 방식은 붙여넣기 시 화면이 깜빡이는 UX 문제가 생길 수 있다.
+
+- `onKeyDown`에서 `e.key === "Enter"`를 확인하면 textarea의 Enter 입력을 따로 제어할 수 있다.
+  - `e.preventDefault()`를 사용하면 Enter로 새 줄이 추가되는 기본 동작을 막을 수 있다.
+  - `description.split("\n")`으로 현재 입력된 줄 수를 계산할 수 있다.
+
+#### 다음 할 일
+
+- Description textarea 붙여넣기 / 줄 수 제한 UX 개선
+- postcard editor의 종이 질감, 스티커, 테이프, 나뭇잎 장식 추가 검토
+- Color preview 영역 아래 감성 문구 추가 여부 결정
+- Color picker dropdown 위치와 스타일 재확인
+- Editor Page 모바일 반응형 구조 정리

@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import SubColorForm from "../components/SubColorForm";
+import "./ColorEditorPage.css";
 
 function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
   const { id, subColorId } = useParams();
@@ -18,25 +19,39 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
   );
 
   return (
-    <main>
-      <h1>{isEditMode ? "Edit Color" : "Add Color"}</h1>
+    <main className="editor-page">
+      <section className="editor-postcard">
+        <header className="editor-postcard__header">
+          <p className="editor-postcard__eyebrow">
+            {isEditMode ? "EDIT COLOR" : "NEW COLOR"}
+          </p>
+          <h1 className="editor-postcard__title">
+            {isEditMode ? "Edit Palette" : "Add Palette"}
+          </h1>
+          {/* <p className="editor-postcard__subtitle">For Me Only.</p>
+          <div className="editor-postcard__divider" />
+          <p className="editor-postcard__description">
+            This space is where I record the pieces of me.
+          </p> */}
+        </header>
 
-      <SubColorForm
-        isPageMode={true}
-        colorKey={selectedGroup.colorKey}
-        initialData={isEditMode ? selectedSubColor : null}
-        onClose={() => navigate(`/mypalette/${id}`)}
-        onAdd={(newSubColor) => {
-          onAdd(id, newSubColor);
-          navigate(`/mypalette/${id}`);
-        }}
-        onUpdate={(updatedSubColor) => {
-          onUpdate(id, updatedSubColor);
-          navigate(`/mypalette/${id}`, {
-            state: { reopenSubColorId: updatedSubColor.id },
-          });
-        }}
-      />
+        <SubColorForm
+          isPageMode={true}
+          colorKey={selectedGroup.colorKey}
+          initialData={isEditMode ? selectedSubColor : null}
+          onClose={() => navigate(`/mypalette/${id}`)}
+          onAdd={(newSubColor) => {
+            onAdd(id, newSubColor);
+            navigate(`/mypalette/${id}`);
+          }}
+          onUpdate={(updatedSubColor) => {
+            onUpdate(id, updatedSubColor);
+            navigate(`/mypalette/${id}`, {
+              state: { reopenSubColorId: updatedSubColor.id },
+            });
+          }}
+        />
+      </section>
     </main>
   );
 }

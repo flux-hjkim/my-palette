@@ -191,3 +191,11 @@
 - 카테고리 클릭 시 해당 `/mypalette/:id` 페이지로 이동
 - dropdown은 위에서 아래로 글자가 떨어지듯 나타나는 motion 적용 검토
 - 모바일에서는 hover 대신 click/tap 방식 필요
+
+### Editor Page 추가 개선사항
+
+- Description textarea 입력 제한 UX 개선
+  - 현재는 줄 수 제한을 넘는 붙여넣기 시 기존 내용으로 되돌아가며 깜빡이는 현상이 있음
+  - `return`으로 입력을 무시하는 방식 대신, 허용 가능한 줄 수까지만 잘라서 반영하는 방식 검토
+  - textarea 높이, line-height, background line 간격을 유지하면서 200자 제한과 줄 수 제한을 함께 처리하는 방법 개선
+  - 필요하면 사용자에게 “최대 6줄까지만 입력할 수 있어요” 안내 메시지 표시
