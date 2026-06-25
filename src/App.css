@@ -1,0 +1,9 @@
+:root {
+  --page-bg: #f7f1e8;
+}
+
+body {
+  margin: 0;
+  background-color: var(--page-bg);
+  font-family: serif;
+}
