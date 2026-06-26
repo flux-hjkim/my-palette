@@ -2,6 +2,7 @@
   width: 100%;
 }
 
+/* 전체 본문: 왼쪽 preview / divider / 오른쪽 form */
 .sub-color-form__body {
   display: grid;
   grid-template-columns: 1fr 40px 1fr;
@@ -18,6 +19,7 @@
   justify-self: center;
 }
 
+/* 왼쪽 preview */
 .sub-color-form__preview-section {
   height: 100%;
   position: relative;
@@ -29,6 +31,120 @@
   padding-top: 0;
 }
 
+.sub-color-form__preview-text {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.sub-color-form__preview-title {
+  margin: 0;
+  color: rgba(42, 37, 31, 0.72);
+  font-family: "Brush Script MT", "Lucida Handwriting", cursive;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.sub-color-form__preview-color-name {
+  margin: 8px 0 0;
+  color: rgba(42, 37, 31, 0.52);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-style: italic;
+}
+
+.sub-color-form__color-preview-wrap {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.sub-color-form__color-preview {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  padding: 0;
+  border: 1px solid rgba(90, 64, 44, 0.12);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.sub-color-form__color-preview-overlay {
+  position: absolute;
+  inset: auto 0 0;
+  height: 64px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.sub-color-form__color-preview:hover .sub-color-form__color-preview-overlay {
+  opacity: 1;
+}
+
+.sub-color-form__color-info {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  text-align: left;
+}
+
+.sub-color-form__color-name,
+.sub-color-form__color-hex {
+  margin: 0;
+  color: rgba(255, 250, 243, 0.82);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.2;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
+  transition:
+    color 180ms ease,
+    text-shadow 180ms ease;
+}
+
+.sub-color-form__color-preview:hover .sub-color-form__color-name,
+.sub-color-form__color-preview:hover .sub-color-form__color-hex {
+  color: rgba(255, 250, 243, 0.96);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.36);
+}
+
+.sub-color-form__color-name {
+  font-size: 15px;
+  font-style: italic;
+}
+
+.sub-color-form__preview-group-color-name {
+  font-style: italic;
+}
+
+.sub-color-form__color-hex {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.sub-color-form__color-button {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #5d4634;
+  cursor: pointer;
+}
+
+.sub-color-form__preview-message {
+  margin: 0;
+  color: rgba(42, 37, 31, 0.58);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* 오른쪽 입력 영역 */
 .sub-color-form__fields-section {
   height: 100%;
   border-left: none;
@@ -93,40 +209,10 @@
   font-size: 14px;
 }
 
-.sub-color-form__color-preview {
-  width: 190px;
-  height: 190px;
-  margin: 12px auto 16px;
-  border: 1px solid rgba(90, 64, 44, 0.12);
-}
-
-.sub-color-form__color-info {
-  width: 190px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-align: left;
-}
-
-.sub-color-form__color-name,
-.sub-color-form__color-hex {
-  margin: 0;
-  color: #5d4634;
-  font-family: Georgia, serif;
-}
-
-.sub-color-form__color-button {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 2px solid #5d4634;
-  cursor: pointer;
-}
-
+/* color picker dropdown */
 .sub-color-form__color-picker {
   position: absolute;
-  top: calc(100% - 24px);
+  top: calc(100% + 12px);
   left: 50%;
   transform: translateX(-50%);
   width: 236px;
@@ -180,6 +266,7 @@
   margin: 14px 0;
 }
 
+/* keywords */
 .sub-color-form__keywords {
   display: flex;
   flex-wrap: wrap;
@@ -196,6 +283,7 @@
   cursor: pointer;
 }
 
+/* 하단 버튼 */
 .sub-color-form__actions {
   margin-top: 36px;
   padding-top: 22px;

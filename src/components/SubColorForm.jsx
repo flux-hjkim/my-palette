@@ -2,7 +2,15 @@ import { useState, useRef, useEffect } from "react";
 import { presetColorsByGroup } from "../data/presetColors";
 import "./SubColorForm.css";
 
-function SubColorForm({ onClose, onAdd, onUpdate, colorKey, initialData }) {
+function SubColorForm({
+  onClose,
+  onAdd,
+  onUpdate,
+  colorKey,
+  groupColorName,
+  groupMainColor,
+  initialData,
+}) {
   const [name, setName] = useState(initialData?.name || "");
   const [description, setDescription] = useState(
     initialData?.description || "",
@@ -118,90 +126,112 @@ function SubColorForm({ onClose, onAdd, onUpdate, colorKey, initialData }) {
     <form className="sub-color-form">
       <div className="sub-color-form__body">
         <section className="sub-color-form__preview-section">
-          <p className="sub-color-form__label sub-color-form__label--center">
-            COLOR
-          </p>
-          <div
-            className="sub-color-form__color-preview"
-            style={{
-              backgroundColor: selectedColor.color,
-            }}
-          />
-          <div className="sub-color-form__color-info">
-            <div>
-              <p className="sub-color-form__color-name">{selectedColor.name}</p>
-              <p className="sub-color-form__color-hex">{selectedColor.color}</p>
-            </div>
+          <div className="sub-color-form__preview-text">
+            <h2 className="sub-color-form__preview-title">
+              Paint Your True Colors
+            </h2>
 
+            <p className="sub-color-form__preview-color-name">
+              from{" "}
+              <span
+                className="sub-color-form__preview-group-color-name"
+                style={{ color: groupMainColor }}
+              >
+                {groupColorName}
+              </span>
+            </p>
+          </div>
+
+          <div className="sub-color-form__color-preview-wrap">
             <button
               type="button"
               ref={colorButtonRef}
-              onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}
-              className="sub-color-form__color-button"
+              className="sub-color-form__color-preview"
               style={{
                 backgroundColor: selectedColor.color,
               }}
+              onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}
               aria-label="색상 선택하기"
-            />
-          </div>
-          {isColorPickerOpen && (
-            <div ref={colorPickerRef} className="sub-color-form__color-picker">
-              <div className="sub-color-form__color-picker-scroll">
-                <div className="sub-color-form__color-grid">
-                  {presetColors.slice(0, 4).map((preset) => {
-                    const isSelected = selectedColor.name === preset.name;
+            >
+              <span className="sub-color-form__color-preview-overlay" />
+              <span className="sub-color-form__color-info">
+                <span className="sub-color-form__color-name">
+                  {selectedColor.name}
+                </span>
+                <span className="sub-color-form__color-hex">
+                  {selectedColor.color}
+                </span>
+              </span>
+            </button>
 
-                    return (
-                      <button
-                        key={preset.name}
-                        type="button"
-                        onClick={() => setSelectedColor(preset)}
-                        className={`sub-color-form__preset-button ${
-                          isSelected ? "is-selected" : ""
-                        }`}
-                        style={{
-                          backgroundColor: preset.color,
-                        }}
-                      />
-                    );
-                  })}
+            {isColorPickerOpen && (
+              <div
+                ref={colorPickerRef}
+                className="sub-color-form__color-picker"
+              >
+                <div className="sub-color-form__color-picker-scroll">
+                  <div className="sub-color-form__color-grid">
+                    {presetColors.slice(0, 4).map((preset) => {
+                      const isSelected = selectedColor.name === preset.name;
 
-                  <button
-                    type="button"
-                    onClick={() => setShowAllColors(!showAllColors)}
-                    className="sub-color-form__more-button"
-                  >
-                    more
-                  </button>
+                      return (
+                        <button
+                          key={preset.name}
+                          type="button"
+                          onClick={() => setSelectedColor(preset)}
+                          className={`sub-color-form__preset-button ${
+                            isSelected ? "is-selected" : ""
+                          }`}
+                          style={{
+                            backgroundColor: preset.color,
+                          }}
+                        />
+                      );
+                    })}
+
+                    <button
+                      type="button"
+                      onClick={() => setShowAllColors(!showAllColors)}
+                      className="sub-color-form__more-button"
+                    >
+                      more
+                    </button>
+                  </div>
+
+                  {showAllColors && (
+                    <>
+                      <div className="sub-color-form__picker-divider" />
+
+                      <div className="sub-color-form__color-grid">
+                        {presetColors.slice(5).map((preset) => {
+                          const isSelected = selectedColor.name === preset.name;
+                          return (
+                            <button
+                              key={preset.name}
+                              type="button"
+                              onClick={() => setSelectedColor(preset)}
+                              className={`sub-color-form__preset-button ${
+                                isSelected ? "is-selected" : ""
+                              }`}
+                              style={{
+                                backgroundColor: preset.color,
+                              }}
+                            />
+                          );
+                        })}
+                      </div>
+                    </>
+                  )}
                 </div>
-
-                {showAllColors && (
-                  <>
-                    <div className="sub-color-form__picker-divider" />
-
-                    <div className="sub-color-form__color-grid">
-                      {presetColors.slice(5).map((preset) => {
-                        const isSelected = selectedColor.name === preset.name;
-                        return (
-                          <button
-                            key={preset.name}
-                            type="button"
-                            onClick={() => setSelectedColor(preset)}
-                            className={`sub-color-form__preset-button ${
-                              isSelected ? "is-selected" : ""
-                            }`}
-                            style={{
-                              backgroundColor: preset.color,
-                            }}
-                          />
-                        );
-                      })}
-                    </div>
-                  </>
-                )}
               </div>
-            </div>
-          )}
+            )}
+          </div>
+
+          <p className="sub-color-form__preview-message">
+            Let this color reflect a part of you,
+            <br />
+            softly and honestly.
+          </p>
         </section>
 
         <div className="sub-color-form__divider" />
