@@ -46,6 +46,8 @@ function SubColorForm({ onClose, onAdd, onUpdate, colorKey, initialData }) {
   const handleKeywordKeyDown = (e) => {
     if (e.key !== "Enter") return;
 
+    e.preventDefault();
+
     const value = keywordInput.trim();
     if (!value) return;
 
@@ -113,13 +115,7 @@ function SubColorForm({ onClose, onAdd, onUpdate, colorKey, initialData }) {
   }, []);
 
   return (
-    <form
-      className="sub-color-form"
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSave();
-      }}
-    >
+    <form className="sub-color-form">
       <div className="sub-color-form__body">
         <section className="sub-color-form__preview-section">
           <p className="sub-color-form__label sub-color-form__label--center">
@@ -283,7 +279,11 @@ function SubColorForm({ onClose, onAdd, onUpdate, colorKey, initialData }) {
           취소
         </button>
 
-        <button type="submit" className="sub-color-form__save-button">
+        <button
+          type="button"
+          onClick={handleSave}
+          className="sub-color-form__save-button"
+        >
           저장하기
         </button>
       </div>
