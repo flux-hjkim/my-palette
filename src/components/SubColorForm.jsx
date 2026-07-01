@@ -1,30 +1,21 @@
 import { useState, useRef, useEffect } from "react";
-import { presetColorsByGroup } from "../data/presetColors";
 import "./SubColorForm.css";
 
 function SubColorForm({
-  onClose,
-  onAdd,
-  onUpdate,
-  colorKey,
+  formData,
+  setFormData,
+  presetColors,
   groupColorName,
   groupMainColor,
-  initialData,
 }) {
-  const [name, setName] = useState(initialData?.name || "");
-  const [description, setDescription] = useState(
-    initialData?.description || "",
-  );
+  const { name, description, selectedColor, keywords } = formData;
 
-  const presetColors = presetColorsByGroup[colorKey] || [];
-  const [selectedColor, setSelectedColor] = useState(
-    initialData
-      ? {
-          name: initialData.colorName,
-          color: initialData.color,
-        }
-      : presetColors[0],
-  );
+  const updateFormData = (key, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
@@ -35,7 +26,6 @@ function SubColorForm({
 
   // 키워드 추가·삭제 기능
   const [keywordInput, setKeywordInput] = useState("");
-  const [keywords, setKeywords] = useState(initialData?.keywords || []);
 
   const MAX_DESCRIPTION_LINES = 6;
 
@@ -64,31 +54,15 @@ function SubColorForm({
       return;
     }
 
-    setKeywords((prev) => [...prev, value]);
+    updateFormData("keywords", [...keywords, value]);
     setKeywordInput("");
   };
 
   const removeKeyword = (indexToRemove) => {
-    setKeywords((prev) => prev.filter((_, index) => index !== indexToRemove));
-  };
-
-  // 입력한 정보 저장하는 함수
-  const handleSave = () => {
-    const savedSubColor = {
-      id: initialData ? initialData.id : Date.now(),
-      name,
-      colorName: selectedColor.name,
-      color: selectedColor.color,
-      description,
-      keywords,
-      createdAt: initialData ? initialData.createdAt : new Date().toISOString(),
-    };
-
-    if (initialData) {
-      onUpdate(savedSubColor);
-    } else {
-      onAdd(savedSubColor);
-    }
+    updateFormData(
+      "keywords",
+      keywords.filter((_, index) => index !== indexToRemove),
+    );
   };
 
   // Color Picker 외부 클릭 닫기 기능
@@ -178,7 +152,9 @@ function SubColorForm({
                         <button
                           key={preset.name}
                           type="button"
-                          onClick={() => setSelectedColor(preset)}
+                          onClick={() =>
+                            updateFormData("selectedColor", preset)
+                          }
                           className={`sub-color-form__preset-button ${
                             isSelected ? "is-selected" : ""
                           }`}
@@ -209,7 +185,9 @@ function SubColorForm({
                             <button
                               key={preset.name}
                               type="button"
-                              onClick={() => setSelectedColor(preset)}
+                              onClick={() =>
+                                updateFormData("selectedColor", preset)
+                              }
                               className={`sub-color-form__preset-button ${
                                 isSelected ? "is-selected" : ""
                               }`}
@@ -243,7 +221,7 @@ function SubColorForm({
               className="sub-color-form__input"
               placeholder="ex. 클래식"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => updateFormData("name", e.target.value)}
             />
           </div>
 
@@ -256,13 +234,13 @@ function SubColorForm({
               value={description}
               onChange={(e) => {
                 const textarea = e.target;
-                const value = e.target.value;
+                const value = e.target.value.slice(0, 200);
 
-                setDescription(value.slice(0, 200));
+                updateFormData("description", value);
 
                 requestAnimationFrame(() => {
                   if (textarea.scrollHeight > textarea.clientHeight) {
-                    setDescription(description);
+                    updateFormData("description", description);
                   }
                 });
               }}
@@ -298,24 +276,6 @@ function SubColorForm({
             </div>
           </div>
         </section>
-      </div>
-
-      <div className="sub-color-form__actions">
-        <button
-          type="button"
-          onClick={onClose}
-          className="sub-color-form__cancel-button"
-        >
-          취소
-        </button>
-
-        <button
-          type="button"
-          onClick={handleSave}
-          className="sub-color-form__save-button"
-        >
-          저장하기
-        </button>
       </div>
     </form>
   );
