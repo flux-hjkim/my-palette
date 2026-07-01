@@ -549,3 +549,90 @@
 - Color preview 영역 아래 감성 문구 추가 여부 결정
 - Color picker dropdown 위치와 스타일 재확인
 - Editor Page 모바일 반응형 구조 정리
+
+### 2026-06-26
+
+#### 오늘 한 일
+
+- Editor Page에서 Enter 입력 시 의도치 않게 저장되는 문제 수정
+- Save 버튼 클릭 시에만 저장되도록 동작 방식 정리
+- Editor postcard 상단의 BACK / NEW COLOR / SAVE typography 조정
+- 왼쪽 color preview 영역을 클릭 가능한 컬러 선택 영역으로 변경
+- color preview 안에 선택한 색상명과 색상 코드를 표시
+- preview 문구의 `from` 뒤에 상위 카테고리의 대표 colorName을 표시
+- Add/Edit 화면에서 preview, color picker, Save, Cancel 동작 확인
+
+#### 문제
+
+- keyword input에서 Enter를 누르면 keyword 추가와 동시에 저장되는 문제가 있었음
+- Editor Page 리디자인 중 page wrapper와 form 내부 역할이 섞여 구조가 흔들릴 수 있었음
+- 밝은 색상 preview에서는 흰색 color name / color code의 가독성이 낮을 수 있음
+
+#### 해결
+
+- form submit 저장 흐름을 제거하고 Save 버튼 클릭 시에만 저장되도록 변경
+- `ColorEditorPage`는 배경과 postcard wrapper를 담당하고, `SubColorForm`은 form 내부 preview와 입력 영역을 담당하도록 역할을 다시 정리
+- color preview 자체를 button으로 변경하여 클릭 시 color picker가 열리도록 수정
+- 부모 카테고리의 `colorName`, `mainColor`를 `SubColorForm`에 props로 전달하여 preview 문구에 반영
+- color preview overlay는 hover 시에만 보이도록 조정
+
+#### 배운 점
+
+- form 내부 input에서 Enter를 누르면 기본 submit 동작이 발생할 수 있음
+- 작성형 Editor에서는 Enter 저장보다 Save 버튼 클릭 저장이 더 안전한 UX가 될 수 있음
+- React에서 부모 데이터가 필요한 하위 컴포넌트에는 props로 필요한 값만 전달할 수 있음
+- `p`는 문단 단위의 block 요소이고, `span`은 문장 안 일부만 스타일링할 때 쓰는 inline 요소임
+- JSX에서 `{" "}`는 텍스트 사이 공백을 명시적으로 넣을 때 사용할 수 있음
+
+#### 다음 할 일
+
+- 상세 모달을 첨부 레퍼런스처럼 큰 제목 / 큰 컬러 블록 / 설명 / keyword 중심으로 리디자인
+- Editor preview title typography 후보 재검토
+- Editor Page 색상 톤과 postcard 배경색 레퍼런스 추가 확인
+
+### 2026-07-01
+
+#### 오늘 한 일
+
+- MyPalette v1.0 종료 조건을 정리하기 위해 `v1-checklist.md` 파일 생성
+- Editor Page의 상단 `BACK / SAVE` 버튼을 실제 동작 버튼으로 연결
+- `SubColorForm` 내부에 흩어져 있던 입력 state를 `formData` 구조로 정리
+- `name`, `description`, `selectedColor`, `keywords`를 하나의 form state로 관리하도록 변경
+- 저장 로직(`handleSave`)을 `SubColorForm`에서 `ColorEditorPage`로 이동
+- `SubColorForm`은 입력 UI를 담당하고, `ColorEditorPage`는 페이지 이동과 저장 흐름을 담당하도록 역할 정리
+- Editor Page 하단의 `취소 / 저장하기` 버튼 제거
+- 상단 `SAVE` 클릭 시 Add/Edit 저장 후 상세 Modal이 열리는지 확인
+- 상단 `BACK` 클릭 시 이전 화면으로 돌아가는 흐름 확인
+
+#### 문제
+
+- 상단 `SAVE` 버튼은 `ColorEditorPage`에 있었지만, 실제 저장 로직은 `SubColorForm` 내부에 있어 버튼 위치와 저장 로직 위치가 분리되어 있었음
+- `name`, `description`, `selectedColor`, `keywords`가 각각 별도 state로 관리되어 상위 컴포넌트에서 저장 로직을 사용하기 어려웠음
+- 하단 `취소 / 저장하기` 버튼과 상단 `BACK / SAVE` 버튼이 동시에 존재하면 Editor Page의 주요 동작 버튼이 중복될 수 있었음
+- `navigate(-1)`만으로는 Edit 진입 전 보고 있던 상세 Modal 상태가 자동으로 복원되지 않을 수 있음을 확인함
+
+#### 해결
+
+- `ColorEditorPage`에서 `formData`와 `setFormData`를 생성하여 Editor 입력값을 상위 컴포넌트에서 관리하도록 변경
+- `formData` 안에 실제 저장 대상인 `name`, `description`, `selectedColor`, `keywords`를 묶어서 관리
+- `presetColors`, `keywordInput`, `isColorPickerOpen`, `showAllColors`처럼 저장 대상이 아닌 값은 `formData`에 포함하지 않고 별도 UI 상태로 유지
+- `handleSave`를 `ColorEditorPage`로 이동하여 상단 `SAVE` 버튼과 직접 연결
+- `SubColorForm`은 `formData`, `setFormData`, `presetColors`를 props로 받아 입력 화면만 렌더링하도록 정리
+- 하단 `취소 / 저장하기` 버튼을 제거하여 상단 `BACK / SAVE` 중심의 Editor Page 구조로 변경
+- 저장 후에는 `navigate`의 `state`로 `reopenSubColorId`를 전달하여 저장한 SubColor의 상세 Modal이 열리도록 유지
+
+#### 배운 점
+
+- React에서 여러 입력값이 하나의 저장 대상이라면 `formData` 객체로 묶어 관리할 수 있음
+- 상위 컴포넌트의 버튼이 하위 컴포넌트의 입력값을 사용해야 할 때는 state를 부모로 올리는 방식이 필요함
+- state lifting은 state를 무조건 위로 올리는 것이 아니라, 해당 state를 필요로 하는 가장 가까운 공통 부모로 이동시키는 것임
+- 저장될 데이터와 저장되지 않는 UI 상태를 구분해야 form 구조가 단순해짐
+- `presetColors`는 선택 가능한 목록이고, `selectedColor`는 사용자가 선택한 저장 대상이므로 서로 다른 역할을 가짐
+- `keywordInput`은 Enter 입력 전 임시값이고, `keywords`는 실제 저장될 데이터임
+- `navigate(-1)`은 이전 URL로 돌아갈 수 있지만, Modal처럼 내부 state로 열린 화면 상태까지 항상 복원해주지는 않음
+
+#### 다음 할 일
+
+- 상세 Modal 리디자인
+- Edit 진입 후 `BACK` 클릭 시 상세 Modal 복원 흐름 개선 여부 재검토
+- MyPalette v1.0 필수 기능 기준으로 남은 UI 정리 항목 확인
