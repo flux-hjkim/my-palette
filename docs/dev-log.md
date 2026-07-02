@@ -636,3 +636,36 @@
 - 상세 Modal 리디자인
 - Edit 진입 후 `BACK` 클릭 시 상세 Modal 복원 흐름 개선 여부 재검토
 - MyPalette v1.0 필수 기능 기준으로 남은 UI 정리 항목 확인
+
+### 2026-07-02
+
+#### 오늘 한 일
+
+- SubColor 상세 Modal 리디자인
+- 기존 `...` 메뉴 방식의 edit/delete UI 제거
+- 레퍼런스 카드 디자인을 참고하여 title, color preview, description, keyword, action 영역 재배치
+- Edit/Delete 버튼을 모달 하단 액션 영역으로 이동
+- Delete 후 `navigate()`로 상세 페이지 state를 초기화하여 Modal이 다시 열리는 문제 수정
+
+#### 문제
+
+- 기존 상세 Modal은 컬러 preview가 먼저 보이고 title/detail 정보가 아래에 있어 레퍼런스 카드 느낌과 거리가 있었음
+- Delete 후 저장 복원용 location state가 남아 Modal이 다시 열리는 문제가 있었음
+- description과 footer action의 시각적 강약 조절이 필요했음
+
+#### 해결
+
+- Modal 구조를 `Title → Color Preview → Description → Keywords → Footer Actions` 순서로 재배치
+- `EDIT YOUR STORY`, `DELETE`를 하단 버튼으로 배치
+- Delete 실행 후 `/mypalette/:groupId`로 이동하면서 `replace: true`, `state: null`을 적용
+- description font size와 색상, footer button font weight를 조정하여 가독성과 분위기 균형을 맞춤
+
+#### 배운 점
+
+- Modal 내부에서 삭제 후에도 이전 `location.state`가 남아 있으면 의도치 않게 UI 상태가 복원될 수 있다.
+
+#### 다음 할 일
+
+- Navigation Bar 리디자인
+- MyPalette 메뉴 hover 시 카테고리 dropdown 표시
+- Landing Page 레퍼런스 조사 후 방향 결정
