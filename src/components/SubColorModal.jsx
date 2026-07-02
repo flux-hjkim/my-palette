@@ -1,11 +1,7 @@
-import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SubColorModal({ subColor, onClose, onDelete, onEdit }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [subColor]);
+  const navigate = useNavigate();
 
   if (!subColor) return null; // 선택된 컬러가 없으면 모달 닫기
 
@@ -26,11 +22,14 @@ function SubColorModal({ subColor, onClose, onDelete, onEdit }) {
         onClick={(e) => e.stopPropagation()}
         style={{
           position: "relative",
-          width: "280px",
-          backgroundColor: "#fff",
-          padding: "14px 14px 24px",
+          width: "400px",
+          height: "625px",
+          boxSizing: "border-box",
+          backgroundColor: "#FEFCF0",
+          padding: "64px 62px 0",
+          border: "1px solid #9f988c",
           boxShadow: "0 30px 80px rgba(0,0,0,0.25)",
-          textAlign: "left",
+          textAlign: "center",
         }}
       >
         <button
@@ -48,127 +47,133 @@ function SubColorModal({ subColor, onClose, onDelete, onEdit }) {
         >
           ×
         </button>
-        <div
-          style={{
-            width: "100%",
-            aspectRatio: "4 / 5",
-            backgroundColor: subColor.color,
-            marginTop: "10px",
-            marginBottom: "12px",
-          }}
-        />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            position: "relative",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "11px",
-              letterSpacing: "3px",
-              opacity: 0.5,
-              marginBottom: "4px",
-            }}
-          >
-            SUB COLOR
-          </p>
-          <button
-            onClick={() => setIsMenuOpen((prev) => !prev)}
-            style={{
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "18px",
-              color: "#8d8178",
-            }}
-          >
-            ⋯
-          </button>
 
-          {isMenuOpen && (
-            <div
-              style={{
-                position: "absolute",
-                right: "28px",
-                top: "-2px",
-                display: "flex",
-                gap: "8px",
-                padding: "4px 8px",
-                backgroundColor: "#fff",
-                border: "1px solid #e6ded4",
-                boxShadow: "0 2px 12px rgba(0,0,0,0.12)",
-              }}
-            >
-              <button onClick={() => onEdit(subColor)}>✎</button>
-              <button
-                onClick={() => {
-                  if (window.confirm("이 컬러를 삭제할까요?")) {
-                    onDelete(subColor.id);
-                    onClose();
-                  }
-                }}
-              >
-                🗑
-              </button>
-            </div>
-          )}
-        </div>
         <h2
           style={{
             margin: 0,
-            fontSize: "22px",
+            marginBottom: "34px",
+            fontSize: "30px",
+            lineHeight: "30px",
             fontFamily: "serif",
+            fontWeight: 400,
+            color: "#2f2924",
           }}
         >
           {subColor.name}
         </h2>
 
+        <div
+          style={{
+            width: "230px",
+            height: "230px",
+            backgroundColor: subColor.color,
+            margin: "0 auto 31px",
+            border: "1px solid #8f8a80",
+            boxSizing: "border-box",
+          }}
+        />
+
         <p
           style={{
-            marginTop: "14px",
-            lineHeight: 1.7,
-            fontSize: "14px",
-            color: "#5f564f",
+            maxWidth: "276px",
+            margin: "0 auto",
+            lineHeight: 1.45,
+            fontSize: "13px",
+            color: "#6f665f",
+            textAlign: "center",
           }}
         >
           {subColor.description}
         </p>
 
-        <p
+        <div
           style={{
             marginTop: "18px",
-            fontSize: "11px",
-            letterSpacing: "2px",
-            opacity: 0.5,
           }}
         >
-          # KEYWORDS
-        </p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "8px",
+              flexWrap: "wrap",
+              marginTop: "20px",
+            }}
+          >
+            {subColor.keywords.map((keyword) => (
+              <span
+                key={keyword}
+                style={{
+                  padding: "4px 10px",
+                  backgroundColor: "transparent",
+                  border: "1px solid #b8b0a4",
+                  borderRadius: "999px",
+                  fontSize: "13px",
+                  lineHeight: "1",
+                  color: "#6f665f",
+                }}
+              >
+                {keyword}
+              </span>
+            ))}
+          </div>
+        </div>
 
         <div
           style={{
+            position: "absolute",
+            left: "44px",
+            right: "44px",
+            bottom: "18px",
             display: "flex",
-            marginTop: "8px",
-            gap: "8px",
-            flexWrap: "wrap",
+            justifyContent: "space-between",
+            alignItems: "center",
+            textTransform: "uppercase",
           }}
         >
-          {subColor.keywords.map((keyword) => (
-            <span
-              key={keyword}
-              style={{
-                padding: "4px 12px",
-                backgroundColor: "#f3eee7",
-                borderRadius: "999px",
-                fontSize: "12px",
-              }}
-            >
-              {keyword}
-            </span>
-          ))}
+          <button
+            onClick={() => onEdit(subColor)}
+            style={{
+              background: "transparent",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+              fontSize: "12px",
+              letterSpacing: "0.3px",
+              textTransform: "uppercase",
+              fontWeight: 700,
+              color: "#4f4a43",
+            }}
+          >
+            EDIT YOUR STORY
+          </button>
+
+          <button
+            onClick={() => {
+              if (window.confirm("이 컬러를 삭제할까요?")) {
+                onDelete(subColor.id);
+                onClose();
+
+                navigate(`/mypalette/${groupId}`, {
+                  replace: true,
+                  state: null,
+                });
+              }
+            }}
+            style={{
+              background: "transparent",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+              fontSize: "12px",
+              letterSpacing: "0.5px",
+              textTransform: "uppercase",
+              fontWeight: 700,
+              color: "#4f4a43",
+            }}
+          >
+            DELETE
+          </button>
         </div>
       </div>
     </div>
