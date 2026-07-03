@@ -669,3 +669,53 @@
 - Navigation Bar 리디자인
 - MyPalette 메뉴 hover 시 카테고리 dropdown 표시
 - Landing Page 레퍼런스 조사 후 방향 결정
+
+### 2026-07-03
+
+#### 오늘 한 일
+
+- Navigation Bar 리디자인
+- 상단 메뉴를 `HOME / MYPALETTE / PIECES OF ME / PALETTE LOG` 형태로 정리
+- `App.jsx`에서 `Navbar`로 `colorGroups` 데이터 전달
+- `MYPALETTE` 메뉴 hover 시 카테고리 submenu 표시
+- submenu를 `ABOUT ME / TASTE / INTEREST / MY SIDES / IDEAL ME` 가로형 메뉴로 구성
+- 각 submenu 클릭 시 `/mypalette/:id` 경로로 이동하도록 연결
+- `/mypalette` 계열 페이지에서는 submenu가 항상 보이도록 처리
+- 현재 선택된 submenu 항목이 active 상태로 진하게 보이도록 수정
+- 페이지별 스크롤바 유무에 따라 Navbar 위치가 흔들리지 않도록 `scrollbar-gutter: stable` 적용
+
+#### 문제
+
+- 처음에는 `group.name`을 사용해 화면이 렌더링되지 않았음
+- 실제 카테고리 데이터 필드명이 `groupName`이어서 `group.name.toUpperCase()`에서 오류가 발생했음
+- submenu가 작은 세로 dropdown 박스 형태로 표시되어 원하는 레퍼런스와 달랐음
+- hover 시 submenu가 나타나면서 Navbar 높이가 변하는 문제가 있었음
+- MYPALETTE에서 submenu로 마우스를 이동할 때 hover가 끊겨 메뉴가 사라졌음
+- 페이지마다 스크롤바 유무가 달라 Navbar 위치가 좌우로 미세하게 움직였음
+- submenu 클릭 후 현재 카테고리 항목이 active 상태로 표시되지 않았음
+
+#### 해결
+
+- 실제 데이터 구조에 맞춰 `group.groupName.toUpperCase()`를 사용
+- submenu를 Navbar 내부의 가로형 메뉴로 변경
+- `position: absolute`를 사용해 Navbar 높이를 고정한 상태에서 submenu가 표시되도록 구성
+- `visibility`, `opacity`를 사용해 submenu 표시 여부를 제어
+- submenu 영역에 padding을 추가해 마우스 이동 중 메뉴가 쉽게 사라지지 않도록 조정
+- `NavLink`의 active 상태를 활용해 현재 메뉴와 submenu 항목이 진하게 표시되도록 수정
+- `scrollbar-gutter: stable`을 적용해 스크롤바 유무에 따른 레이아웃 흔들림을 줄임
+- `:root`, `html`, `body`의 배경색을 정리해 gutter 영역의 배경색이 튀지 않도록 조정
+
+#### 배운 점
+
+- `NavLink`는 현재 경로와 일치하는 링크에 active 상태를 줄 수 있다.
+- 데이터 필드명과 컴포넌트에서 사용하는 속성명이 다르면 렌더링 오류가 발생할 수 있다.
+- `display: none`은 요소 공간 자체를 없애고, `visibility: hidden`은 공간을 유지한 채 숨긴다.
+- hover submenu는 보이는 위치뿐 아니라 마우스가 이동하는 경로까지 고려해야 한다.
+- `position: absolute`는 레이아웃을 밀지 않고 특정 위치에 UI를 얹을 때 유용하다.
+- 스크롤바 유무도 중앙 정렬 위치에 영향을 줄 수 있다.
+
+#### 다음 할 일
+
+- Home 화면을 서비스 소개 화면처럼 정리
+- Landing Page를 별도로 만들지 Home 화면으로 대체할지 최종 결정
+- Editor Page의 작은 UI 개선 진행
