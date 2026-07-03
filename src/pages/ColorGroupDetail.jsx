@@ -67,7 +67,7 @@ function ColorGroupDetail({ colorGroups, setColorGroups }) {
   return (
     <div
       style={{
-        backgroundColor: "#F7F1E8",
+        backgroundColor: "#F9F5EA", //#E6E6DE, #FEFCF0
         minHeight: "100vh",
         padding: "72px 40px",
       }}

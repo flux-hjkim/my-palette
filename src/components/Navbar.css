@@ -1,15 +1,22 @@
 .navbar {
   width: 100%;
-  /* border-top: 1px solid #d8d0c2; */
+  height: 92px;
+  position: relative;
   border-bottom: 1px solid #d8d0c2;
   background-color: #f9f5ea;
+
+  white-space: nowrap;
 }
 
 .navbar-menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 68px;
   gap: 36px;
 }
 
@@ -20,22 +27,113 @@
 }
 
 .navbar-link {
+  position: relative;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 6px;
+
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.navbar-link-text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
-  text-decoration: none;
-  color: #5f594f;
+  color: #8a8175;
+  pointer-events: none;
 }
 
-.navbar-link:hover {
-  color: #1f1f1f;
-}
-
-.navbar-link.active {
+.navbar-link:hover .navbar-link-text,
+.navbar-link.active .navbar-link-text {
   color: #1f1f1f;
 }
 
 .navbar-divider {
   font-size: 12px;
   color: #8f8779;
+}
+
+.navbar-inner {
+  height: 100%;
+  position: relative;
+}
+
+.navbar-submenu {
+  position: absolute;
+  z-index: 2;
+
+  top: calc(50% + 15px);
+  left: -120%;
+  transform: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+
+  padding: 0 120px 10px;
+
+  border-top: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease;
+}
+
+.navbar-item-wrap.has-submenu {
+  position: relative;
+}
+
+.navbar-item-wrap.has-submenu::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 90px;
+  height: 4px;
+}
+
+.navbar-item-wrap.has-submenu:hover .navbar-submenu,
+.navbar-item-wrap.submenu-open .navbar-submenu {
+  visibility: visible;
+  opacity: 1;
+}
+
+.navbar-submenu-link {
+  position: relative;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 0 6px;
+
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.navbar-submenu-link-text {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #8a8175;
+  pointer-events: none;
+}
+
+.navbar-submenu-link:hover .navbar-submenu-link-text,
+.navbar-submenu-link.active .navbar-submenu-link-text {
+  color: #1f1f1f;
 }

@@ -44,7 +44,7 @@ function App() {
   };
   return (
     <BrowserRouter>
-      <Navbar />
+      <Navbar colorGroups={colorGroups} />
 
       <Routes>
         <Route path="/" element={<Home />} />
