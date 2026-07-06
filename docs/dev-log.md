@@ -719,3 +719,68 @@
 - Home 화면을 서비스 소개 화면처럼 정리
 - Landing Page를 별도로 만들지 Home 화면으로 대체할지 최종 결정
 - Editor Page의 작은 UI 개선 진행
+
+### 2026-07-06
+
+#### 오늘 한 일
+
+- Home 화면을 서비스 소개용 editorial hero 구조로 리디자인
+- Home 화면을 좌측 이미지 / 우측 소개 문구 / CTA 버튼 구조로 정리
+- `assets`에 Home hero용 팔레트 이미지 추가
+- `Home.jsx`에서 이미지 import 후 hero 이미지로 렌더링
+- `alt` 속성을 추가해 이미지 설명 제공
+- `index.css`에 공통 `page-container` 클래스 추가
+- `page-container`를 Home, MyPalette, ColorGroupDetail 화면에 적용
+- MyPalette 메인 화면을 intro 영역과 category grid 영역으로 분리
+- MyPalette 메인 화면에서 기존 카테고리 카드 기능은 유지하면서 editorial layout 적용
+- 각 color group 데이터에 `description` 필드 추가
+- ColorGroupDetail에서 고정 설명 문구 대신 `selectedGroup.description`을 렌더링하도록 변경
+- Home / MyPalette / Detail 페이지의 전체 디자인 톤을 맞춤
+
+#### 문제
+
+- Home 화면과 MyPalette, ColorGroupDetail 화면의 콘텐츠 위치와 디자인 톤이 달라 화면 전환 시 이질감이 있었음
+- Home hero에 바깥 wrapper와 border가 생기면서 레퍼런스와 달리 박스처럼 보였음
+- Home의 가운데 세로선이 content 높이만큼만 표시되어 원하는 길이로 이어지지 않았음
+- `min-height`와 Navbar 높이 계산 때문에 Home 화면에 불필요한 스크롤이 생겼음
+- MyPalette 메인 화면이 일반적인 제목 + 카드 grid 구조라 Home의 editorial 톤과 연결감이 약했음
+- ColorGroupDetail 화면의 제목이 너무 커서 MyPalette 페이지 대비 시각적으로 튀었음
+- Detail 페이지의 컬러칩 간격이 너무 넓어 swatch catalog 느낌보다 카드 목록처럼 보였음
+- Detail 설명 문구가 처음에는 고정 문구라 카테고리별 의미를 전달하기 어려웠음
+- `description`을 데이터에 추가했는데 새로고침 전에는 화면에 반영되지 않아 문구가 사라진 것처럼 보였음
+- description 문장이 길게 두 줄로 표시되면서 화면이 산만해 보였음
+
+#### 해결
+
+- Home 최상위 구조를 `page-container`와 `home-hero`로 분리해 공통 여백과 Home 전용 레이아웃 역할을 나눔
+- Home의 불필요한 외곽 박스 스타일을 제거하고 좌우 분할 hero 구조만 유지
+- Home 가운데 선을 Home 페이지 영역 기준으로 표시되도록 조정
+- Home hero의 강제 높이와 이미지 크기, padding을 조정해 불필요한 스크롤을 줄임
+- MyPalette 메인 화면에 intro 영역을 추가하고 오른쪽에 기존 category grid를 배치
+- MyPalette intro의 중복 list를 제거해 화면을 더 간결하게 정리
+- ColorGroupDetail 상단을 `카테고리 이름 + 대표 컬러명 → 설명 → 컬러칩 목록` 순서로 변경
+- 각 카테고리 객체에 `description` 필드를 추가하고 `selectedGroup.description`으로 렌더링
+- Detail 제목 크기를 줄여 MyPalette 메인 화면과 톤을 맞춤
+- Detail grid의 `grid-template-columns`, `gap`을 조정해 컬러칩이 더 촘촘하게 모이도록 변경
+- description 문구를 짧은 캡션형 문장으로 정리
+- 브라우저 새로고침을 통해 변경된 초기 데이터가 화면에 반영되는 것을 확인
+
+#### 배운 점
+
+- 공통 레이아웃 기준이 없으면 페이지마다 콘텐츠 시작 위치가 달라져 같은 서비스 안에서도 이질감이 생길 수 있다.
+- `page-container`처럼 공통 여백을 담당하는 클래스와 페이지별 레이아웃 클래스를 분리하면 역할이 명확해진다.
+- `@media (max-width: 768px)`는 화면 폭을 고정하는 것이 아니라 특정 너비 이하에서 적용할 스타일 조건이다.
+- `clamp(최소값, 유동값, 최대값)`은 글자 크기를 화면 크기에 따라 유동적으로 조절하면서도 너무 작거나 커지지 않게 제한할 수 있다.
+- 이미지의 `alt`는 이미지가 보이지 않을 때의 대체 텍스트이자 접근성을 위한 설명이다.
+- 카테고리 설명처럼 데이터에 속하는 값은 컴포넌트 안에서 `if`문으로 처리하기보다 data 객체에 넣는 편이 자연스럽다.
+- 이미 `colorGroups`를 props로 받고 있다면, group 객체에 새 필드를 추가해도 별도 props를 추가할 필요 없이 `selectedGroup.description`처럼 접근할 수 있다.
+- CSS grid의 `grid-template-columns`와 `gap` 값에 따라 컬러칩이 카드 목록처럼 넓게 퍼지거나 catalog처럼 촘촘하게 모일 수 있다.
+- UI 리디자인에서는 기능 로직을 건드리지 않고 구조와 스타일만 분리해서 수정하면 안정적으로 개선할 수 있다.
+
+#### 다음 할 일
+
+- 빈 title/description 상태에서 SubColor가 저장되지 않도록 Form validation 추가
+- Pieces of Me / Palette Log 빈 페이지를 Coming Soon 화면으로 처리
+- 이미 사용한 preset color를 다시 선택하지 못하도록 disabled 처리 검토
+- 오늘 변경한 Home / MyPalette / ColorGroupDetail 화면을 기준으로 모바일 화면 확인
+- v1-checklist에서 UI와 Feature 항목 완료 여부 확인

@@ -219,3 +219,29 @@
 - keyword tag가 추가될 공간을 미리 확보
 - keyword 추가 시 Editor Page 높이가 갑자기 늘어나지 않도록 개선
 - 2줄까지 표시하고 초과 시 내부 스크롤 처리 검토
+
+## Backlog
+
+### Form Validation
+
+- 빈 값으로 SubColor가 저장되지 않도록 처리한다.
+  - title이 비어 있으면 저장되지 않아야 한다.
+  - description이 비어 있을 때 저장을 막을지, 선택 입력으로 둘지 결정한다.
+  - 저장 실패 시 사용자에게 안내 문구를 보여준다.
+  - v1.0 QA 전에 우선 확인한다.
+
+### Placeholder Pages
+
+- 아직 구현되지 않은 페이지는 빈 화면 대신 Coming Soon 화면을 보여준다.
+  - Pieces of Me
+  - Palette Log
+  - 사용자가 클릭했을 때 빈 페이지로 보이지 않도록 안내 문구를 제공한다.
+  - v1.0에서는 실제 기능 구현 없이 placeholder로 처리한다.
+
+### Preset Color Selection
+
+- 이미 사용한 preset color를 다시 선택하지 못하도록 처리한다.
+  - 같은 컬러 그룹 안에서 이미 저장된 색상은 중복 선택을 막는다.
+  - 사용된 색상을 목록에서 숨길지, disabled 상태로 보여줄지 결정한다.
+  - 현재는 disabled 처리 방향을 우선 검토한다.
+  - 사용자가 “이미 사용한 색상”임을 이해할 수 있도록 시각적으로 구분한다.
