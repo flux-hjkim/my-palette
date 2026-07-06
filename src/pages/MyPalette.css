@@ -1,0 +1,60 @@
+.mypalette-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.mypalette-intro {
+  text-align: left;
+}
+
+.mypalette-intro__label {
+  margin: 0 0 32px;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.mypalette-intro__title {
+  margin: 0 0 24px;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.mypalette-intro__description {
+  max-width: 180px;
+  margin: 0 0 32px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.mypalette-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 40px;
+  row-gap: 56px;
+}
+
+@media (max-width: 768px) {
+  .mypalette-layout {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .mypalette-intro {
+    text-align: center;
+  }
+
+  .mypalette-intro__description {
+    max-width: none;
+    margin-inline: auto;
+  }
+
+  .mypalette-grid {
+    grid-template-columns: 1fr;
+    row-gap: 40px;
+  }
+}

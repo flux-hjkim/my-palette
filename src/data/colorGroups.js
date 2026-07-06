@@ -5,6 +5,7 @@ export const initialColorGroups = [
     colorKey: "red",
     colorName: "ROYAL RED",
     mainColor: "#A82A32",
+    description: "Memories, feelings, and small habits that shape who you are.",
     subColors: [
       {
         id: 101,
@@ -51,6 +52,7 @@ export const initialColorGroups = [
     colorKey: "black",
     colorName: "WARM CHARCOAL",
     mainColor: "#3E3532",
+    description: "Moods, styles, places, and details you naturally return to.",
     subColors: [
       {
         id: 201,
@@ -116,6 +118,8 @@ export const initialColorGroups = [
     colorKey: "orange",
     colorName: "SUNSET ORANGE",
     mainColor: "#E4572E",
+    description:
+      "Curiosities, inspirations, and little worlds you keep exploring.",
     subColors: [
       {
         id: 301,
@@ -161,6 +165,7 @@ export const initialColorGroups = [
     colorKey: "green",
     colorName: "DARK GOLD",
     mainColor: "#A7863E",
+    description: "Quiet, sensitive, strong, and complicated sides of yourself.",
     subColors: [
       {
         id: 401,
@@ -197,6 +202,7 @@ export const initialColorGroups = [
     colorKey: "yellow",
     colorName: "LIGHT GOLD",
     mainColor: "#E3CFA8",
+    description: "The mood and attitude you want to carry forward.",
     subColors: [
       {
         id: 501,

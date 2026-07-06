@@ -1,0 +1,59 @@
+.color-group-detail {
+  text-align: left;
+}
+
+.color-group-detail__title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+
+.color-group-detail__title {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.color-group-detail__color-name {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.color-group-detail__description {
+  margin: 8px 0 0;
+  max-width: none;
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  color: #7a6a5f;
+}
+
+.color-group-detail__grid {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 92px);
+  gap: 28px 54px;
+  align-items: start;
+  justify-content: start;
+}
+
+@media (max-width: 768px) {
+  .color-group-detail__title-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .color-group-detail__title {
+    font-size: clamp(36px, 12vw, 52px);
+  }
+
+  .color-group-detail__grid {
+    grid-template-columns: repeat(auto-fit, 130px);
+    gap: 40px 32px;
+  }
+}

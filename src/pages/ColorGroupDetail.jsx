@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import SubColorSquare from "../components/SubColorSquare";
 import SubColorModal from "../components/SubColorModal";
 import AddSubColorSquare from "../components/AddSubColorSquare";
+import "./ColorGroupDetail.css";
 
 function ColorGroupDetail({ colorGroups, setColorGroups }) {
   const { id } = useParams();
@@ -15,9 +16,6 @@ function ColorGroupDetail({ colorGroups, setColorGroups }) {
   const subColors = selectedGroup?.subColors ?? [];
 
   useEffect(() => {
-    console.log("location.state", location.state);
-    console.log("subColors", subColors);
-
     const reopenSubColorId = location.state?.reopenSubColorId;
     console.log("reopenSubColorId", reopenSubColorId);
     if (!reopenSubColorId) return;
@@ -65,60 +63,28 @@ function ColorGroupDetail({ colorGroups, setColorGroups }) {
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: "#F9F5EA", //#E6E6DE, #FEFCF0
-        minHeight: "100vh",
-        padding: "72px 40px",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "980px",
-          margin: "0 auto",
-        }}
-      >
-        <div style={{ textAlign: "center" }}>
-          <h1
-            style={{
-              letterSpacing: "8px",
-              fontSize: "36px",
-              margin: 0,
-            }}
-          >
-            {selectedGroup.groupName}
-          </h1>
+    <main className="page-container">
+      <section className="color-group-detail">
+        <header className="color-group-detail__header">
+          <div className="color-group-detail__title-row">
+            <h1 className="color-group-detail__title">
+              {selectedGroup.groupName}
+            </h1>
 
-          <p
-            style={{
-              marginTop: "12px",
-              letterSpacing: "2px",
-              color: selectedGroup.mainColor,
-            }}
-          >
-            {selectedGroup.colorName}
-          </p>
+            <p
+              className="color-group-detail__color-name"
+              style={{ color: selectedGroup.mainColor }}
+            >
+              {selectedGroup.colorName}
+            </p>
+          </div>
 
-          <p
-            style={{
-              marginTop: "8px",
-              fontSize: "14px",
-              color: "#7a6a5f",
-            }}
-          >
-            이 컬러 그룹에 담긴 나의 취향과 기억들
+          <p className="color-group-detail__description">
+            {selectedGroup.description}
           </p>
-        </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, 92px)",
-            gap: "42px 70px",
-            justifyContent: "center",
-            marginTop: "40px",
-            alignItems: "start",
-          }}
-        >
+        </header>
+
+        <div className="color-group-detail__grid">
           {subColors.map((subColor) => (
             <SubColorSquare
               key={subColor.id}
@@ -128,14 +94,15 @@ function ColorGroupDetail({ colorGroups, setColorGroups }) {
           ))}
           <AddSubColorSquare onClick={() => navigate(`/mypalette/${id}/new`)} />
         </div>
+
         <SubColorModal
           subColor={selectedSubColor}
           onClose={() => setSelectedColor(null)}
           onDelete={deleteSubColor}
           onEdit={handleEdit}
         />
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 

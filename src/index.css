@@ -115,3 +115,13 @@ html {
   scrollbar-gutter: stable;
   background-color: #f9f5ea;
 }
+
+.page-container {
+  padding: 64px clamp(40px, 6vw, 80px) 80px;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 40px 24px 64px;
+  }
+}
