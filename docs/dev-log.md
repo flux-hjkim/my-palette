@@ -784,3 +784,63 @@
 - 이미 사용한 preset color를 다시 선택하지 못하도록 disabled 처리 검토
 - 오늘 변경한 Home / MyPalette / ColorGroupDetail 화면을 기준으로 모바일 화면 확인
 - v1-checklist에서 UI와 Feature 항목 완료 여부 확인
+
+### 2026-07-07
+
+#### 오늘 한 일
+
+- `ColorEditorPage`의 `handleSave`에 Form validation 추가
+- title이 비어 있거나 공백만 입력된 상태에서 저장되지 않도록 처리
+- description이 비어 있거나 공백만 입력된 상태에서 저장되지 않도록 처리
+- validation 실패 시 사용자에게 에러 메시지를 보여주도록 `errors` state 추가
+- `SubColorForm`에 `errors` prop을 전달하여 입력 label 옆에 에러 문구 표시
+- `.form-error`와 label row 스타일을 조정하여 TITLE / DESCRIPTION 옆에 에러 메시지 표시
+- Add/Edit 저장 흐름에서 validation이 정상 동작하는지 확인
+- 객체와 배열, `Object.values()`, `.some()`, 조건부 렌더링 구조 학습
+- v1-checklist 기준으로 Feature / UI / Data / README 항목 QA 진행
+- 모바일 화면 QA 중 Navbar와 Editor Page 반응형 이슈 발견
+- `requirements.md`에 title / description 빈 값 저장 방지 요구사항 추가
+- `backlog.md`를 앞으로 할 일 중심으로 정리
+- `improvements.md`에 Form validation 개선 사례 추가
+
+#### 문제
+
+- title 또는 description이 비어 있어도 SubColor가 저장되는 문제 확인
+- 기존 저장 로직은 `selectedColor` 존재 여부만 확인하고, 필수 텍스트 입력값은 검사하지 않음
+- 모바일 화면에서 Navbar 항목이 화면 밖으로 잘리는 문제 확인
+- 모바일 화면에서 Editor Page의 좌우 레이아웃이 좁은 화면에 맞지 않아 찌그러지는 문제 확인
+- backlog에 이미 구현된 작업과 앞으로 할 일이 섞여 있어 정리 필요
+
+#### 해결
+
+- `handleSave`에서 `nextErrors` 객체를 만들어 title, description, selectedColor의 에러 상태를 한 번에 관리
+- `trim()`을 사용하여 공백만 입력된 값도 빈 값으로 처리
+- `Object.values(nextErrors).some((message) => message)`로 에러 메시지가 하나라도 있는지 확인
+- 에러가 있으면 `setErrors(nextErrors)` 후 `return`하여 저장을 중단
+- 에러가 없을 때만 `savedSubColor`를 생성하고 Add/Edit 저장 로직을 실행
+- 저장 시 `name`과 `description`에는 `trim()`된 값을 사용하도록 정리
+- `SubColorForm`에서 `errors?.name`, `errors?.description` 조건부 렌더링으로 에러가 있을 때만 문구 표시
+- 모바일 반응형 문제는 v1.0 배포 전 또는 v2.5 UI polish 후보로 backlog에 기록하기로 함
+- backlog는 완료된 작업을 제거하고, 앞으로 할 일과 나중에 검토할 아이디어 중심으로 재정리하기로 함
+
+#### 배운 점
+
+- Form validation은 입력 UI에서만 처리하는 것이 아니라 저장 직전에 최종적으로 한 번 더 확인하는 것이 안전하다.
+- `trim()`을 사용하면 공백만 입력한 값도 빈 값으로 판단할 수 있다.
+- `nextErrors`처럼 임시 객체에 검사 결과를 모은 뒤 한 번에 state로 반영하면 여러 필드의 에러를 관리하기 쉽다.
+- `Object.values()`는 객체의 값만 배열로 꺼내고, `.some()`은 배열 안에 조건을 만족하는 값이 하나라도 있는지 확인한다.
+- React 조건부 렌더링에서 `조건 && JSX` 형태를 사용하면 조건이 있을 때만 UI를 표시할 수 있다.
+- `errors?.description`의 optional chaining은 `errors`가 없을 때도 화면이 터지지 않도록 안전하게 접근하는 방식이다.
+- 객체는 key-value로 하나의 대상을 설명하는 데이터이고, 배열은 순서가 있는 목록이다.
+- Markdown 체크리스트에서 `[x]`는 틀렸다는 뜻이 아니라 완료된 체크박스를 의미한다.
+- PC 화면에서 정상이어도 모바일 화면에서는 Navbar나 Editor Page가 깨질 수 있으므로 배포 전 반응형 QA가 필요하다.
+- backlog에는 이미 구현된 작업을 계속 남기기보다, 앞으로 할 일과 나중에 검토할 아이디어를 중심으로 유지하는 편이 좋다.
+
+#### 다음 할 일
+
+- 모바일 화면에서 Navbar가 잘리지 않도록 최소 수정
+- 모바일 화면에서 Editor Page를 세로 레이아웃으로 전환하는 방식 검토
+- Pieces of Me / Palette Log를 Coming Soon 화면으로 처리할지 결정
+- README에 스크린샷 추가
+- Vercel 배포 후 배포 링크 README에 추가
+- v1.0 최종 QA 후 Git tag `v1.0.0` 생성 검토
