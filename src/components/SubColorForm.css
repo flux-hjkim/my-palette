@@ -311,3 +311,16 @@
   background: #b8754f;
   color: #fffaf3;
 }
+
+.sub-color-form__label-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.form-error {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1;
+  color: #c44;
+}

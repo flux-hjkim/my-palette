@@ -7,6 +7,7 @@ function SubColorForm({
   presetColors,
   groupColorName,
   groupMainColor,
+  errors,
 }) {
   const { name, description, selectedColor, keywords } = formData;
 
@@ -216,7 +217,13 @@ function SubColorForm({
 
         <section className="sub-color-form__fields-section">
           <div className="sub-color-form__field">
-            <label className="sub-color-form__label">TITLE</label>
+            <div className="sub-color-form__label-row">
+              <label className="sub-color-form__label">TITLE</label>
+              {errors?.name && (
+                <span className="form-error">{errors.name}</span>
+              )}
+            </div>
+
             <input
               className="sub-color-form__input"
               placeholder="ex. 클래식"
@@ -226,7 +233,13 @@ function SubColorForm({
           </div>
 
           <div className="sub-color-form__field">
-            <label className="sub-color-form__label">DESCRIPTION</label>
+            <div className="sub-color-form__label-row">
+              <label className="sub-color-form__label">DESCRIPTION</label>
+              {errors?.description && (
+                <span className="form-error">{errors.description}</span>
+              )}
+            </div>
+
             <textarea
               className="sub-color-form__textarea"
               placeholder="이 색에 담긴 기억을 적어보세요."

@@ -30,6 +30,13 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
     keywords: selectedSubColor?.keywords || [],
   });
 
+  // Editor Page 저장 검증
+  const [errors, setErrors] = useState({
+    name: "",
+    description: "",
+    selectedColor: "",
+  });
+
   if (!selectedGroup) {
     return <main>존재하지 않는 컬러 그룹입니다.</main>;
   }
@@ -46,20 +53,56 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
   };
 
   const handleSave = () => {
-    if (!formData.selectedColor) return;
+    // 검사 결과를 임시로 nextErrors에 계산
+    const nextErrors = {
+      name: "",
+      description: "",
+      selectedColor: "",
+    };
 
+    // 입력값 검사
+    if (!formData.name.trim()) {
+      nextErrors.name = "제목을 입력해주세요.";
+    }
+
+    if (!formData.description.trim()) {
+      nextErrors.description = "설명을 입력해주세요.";
+    }
+
+    if (!formData.selectedColor) {
+      nextErrors.selectedColor = "컬러를 선택해주세요.";
+    }
+
+    // 에러 확인, 에러 메시지가 하나라도 있으면 참
+    const hasError = Object.values(nextErrors).some((message) => message);
+
+    // 에러가 있으면 저장 중단
+    if (hasError) {
+      setErrors(nextErrors); // 화면에 에러 메시지 출력
+      return;
+    }
+
+    // 에러가 없으면 에러 초기화 ( 빈 값으로 SAVE 눌러 에러 발생 이후 정상 입력 시 저장을 위함)
+    setErrors({
+      name: "",
+      description: "",
+      selectedColor: "",
+    });
+
+    // 저장할 데이터
     const savedSubColor = {
       id: selectedSubColor ? selectedSubColor.id : Date.now(),
-      name: formData.name,
+      name: formData.name.trim(),
       colorName: formData.selectedColor.name,
       color: formData.selectedColor.color,
-      description: formData.description,
+      description: formData.description.trim(),
       keywords: formData.keywords,
       createdAt: selectedSubColor
         ? selectedSubColor.createdAt
         : new Date().toISOString(),
     };
 
+    // ADD/EDIT 분기
     if (selectedSubColor) {
       onUpdate(id, savedSubColor);
 
@@ -72,6 +115,7 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
 
     onAdd(id, savedSubColor);
 
+    // 페이지 이동 (모달)
     navigate(`/mypalette/${id}`, {
       state: { reopenSubColorId: savedSubColor.id },
     });
@@ -107,27 +151,12 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
 
         <section className="editor-page__content">
           <SubColorForm
-            // isPageMode={true}
-            // colorKey={selectedGroup.colorKey}
-            // initialData={isEditMode ? selectedSubColor : null}
-            // groupColorName={selectedGroup.colorName}
-            // groupMainColor={selectedGroup.mainColor}
-            // onClose={() => navigate(`/mypalette/${id}`)}
-            // onAdd={(newSubColor) => {
-            //   onAdd(id, newSubColor);
-            //   navigate(`/mypalette/${id}`);
-            // }}
-            // onUpdate={(updatedSubColor) => {
-            //   onUpdate(id, updatedSubColor);
-            //   navigate(`/mypalette/${id}`, {
-            //     state: { reopenSubColorId: updatedSubColor.id },
-            //   });
-            // }}
             formData={formData}
             setFormData={setFormData}
             presetColors={presetColors}
             groupColorName={selectedGroup.colorName}
             groupMainColor={selectedGroup.mainColor}
+            errors={errors}
           />
         </section>
       </article>
