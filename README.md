@@ -246,7 +246,7 @@ npm run dev
 
 - v1.0 기준 데이터는 React state로 관리
 - 새로고침 시 사용자가 추가 / 수정 / 삭제한 데이터 유지 불가
-- 모바일 화면에서 Navbar와 Editor Page 반응형 레이아웃 일부 개선 필요
+- 모바일 Editor Page의 세부 반응형 레이아웃 개선 필요
 - 로그인 및 사용자별 데이터 저장 기능 미포함
 
 ---
@@ -257,7 +257,19 @@ npm run dev
 
 - Pieces of Me 페이지 추가
 - 전체 SubColor를 카테고리와 관계없이 모아보기
+- 스티커 보드와 카테고리별 컬러 개수 표시
 - 기존 Detail Modal 재사용
+
+### v1.2
+
+- Palette Log 페이지 추가
+- createdAt 기준 월별 컬러 기록 표시
+- 날짜별 컬러 클릭 시 기존 Detail Modal 재사용
+
+### v1.3
+
+- Pieces of Me 스티커 UI 고도화
+- 다양한 frame과 hover interaction 추가
 
 ### v1.5
 
@@ -285,8 +297,18 @@ npm run dev
 
 ## Screenshots
 
-추가 예정
+### Home
 
-```
+![MyPalette Home](./docs/images/home.png)
 
-```
+### MyPalette
+
+![MyPalette Categories](./docs/images/mypalette.png)
+
+### Color Detail Modal
+
+![Color Detail Modal](./docs/images/color-detail-modal.png)
+
+### Color Editor
+
+![Color Editor](./docs/images/color-editor.png)
