@@ -137,3 +137,58 @@
 .navbar-submenu-link.active .navbar-submenu-link-text {
   color: #1f1f1f;
 }
+
+@media (max-width: 768px) {
+  .navbar {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .navbar-inner {
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .navbar-menu {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+
+    width: max-content;
+    min-width: 100%;
+    justify-content: flex-start;
+    gap: 20px;
+
+    box-sizing: border-box;
+    padding: 0 24px;
+  }
+
+  .navbar-item-wrap {
+    gap: 20px;
+  }
+
+  .navbar-item-wrap.has-submenu {
+    position: static;
+  }
+
+  .navbar-submenu {
+    top: calc(50% + 15px);
+    left: 0;
+
+    width: max-content;
+    justify-content: flex-start;
+    gap: 24px;
+
+    box-sizing: border-box;
+    padding: 0 24px 10px;
+  }
+
+  .navbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navbar {
+    scrollbar-width: none;
+  }
+}
