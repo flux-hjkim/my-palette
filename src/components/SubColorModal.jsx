@@ -1,8 +1,4 @@
-import { useNavigate } from "react-router-dom";
-
 function SubColorModal({ subColor, onClose, onDelete, onEdit }) {
-  const navigate = useNavigate();
-
   if (!subColor) return null; // 선택된 컬러가 없으면 모달 닫기
 
   return (
@@ -22,14 +18,15 @@ function SubColorModal({ subColor, onClose, onDelete, onEdit }) {
         onClick={(e) => e.stopPropagation()}
         style={{
           position: "relative",
-          width: "400px",
-          height: "625px",
+          width: "min(400px, calc(100vw - 32px))",
+          maxHeight: "calc(100vh - 32px)",
           boxSizing: "border-box",
           backgroundColor: "#FEFCF0",
-          padding: "64px 62px 0",
+          padding: "64px 62px 32px",
           border: "1px solid #9f988c",
           boxShadow: "0 30px 80px rgba(0,0,0,0.25)",
           textAlign: "center",
+          overflowY: "auto",
         }}
       >
         <button
@@ -64,8 +61,8 @@ function SubColorModal({ subColor, onClose, onDelete, onEdit }) {
 
         <div
           style={{
-            width: "230px",
-            height: "230px",
+            width: "min(230px, 70vw)",
+            aspectRatio: "1 / 1",
             backgroundColor: subColor.color,
             margin: "0 auto 31px",
             border: "1px solid #8f8a80",
@@ -121,10 +118,7 @@ function SubColorModal({ subColor, onClose, onDelete, onEdit }) {
 
         <div
           style={{
-            position: "absolute",
-            left: "44px",
-            right: "44px",
-            bottom: "18px",
+            marginTop: "48px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -153,11 +147,6 @@ function SubColorModal({ subColor, onClose, onDelete, onEdit }) {
               if (window.confirm("이 컬러를 삭제할까요?")) {
                 onDelete(subColor.id);
                 onClose();
-
-                navigate(`/mypalette/${groupId}`, {
-                  replace: true,
-                  state: null,
-                });
               }
             }}
             style={{
