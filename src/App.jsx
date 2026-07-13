@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import MyPalette from "./pages/MyPalette";
+import PiecesOfMe from "./pages/PiecesOfMe";
+import PaletteLog from "./pages/PaletteLog";
 import ColorGroupDetail from "./pages/ColorGroupDetail";
 import ColorEditorPage from "./pages/ColorEditorPage";
 import Navbar from "./components/Navbar";
@@ -81,6 +83,8 @@ function App() {
             />
           }
         />
+        <Route path="/pieces-of-me" element={<PiecesOfMe />} />
+        <Route path="/palette-log" element={<PaletteLog />} />
       </Routes>
     </BrowserRouter>
   );

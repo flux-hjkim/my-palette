@@ -125,3 +125,30 @@ html {
     padding: 40px 24px 64px;
   }
 }
+
+.coming-soon-page {
+  min-height: calc(100vh - 92px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 24px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.coming-soon-eyebrow {
+  margin-bottom: 20px;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+}
+
+.coming-soon-page h1 {
+  margin: 0 0 16px;
+  font-size: 48px;
+  font-weight: 400;
+}
+
+.coming-soon-page p {
+  line-height: 1.6;
+}

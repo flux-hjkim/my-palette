@@ -4,8 +4,8 @@ import "./Navbar.css";
 const navItems = [
   { label: "HOME", path: "/" },
   { label: "MYPALETTE", path: "/mypalette", hasSubmenu: true },
-  { label: "PIECES OF ME", path: "#" },
-  { label: "PALETTE LOG", path: "#" },
+  { label: "PIECES OF ME", path: "/pieces-of-me" },
+  { label: "PALETTE LOG", path: "/palette-log" },
 ];
 
 function Navbar({ colorGroups = [] }) {
