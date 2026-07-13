@@ -844,3 +844,44 @@
 - README에 스크린샷 추가
 - Vercel 배포 후 배포 링크 README에 추가
 - v1.0 최종 QA 후 Git tag `v1.0.0` 생성 검토
+
+## 2026-07-13
+
+### 오늘 한 일
+
+- 모바일 Navbar 가로 스크롤 대응
+- 상세 Modal 반응형 및 내부 스크롤 적용
+- 잘못된 삭제 후 navigation 제거
+- Pieces of Me / Palette Log Coming Soon 페이지 추가
+- README 프로젝트 스크린샷 추가
+- GitHub Repository Public 전환
+- Vercel 배포
+- SPA 새로고침 오류를 `vercel.json` rewrite로 해결
+- README에 배포 및 GitHub 링크 추가
+
+### 문제
+
+- 모바일 Navbar에서 일부 메뉴에 접근할 수 없었음
+- 모바일 상세 Modal 하단의 Edit/Delete 버튼이 잘렸음
+- Vercel 상세 URL에서 새로고침 시 404 발생
+- 삭제 후 정의되지 않은 `groupId`를 사용하는 navigation 오류 발생
+
+### 해결
+
+- 모바일 Navbar에 가로 스크롤 적용
+- Modal 크기를 viewport 기준으로 변경하고 내부 스크롤 적용
+- Modal에서 불필요한 navigation 제거
+- 모든 SPA 경로를 `index.html`로 보내는 Vercel rewrite 설정 추가
+
+### 배운 점
+
+- 모바일 대응은 완전한 리디자인보다 핵심 기능 접근 가능 여부를 기준으로 범위를 정할 수 있음
+- React Router의 클라이언트 라우팅과 배포 서버의 경로 처리는 별도 설정이 필요함
+- 컴포넌트는 데이터 처리와 화면 닫기 등의 책임을 분리할수록 재사용하기 쉬움
+
+### 다음 할 일
+
+- v1.0.0 Git tag 생성
+- GitHub Release 작성
+- roadmap 버전 순서 수정
+- v1.1 Pieces of Me MVP 시작
