@@ -4,8 +4,8 @@
 
 ## Links
 
-- 배포 링크: 추가 예정
-- GitHub Repository: 추가 예정
+- 배포 링크: [MyPalette](https://my-palette-six.vercel.app)
+- GitHub Repository: [flux-hjkim/my-palette](https://github.com/flux-hjkim/my-palette)
 - 테스트 계정: 없음
   - v1.0 기준 로그인 기능 미포함
   - 별도 계정 없이 주요 기능 확인 가능
