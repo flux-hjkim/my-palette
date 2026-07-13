@@ -858,6 +858,8 @@
 - Vercel 배포
 - SPA 새로고침 오류를 `vercel.json` rewrite로 해결
 - README에 배포 및 GitHub 링크 추가
+- v1.0.0 Git tag 생성
+- GitHub Release 작성 및 Release note 정리
 
 ### 문제
 
@@ -881,7 +883,5 @@
 
 ### 다음 할 일
 
-- v1.0.0 Git tag 생성
-- GitHub Release 작성
 - roadmap 버전 순서 수정
 - v1.1 Pieces of Me MVP 시작
