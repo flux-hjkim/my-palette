@@ -83,7 +83,10 @@ function App() {
             />
           }
         />
-        <Route path="/pieces-of-me" element={<PiecesOfMe />} />
+        <Route
+          path="/pieces-of-me"
+          element={<PiecesOfMe colorGroups={colorGroups} />}
+        />
         <Route path="/palette-log" element={<PaletteLog />} />
       </Routes>
     </BrowserRouter>
