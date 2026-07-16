@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import MyPalette from "./pages/MyPalette";
 import PiecesOfMe from "./pages/PiecesOfMe";
@@ -46,6 +47,8 @@ function App() {
   };
   return (
     <BrowserRouter>
+      <ScrollToTop />
+
       <Navbar colorGroups={colorGroups} />
 
       <Routes>
