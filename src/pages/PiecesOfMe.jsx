@@ -11,6 +11,7 @@ function PiecesOfMe({ colorGroups }) {
 
   const [selectedSubColor, setSelectedSubColor] = useState(null);
 
+  // subColors에 그룹 정보 추가
   const allSubColors = useMemo(
     () =>
       colorGroups.flatMap((group) =>
@@ -23,6 +24,7 @@ function PiecesOfMe({ colorGroups }) {
     [colorGroups],
   );
 
+  // 그래프에 필요한 정보만 뽑아 새 배열 생성 (파생 데이터)
   const groupCounts = useMemo(
     () =>
       colorGroups.map((group) => ({
@@ -33,6 +35,7 @@ function PiecesOfMe({ colorGroups }) {
     [colorGroups],
   );
 
+  // 모든 그룹에서 subColor의 최대 개수
   const maxCount = Math.max(...groupCounts.map((group) => group.count), 1);
 
   const handleAddColor = () => {
