@@ -933,3 +933,54 @@
 - Pieces of Me 변경사항을 기능과 버그 수정 단위로 Commit
 - v1.1 체크리스트 기준으로 남은 기능과 완료 범위 확인
 - 이후 Palette Log 구현 전 페이지 목적, 사용자 행동, state와 계산값을 직접 설계해보기
+
+## 2026-07-17
+
+### 오늘 한 일
+
+- `requirements.md`, `roadmap.md`, `improvements.md`의 Pieces of Me 관련 내용 정리
+- v1.1 완료 체크리스트를 기준으로 현재 구현 상태 점검
+- Pieces of Me의 임시 상세 영역을 기존 `SubColorModal`로 교체
+- 삭제 로직을 `ColorGroupDetail`에서 `App.jsx`로 이동해 공통 함수로 정리
+- `ColorGroupDetail`과 Pieces of Me에서 동일한 삭제 함수 재사용
+- Pieces of Me에서 컬러 수정 후 이전 화면으로 돌아오는 흐름 구현
+- `navigate()`의 `state`로 복귀 경로를 전달하고 `useLocation()`으로 읽는 방식 적용
+- 기존 MyPalette 그룹 상세 화면의 수정·삭제 동작이 유지되는지 확인
+- 모바일 화면에서 Pieces of Me 레이아웃 상태 확인
+- v1.1 완료 체크리스트 진행 상태 업데이트
+
+### 문제
+
+- Pieces of Me에서 스티커를 클릭해도 기존 상세 Modal이 아니라 선택한 컬러 제목과 Close 버튼만 있는 임시 UI가 표시됨
+- 기존 삭제 함수가 `ColorGroupDetail` 내부에 있어 Pieces of Me에서 재사용할 수 없음
+- Pieces of Me에서 컬러를 수정한 뒤 저장하면 사용자가 보고 있던 화면이 아니라 해당 그룹 상세 화면으로 이동함
+- 모바일 화면에서 데스크톱의 2열 구조가 유지되어 스티커 보드 일부가 화면 밖으로 잘리고 좌측 영역이 좁아짐
+
+### 해결
+
+- `PiecesOfMe.jsx`에 기존 `SubColorModal`을 연결하고 선택한 `SubColor`를 Modal에 전달
+- `App.jsx`에 `deleteSubColor(groupId, subColorId)`를 추가해 원본 데이터 변경 로직을 상위 컴포넌트에서 관리
+- `ColorGroupDetail`과 Pieces of Me에 공통 삭제 함수를 props로 전달
+- Pieces of Me에서 Editor로 이동할 때 `state.returnTo`에 `/pieces-of-me` 경로를 함께 전달
+- `ColorEditorPage`에서 `useLocation()`으로 복귀 경로를 읽고 저장 및 BACK 동작에 적용
+- 복귀 경로가 전달되지 않은 경우 기존 그룹 상세 주소를 기본값으로 사용
+- Pieces of Me와 기존 그룹 상세 화면에서 수정·삭제 흐름을 각각 테스트
+- 모바일 레이아웃 문제는 기능 오류와 분리해 UI 고도화 작업으로 남김
+
+### 배운 점
+
+- 여러 화면에서 같은 원본 데이터를 변경하는 함수는 데이터를 관리하는 상위 컴포넌트에 두고 props로 전달하면 재사용하기 쉬움
+- `SubColorModal`처럼 이미 구현된 컴포넌트를 재사용하면 상세 정보, 수정, 삭제 흐름을 중복 구현하지 않아도 됨
+- `navigate()`는 페이지를 이동하면서 `state`에 추가 정보를 담아 전달할 수 있음
+- `useLocation()`은 현재 URL 정보와 해당 페이지로 이동할 때 전달된 `state`를 읽음
+- `location.state?.returnTo`는 이전 화면에서 전달한 복귀 주소이고, `returnTo`는 그 결과를 저장한 일반 변수임
+- `??`를 사용하면 전달받은 값이 없을 때 사용할 기본값을 지정할 수 있음
+- 같은 Editor 페이지라도 사용자가 어느 화면에서 들어왔는지에 따라 저장 후 복귀 위치를 다르게 만들 수 있음
+- 기능이 동작하더라도 모바일에서 화면이 잘리거나 지나치게 좁아지면 반응형 UI 개선이 별도로 필요함
+
+### 다음 할 일
+
+- README에 v1.1 Pieces of Me 기능 반영
+- Pieces of Me의 모바일 레이아웃과 hover 정보 표시 범위 결정
+- 남은 기능과 문서 작업 완료 후 Final QA 진행
+- `v1.1.0` Git tag와 GitHub Release 작성
