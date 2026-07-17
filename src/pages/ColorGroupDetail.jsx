@@ -5,7 +5,7 @@ import SubColorModal from "../components/SubColorModal";
 import AddSubColorSquare from "../components/AddSubColorSquare";
 import "./ColorGroupDetail.css";
 
-function ColorGroupDetail({ colorGroups, setColorGroups }) {
+function ColorGroupDetail({ colorGroups, onDelete }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,27 +35,32 @@ function ColorGroupDetail({ colorGroups, setColorGroups }) {
     return <div>컬러 그룹을 찾을 수 없습니다.</div>;
   }
 
-  // const subColors = selectedGroup.subColors;
+  // // const subColors = selectedGroup.subColors;
 
   // SubColor Delete 기능
-  const deleteSubColor = (subColorId) => {
-    setColorGroups((prevGroups) =>
-      prevGroups.map((group) => {
-        if (group.id === Number(id)) {
-          return {
-            ...group,
-            subColors: group.subColors.filter(
-              (subColor) => subColor.id !== subColorId,
-            ),
-          };
-        }
-
-        return group;
-      }),
-    );
-
+  const handleDelete = (subColorId) => {
+    onDelete(id, subColorId);
     setSelectedColor(null);
   };
+
+  // const deleteSubColor = (subColorId) => {
+  //   setColorGroups((prevGroups) =>
+  //     prevGroups.map((group) => {
+  //       if (group.id === Number(id)) {
+  //         return {
+  //           ...group,
+  //           subColors: group.subColors.filter(
+  //             (subColor) => subColor.id !== subColorId,
+  //           ),
+  //         };
+  //       }
+
+  //       return group;
+  //     }),
+  //   );
+
+  //   setSelectedColor(null);
+  // };
 
   // SubColor Edit 기능
   const handleEdit = (subColor) => {
@@ -98,7 +103,7 @@ function ColorGroupDetail({ colorGroups, setColorGroups }) {
         <SubColorModal
           subColor={selectedSubColor}
           onClose={() => setSelectedColor(null)}
-          onDelete={deleteSubColor}
+          onDelete={handleDelete}
           onEdit={handleEdit}
         />
       </section>

@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./PiecesOfMe.css";
+import SubColorModal from "../components/SubColorModal";
 
-function PiecesOfMe({ colorGroups }) {
+function PiecesOfMe({ colorGroups, onDelete }) {
   const navigate = useNavigate();
 
   const [selectedGroupId, setSelectedGroupId] = useState(
@@ -42,6 +43,19 @@ function PiecesOfMe({ colorGroups }) {
     if (!selectedGroupId) return;
 
     navigate(`/mypalette/${selectedGroupId}/new`);
+  };
+
+  const handleEdit = (subColor) => {
+    navigate(`/mypalette/${subColor.groupId}/edit/${subColor.id}`, {
+      state: {
+        returnTo: "/pieces-of-me",
+      },
+    });
+  };
+
+  const handleDelete = (subColorId) => {
+    onDelete(selectedSubColor.groupId, subColorId);
+    setSelectedSubColor(null);
   };
 
   return (
@@ -129,15 +143,12 @@ function PiecesOfMe({ colorGroups }) {
         )}
       </section>
 
-      {/* 다음 단계에서 기존 SubColorModal 연결 */}
-      {selectedSubColor && (
-        <div>
-          선택된 컬러: {selectedSubColor.name}
-          <button type="button" onClick={() => setSelectedSubColor(null)}>
-            Close
-          </button>
-        </div>
-      )}
+      <SubColorModal
+        subColor={selectedSubColor}
+        onClose={() => setSelectedSubColor(null)}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+      />
     </main>
   );
 }

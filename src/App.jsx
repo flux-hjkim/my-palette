@@ -45,6 +45,25 @@ function App() {
       }),
     );
   };
+
+  // 특정 컬러 그룹의 SubColor 삭제
+  const deleteSubColor = (groupId, subColorId) => {
+    setColorGroups((prevGroups) =>
+      prevGroups.map((group) => {
+        if (group.id === Number(groupId)) {
+          return {
+            ...group,
+            subColors: group.subColors.filter(
+              (subColor) => subColor.id !== subColorId,
+            ),
+          };
+        }
+
+        return group;
+      }),
+    );
+  };
+
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -62,7 +81,7 @@ function App() {
           element={
             <ColorGroupDetail
               colorGroups={colorGroups}
-              setColorGroups={setColorGroups}
+              onDelete={deleteSubColor}
             />
           }
         />
@@ -88,7 +107,9 @@ function App() {
         />
         <Route
           path="/pieces-of-me"
-          element={<PiecesOfMe colorGroups={colorGroups} />}
+          element={
+            <PiecesOfMe colorGroups={colorGroups} onDelete={deleteSubColor} />
+          }
         />
         <Route path="/palette-log" element={<PaletteLog />} />
       </Routes>

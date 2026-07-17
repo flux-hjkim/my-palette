@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { presetColorsByGroup } from "../data/presetColors";
 import SubColorForm from "../components/SubColorForm";
 import "./ColorEditorPage.css";
@@ -7,6 +7,10 @@ import "./ColorEditorPage.css";
 function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
   const { id, subColorId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 이전 화면 정보가 있으면 그곳으로, 없으면 그룹 상세 페이지로
+  const returnTo = location.state?.returnTo ?? `/mypalette/${id}`;
 
   const isEditMode = Boolean(subColorId);
 
@@ -43,7 +47,7 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
 
   const handleBack = () => {
     if (isEditMode && selectedSubColor) {
-      navigate(`/mypalette/${id}`, {
+      navigate(returnTo, {
         state: { reopenSubColorId: selectedSubColor.id },
       });
       return;
@@ -106,7 +110,7 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
     if (selectedSubColor) {
       onUpdate(id, savedSubColor);
 
-      navigate(`/mypalette/${id}`, {
+      navigate(returnTo, {
         state: { reopenSubColorId: savedSubColor.id },
       });
 
