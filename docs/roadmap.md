@@ -139,7 +139,7 @@ v1.0에서는 컬러가 카테고리별로 분리되어 있어, 사용자가 자
 - 카테고리별로 흩어진 subColors를 하나의 배열로 변환
 - 좌측 자기 탐색 질문 또는 감성 문구 표시
 - 우측 컬러칩 보드 구성
-- 컬러칩 hover 시 scale up
+- 컬러칩 hover 시 기본 정보 표시
 - hover 시 title, category, keywords 표시
 - 컬러칩 클릭 시 기존 상세 Modal 재사용
 
@@ -250,7 +250,7 @@ v1.1의 Pieces of Me가 단순 컬러칩 나열에 그치면 MyPalette의 감성
 - Pieces of Me 전용 StickerCard 컴포넌트 추가
 - CSS 이중 테두리 또는 SVG frame 방식 검토
 - 컬러칩마다 frame type 다르게 적용
-- hover 시 scale up
+- hover 확대 및 애니메이션 고도화
 - hover 시 텍스트가 아래에서 위로 등장
 - 기본 카테고리 카드와 다른 시각 스타일 적용
 
