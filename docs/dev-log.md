@@ -984,3 +984,44 @@
 - Pieces of Me의 모바일 레이아웃과 hover 정보 표시 범위 결정
 - 남은 기능과 문서 작업 완료 후 Final QA 진행
 - `v1.1.0` Git tag와 GitHub Release 작성
+
+## 2026-07-18
+
+### 오늘 한 일
+
+- Pieces of Me 스티커 hover 정보 구조 구현
+- hover 시 카테고리, 제목, keyword 표시
+- keyword는 `slice(0, 2)`로 최대 2개만 표시
+- 긴 제목은 원본 데이터는 유지하고 화면에서 8글자까지만 표시
+- 기본 `colorName`과 hover 정보가 교차 표시되도록 CSS 적용
+- keyword 없음, 긴 제목, Modal 클릭 동작 확인
+- `feat/pieces-hover-info` 브랜치에서 Commit 및 Push 완료
+
+### 배운 점
+
+- `slice()`는 Hook이 아니라 배열과 문자열에서 사용하는 method다.
+- `slice(0, 2)`는 0번째부터 2번째 직전까지 잘라 새 배열을 반환한다.
+- `slice()`로 필요한 범위를 선택한 뒤 `map()`으로 렌더링할 수 있다.
+- 템플릿 리터럴은 백틱 안에서 `${}`로 값을 문자열에 넣는 문법이다.
+- 이번에는 이해하기 쉬운 `title.slice(0, maxLength) + "..."` 형태를 사용했다.
+- `useState`는 React가 기억해야 하고 다른 데이터에서 계산할 수 없는 값에 사용한다.
+- 파생 데이터는 기존 원본 데이터나 state에서 다시 계산할 수 있는 값이다.
+- Hook은 React의 상태나 렌더링 흐름과 연결된 함수이고, method는 배열·문자열 등의 값이 가진 함수다.
+
+### 아직 헷갈리는 점
+
+- `useState`와 파생 데이터를 바로 구분하는 기준
+- 어떤 파생 데이터에 `useMemo`를 사용할지 판단하는 것
+- 어떤 동작을 `useEffect`로 처리할지 스스로 판단하는 것
+- 템플릿 리터럴 문법
+
+### 다음에 직접 써볼 것
+
+- `useMemo`로 파생 데이터를 직접 작성하고 사용 이유 설명하기
+- `useEffect`가 필요한 상황을 먼저 판단한 뒤 코드 작성하기
+- `useState`와 파생 데이터를 구현 전에 말로 구분하기
+
+### 다음 할 일
+
+- Pieces of Me 모바일 레이아웃 보완
+- 작업 시작 전 `useMemo`, `useEffect`, `useState`와 파생 데이터 구분 복습
