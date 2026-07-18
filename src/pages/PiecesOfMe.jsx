@@ -58,6 +58,10 @@ function PiecesOfMe({ colorGroups, onDelete }) {
     setSelectedSubColor(null);
   };
 
+  // 제목 20자 제한
+  const getShortText = (title, maxLength) =>
+    title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
+
   return (
     <main className="pieces-of-me-page page-container">
       <aside className="pieces-of-me-sidebar">
@@ -134,7 +138,21 @@ function PiecesOfMe({ colorGroups, onDelete }) {
               {subColor.colorName}
             </span>
 
-            <span className="piece-sticker-title">{subColor.name}</span>
+            <div className="piece-sticker-info">
+              <span className="piece-sticker-category">
+                {subColor.groupName}
+              </span>
+              <span className="piece-sticker-title">
+                {getShortText(subColor.name, 8)}
+              </span>
+              <div className="piece-sticker-keywords">
+                {subColor.keywords.slice(0, 2).map((keyword) => (
+                  <span key={keyword} className="piece-sticker-keyword">
+                    #{keyword}
+                  </span>
+                ))}
+              </div>
+            </div>
           </button>
         ))}
 

@@ -120,11 +120,9 @@
 }
 
 .piece-sticker-color-name,
-.piece-sticker-title {
+.piece-sticker-info {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
   padding: 18px;
   text-align: center;
   transition:
@@ -133,10 +131,15 @@
 }
 
 .piece-sticker-color-name {
+  display: grid;
+  place-items: center;
   opacity: 1;
 }
 
-.piece-sticker-title {
+.piece-sticker-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   opacity: 0;
   transform: translateY(6px);
 }
@@ -146,9 +149,16 @@
   transform: translateY(-6px);
 }
 
-.piece-sticker:hover .piece-sticker-title {
+.piece-sticker:hover .piece-sticker-info {
   opacity: 1;
   transform: translateY(0);
+}
+
+.piece-sticker-keywords {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
 }
 
 .pieces-of-me-empty {
