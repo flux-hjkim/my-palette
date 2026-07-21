@@ -1025,3 +1025,47 @@
 
 - Pieces of Me 모바일 레이아웃 보완
 - 작업 시작 전 `useMemo`, `useEffect`, `useState`와 파생 데이터 구분 복습
+
+## 2026-07-21
+
+### 오늘 한 일
+
+- Palette Log 페이지에 `colorGroups` 데이터를 전달
+- 카테고리별 `subColors`를 `flatMap()`으로 하나의 배열로 변환
+- 각 SubColor에 `groupId`, `groupName` 정보를 추가
+- `reduce()`를 사용해 SubColor를 `createdAt` 기준으로 그룹화
+- 해당 월의 마지막 날짜와 첫 번째 요일 계산
+- 월 시작 전 공백과 실제 날짜를 포함한 달력 배열 생성
+- 요일과 날짜를 7열 Grid 형태로 표시
+- 날짜를 `YYYY-MM-DD` 형식으로 변환해 해당 날짜의 컬러 조회
+- 같은 날짜에 여러 컬러가 있으면 컬러 원을 함께 표시
+- 컬러 원 클릭 시 선택한 SubColor를 state에 저장
+- 기존 `SubColorModal`을 Palette Log에서도 재사용
+- Modal 닫기, 수정, 삭제 동작 연결
+- 컬러 수정 후 Palette Log로 돌아오도록 `returnTo` 적용
+- 컬러 삭제 후 달력에 결과가 즉시 반영되는지 확인
+- 컬러 원을 날짜 셀 내부의 가로·세로 중앙에 정렬
+- `v1.2-checklist.md` 작성
+
+### 배운 점
+
+- `flatMap()`은 여러 배열을 하나의 배열로 합칠 때 사용할 수 있다.
+- `reduce()`는 배열을 순회하면서 원하는 형태의 값으로 누적할 수 있다.
+- 이번에는 `reduce()`의 누적값으로 객체를 사용해 날짜별 SubColor를 묶었다.
+- `push()`는 배열의 마지막에 새로운 값을 추가하는 method다.
+- `Array().fill()`은 같은 값으로 채운 배열을 만들 때 사용할 수 있다.
+- `Array.from()`은 길이를 기준으로 새로운 배열을 만들 때 사용할 수 있다.
+- `padStart()`는 문자열 앞쪽을 지정한 문자로 채워 길이를 맞추는 method다.
+- `map()`의 parameter는 해당 callback 함수 안에서만 사용할 수 있다.
+- Flex의 `justify-content`, `align-items`, `align-content`를 사용해 컬러 묶음을 셀 중앙에 정렬할 수 있다.
+
+### 다음 할 일
+
+- `createdAt`에서 기록이 존재하는 `YYYY-MM` 목록 생성
+- 기록 월 목록의 중복 제거 및 날짜순 정렬
+- 기록이 있는 이전·다음 월로 이동하는 기능 구현
+- 첫 번째 기록 월과 마지막 기록 월의 이동 버튼 상태 처리
+- 모바일 화면에서 달력과 컬러 원 레이아웃 확인
+- README, requirements.md, improvements.md에 v1.2 내용 반영
+- v1.2 Final QA 진행
+- `v1.2.0` Git tag와 GitHub Release 작성
