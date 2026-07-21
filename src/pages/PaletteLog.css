@@ -33,11 +33,18 @@
 .palette-log-day {
   min-height: 140px;
   padding: 12px;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .palette-log-colors {
+  flex: 1;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
   gap: 6px;
   margin-top: 12px;
 }

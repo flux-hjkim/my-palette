@@ -113,7 +113,9 @@ function App() {
         />
         <Route
           path="/palette-log"
-          element={<PaletteLog colorGroups={colorGroups} />}
+          element={
+            <PaletteLog colorGroups={colorGroups} onDelete={deleteSubColor} />
+          }
         />
       </Routes>
     </BrowserRouter>

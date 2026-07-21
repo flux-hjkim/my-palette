@@ -1,12 +1,18 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./PaletteLog.css";
+import SubColorModal from "../components/SubColorModal";
 
-function PaletteLog({ colorGroups }) {
+function PaletteLog({ colorGroups, onDelete }) {
   const year = 2026;
   const month = 6;
 
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = new Date(year, month, 1).getDay();
+
+  const [selectedSubColor, setSelectedSubColor] = useState(null);
+
+  const navigate = useNavigate();
 
   const allSubColors = useMemo(() => {
     return colorGroups.flatMap((group) =>
@@ -40,6 +46,19 @@ function PaletteLog({ colorGroups }) {
 
     return [...emptyDays, ...monthDays];
   }, [firstDayOfMonth, daysInMonth]);
+
+  const handleEdit = (subColor) => {
+    navigate(`/mypalette/${subColor.groupId}/edit/${subColor.id}`, {
+      state: {
+        returnTo: "/palette-log",
+      },
+    });
+  };
+
+  const handleDelete = (subColorId) => {
+    onDelete(selectedSubColor.groupId, subColorId);
+    setSelectedSubColor(null);
+  };
 
   return (
     <main className="palette-log-page">
@@ -83,6 +102,7 @@ function PaletteLog({ colorGroups }) {
                       className="palette-log-color"
                       style={{ backgroundColor: subColor.color }}
                       aria-label={`${subColor.name} 상세 보기`}
+                      onClick={() => setSelectedSubColor(subColor)}
                     />
                   ))}
                 </div>
@@ -91,6 +111,15 @@ function PaletteLog({ colorGroups }) {
           })}
         </div>
       </section>
+
+      {selectedSubColor && (
+        <SubColorModal
+          subColor={selectedSubColor}
+          onClose={() => setSelectedSubColor(null)}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+        />
+      )}
     </main>
   );
 }
