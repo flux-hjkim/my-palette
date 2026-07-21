@@ -12,6 +12,16 @@
   border-right: 1px solid currentColor;
 }
 
+.pieces-of-me-tools-toggle {
+  display: none;
+}
+
+.pieces-of-me-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
 .pieces-of-me-eyebrow,
 .pieces-of-me-section-title {
   margin: 0 0 16px;
@@ -165,4 +175,29 @@
   grid-column: 1 / -1;
   align-self: center;
   justify-self: center;
+}
+
+@media (max-width: 768px) {
+  .pieces-of-me-page {
+    grid-template-columns: 1fr;
+  }
+
+  .pieces-of-me-sidebar {
+    gap: 32px;
+    padding: 40px 24px;
+    border-right: none;
+    border-bottom: 1px solid currentColor;
+  }
+
+  .pieces-of-me-tools-toggle {
+    display: block;
+  }
+
+  .pieces-of-me-tools {
+    display: none;
+  }
+
+  .pieces-of-me-tools.is-open {
+    display: flex;
+  }
 }

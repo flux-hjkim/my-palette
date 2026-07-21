@@ -12,6 +12,8 @@ function PiecesOfMe({ colorGroups, onDelete }) {
 
   const [selectedSubColor, setSelectedSubColor] = useState(null);
 
+  const [isToolsOpen, setIsToolsOpen] = useState(false);
+
   // subColors에 그룹 정보 추가
   const allSubColors = useMemo(
     () =>
@@ -75,50 +77,66 @@ function PiecesOfMe({ colorGroups, onDelete }) {
           </p>
         </div>
 
-        <div className="pieces-of-me-add">
-          <label htmlFor="pieces-group-select">
-            Where does this color belong?
-          </label>
+        <button
+          type="button"
+          className="pieces-of-me-tools-toggle"
+          aria-expanded={isToolsOpen}
+          aria-controls="pieces-of-me-tools"
+          onClick={() => setIsToolsOpen((prev) => !prev)}
+        >
+          ADD COLOR & VIEW BALANCE
+        </button>
 
-          <select
-            value={selectedGroupId}
-            onChange={(event) => setSelectedGroupId(event.target.value)}
-          >
-            {colorGroups.map((group) => (
-              <option key={group.id} value={String(group.id)}>
-                {group.groupName}
-              </option>
-            ))}
-          </select>
+        <div
+          id="pieces-of-me-tools"
+          className={`pieces-of-me-tools ${isToolsOpen ? "is-open" : ""}`}
+        >
+          <div className="pieces-of-me-add">
+            <label htmlFor="pieces-group-select">
+              Where does this color belong?
+            </label>
 
-          <button type="button" onClick={handleAddColor}>
-            ADD A NEW COLOR
-          </button>
+            <select
+              id="pieces-group-select"
+              value={selectedGroupId}
+              onChange={(event) => setSelectedGroupId(event.target.value)}
+            >
+              {colorGroups.map((group) => (
+                <option key={group.id} value={String(group.id)}>
+                  {group.groupName}
+                </option>
+              ))}
+            </select>
+
+            <button type="button" onClick={handleAddColor}>
+              ADD A NEW COLOR
+            </button>
+          </div>
+
+          <section className="pieces-of-me-stats">
+            <p className="pieces-of-me-section-title">YOUR COLOR BALANCE</p>
+
+            <ul>
+              {groupCounts.map((group) => (
+                <li key={group.id} className="pieces-of-me-stat">
+                  <div className="pieces-of-me-stat-info">
+                    <span>{group.name}</span>
+                    <span>{group.count}</span>
+                  </div>
+
+                  <div className="pieces-of-me-stat-track">
+                    <div
+                      className="pieces-of-me-stat-bar"
+                      style={{
+                        width: `${(group.count / maxCount) * 100}%`,
+                      }}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
         </div>
-
-        <section className="pieces-of-me-stats">
-          <p className="pieces-of-me-section-title">YOUR COLOR BALANCE</p>
-
-          <ul>
-            {groupCounts.map((group) => (
-              <li key={group.id} className="pieces-of-me-stat">
-                <div className="pieces-of-me-stat-info">
-                  <span>{group.name}</span>
-                  <span>{group.count}</span>
-                </div>
-
-                <div className="pieces-of-me-stat-track">
-                  <div
-                    className="pieces-of-me-stat-bar"
-                    style={{
-                      width: `${(group.count / maxCount) * 100}%`,
-                    }}
-                  />
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
       </aside>
 
       <section className="pieces-of-me-board">
