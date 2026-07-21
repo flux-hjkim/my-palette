@@ -7,7 +7,7 @@
 - 배포 링크: [MyPalette](https://my-palette-six.vercel.app)
 - GitHub Repository: [flux-hjkim/my-palette](https://github.com/flux-hjkim/my-palette)
 - 테스트 계정: 없음
-  - v1.0 기준 로그인 기능 미포함
+  - 현재 버전 기준 로그인 기능 미포함
   - 별도 계정 없이 주요 기능 확인 가능
 
 ---
@@ -82,6 +82,15 @@ v1.0의 핵심 목표:
   - Ideal Me
 - 각 카테고리별 대표 색상, 이름, 비율 정보 표시
 - 카테고리 선택 시 상세 페이지 이동
+
+### Pieces of Me
+
+- 모든 카테고리의 SubColor를 한 화면에서 모아보기
+- 카테고리별 컬러 개수와 비율 확인
+- 컬러 스티커 hover 시 카테고리, 제목, keyword 표시
+- 컬러 스티커 클릭 시 기존 Detail Modal 재사용
+- 그룹을 선택하여 새로운 컬러 추가 가능
+- 모바일에서는 보조 도구 영역을 접고 펼쳐 스티커 보드에 빠르게 접근
 
 ### SubColor CRUD
 
@@ -252,13 +261,6 @@ npm run dev
 ---
 
 ## Future Improvements
-
-### v1.1
-
-- Pieces of Me 페이지 추가
-- 전체 SubColor를 카테고리와 관계없이 모아보기
-- 스티커 보드와 카테고리별 컬러 개수 표시
-- 기존 Detail Modal 재사용
 
 ### v1.2
 
