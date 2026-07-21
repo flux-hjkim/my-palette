@@ -14,7 +14,7 @@ export const initialColorGroups = [
         color: "#DE765F",
         description: "혼자만의 시간이 있어야 마음과 생각이 다시 정리돼요.",
         keywords: ["혼자", "회복", "정리"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-01",
       },
       {
         id: 102,
@@ -23,7 +23,7 @@ export const initialColorGroups = [
         color: "#DD6866",
         description: "이유를 이해하고 나면 훨씬 편안하게 움직일 수 있어요.",
         keywords: ["이유", "WHY", "이해"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-02",
       },
       {
         id: 103,
@@ -32,7 +32,7 @@ export const initialColorGroups = [
         color: "#C05A6C",
         description: "한 번 마음이 가면 오래 붙잡고 파고드는 편이에요.",
         keywords: ["집중", "탐구", "깊이"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-03",
       },
       {
         id: 104,
@@ -42,7 +42,7 @@ export const initialColorGroups = [
         description:
           "스스로 선택하고 결정할 수 있을 때 가장 자연스럽게 움직여요.",
         keywords: ["선택", "독립", "자율성"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-04",
       },
     ],
   },
@@ -61,7 +61,7 @@ export const initialColorGroups = [
         color: "#5B5E6C",
         description: "과하지 않지만 단정하고 차분한 분위기에 마음이 가요.",
         keywords: ["드뮤어", "단정함", "차분함"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-05",
       },
       {
         id: 202,
@@ -71,7 +71,7 @@ export const initialColorGroups = [
         description:
           "무심한 듯 정돈된 분위기와 오래 입을 수 있는 클래식함에 끌려요.",
         keywords: ["프렌치시크", "클래식", "무심함"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-06",
       },
       {
         id: 203,
@@ -80,7 +80,7 @@ export const initialColorGroups = [
         color: "#5A655C",
         description: "종이 질감과 여백이 있는 따뜻한 무드를 좋아해요.",
         keywords: ["엽서", "종이질감", "여백"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-07",
       },
       {
         id: 204,
@@ -89,7 +89,7 @@ export const initialColorGroups = [
         color: "#2E3440",
         description: "부드럽고 차분하지만 답답하지 않은 그린 톤을 좋아해요.",
         keywords: ["세이지", "그린", "자연스러움"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-08",
       },
       {
         id: 205,
@@ -99,7 +99,7 @@ export const initialColorGroups = [
         description:
           "두껍게 가리기보다 깨끗하고 투명하게 정돈된 느낌을 좋아해요.",
         keywords: ["맑음", "피부표현", "투명함"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-08",
       },
       {
         id: 206,
@@ -108,7 +108,7 @@ export const initialColorGroups = [
         color: "#2A2F37",
         description: "유행을 크게 타지 않고 오래 남는 조용한 멋에 끌려요.",
         keywords: ["클래식", "차분함", "고급스러움"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-09",
       },
     ],
   },
@@ -128,7 +128,7 @@ export const initialColorGroups = [
         color: "#E79640",
         description: "아이디어가 실제 화면으로 구현되는 과정에 몰입해요.",
         keywords: ["React", "구현", "포트폴리오"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-10",
       },
       {
         id: 302,
@@ -137,7 +137,7 @@ export const initialColorGroups = [
         color: "#E48C4A",
         description: "화면의 구조와 사용자의 흐름을 고민하는 일이 재미있어요.",
         keywords: ["UI", "UX", "레이아웃"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-11",
       },
       {
         id: 303,
@@ -146,7 +146,7 @@ export const initialColorGroups = [
         color: "#E87D38",
         description: "긴장감 있는 도전과 함께 맞춰가는 플레이에 재미를 느껴요.",
         keywords: ["로스트아크", "도전", "레이드"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-12",
       },
       {
         id: 304,
@@ -155,7 +155,7 @@ export const initialColorGroups = [
         color: "#E27B4D",
         description: "색조의 작은 차이로 분위기가 달라지는 과정이 흥미로워요.",
         keywords: ["메이크업", "코랄", "무드"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-13",
       },
     ],
   },
@@ -174,7 +174,7 @@ export const initialColorGroups = [
         color: "#A9BCA0",
         description: "작은 변화나 분위기를 잘 알아차리는 편이에요.",
         keywords: ["예민함", "감지", "섬세함"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-14",
       },
       {
         id: 402,
@@ -183,7 +183,7 @@ export const initialColorGroups = [
         color: "#95A35E",
         description: "기준이 흐릿할 때 쉽게 지치고 멈칫하게 돼요.",
         keywords: ["불분명함", "기준", "피로"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-15",
       },
       {
         id: 403,
@@ -192,7 +192,7 @@ export const initialColorGroups = [
         color: "#788A37",
         description: "마음을 열기 전까지는 시간을 두고 조심스럽게 살펴봐요.",
         keywords: ["신뢰", "거리감", "조심스러움"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-16",
       },
     ],
   },
@@ -211,7 +211,7 @@ export const initialColorGroups = [
         color: "#F1EFCB",
         description: "흔들려도 나만의 기준을 잃지 않는 사람이 되고 싶어요.",
         keywords: ["단정함", "기준", "단단함"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-17",
       },
       {
         id: 502,
@@ -220,7 +220,7 @@ export const initialColorGroups = [
         color: "#E9DA8C",
         description: "지나온 생각과 감정을 차분히 남기는 사람이 되고 싶어요.",
         keywords: ["기록", "꾸준함", "아카이브"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-18",
       },
       {
         id: 503,
@@ -230,7 +230,7 @@ export const initialColorGroups = [
         description:
           "내 취향과 생각이 담긴 화면을 직접 완성해가는 사람이 되고 싶어요.",
         keywords: ["서비스", "창작", "포트폴리오"],
-        createdAt: "2026-05-28",
+        createdAt: "2026-07-19",
       },
     ],
   },

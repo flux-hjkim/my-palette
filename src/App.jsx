@@ -111,7 +111,10 @@ function App() {
             <PiecesOfMe colorGroups={colorGroups} onDelete={deleteSubColor} />
           }
         />
-        <Route path="/palette-log" element={<PaletteLog />} />
+        <Route
+          path="/palette-log"
+          element={<PaletteLog colorGroups={colorGroups} />}
+        />
       </Routes>
     </BrowserRouter>
   );

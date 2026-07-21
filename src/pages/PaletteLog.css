@@ -1,0 +1,52 @@
+.palette-log-page {
+  padding: 72px 48px;
+}
+
+.palette-log-header {
+  text-align: left;
+}
+
+.palette-log-header h1 {
+  margin: 0;
+  font-size: clamp(64px, 9vw, 120px);
+  font-weight: 400;
+}
+
+.palette-log-calendar {
+  margin-top: 48px;
+}
+
+.palette-log-weekdays,
+.palette-log-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.palette-log-weekdays {
+  margin-bottom: 20px;
+}
+
+.palette-log-weekdays span {
+  text-align: center;
+}
+
+.palette-log-day {
+  min-height: 140px;
+  padding: 12px;
+}
+
+.palette-log-colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.palette-log-color {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
