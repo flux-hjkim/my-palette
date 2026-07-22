@@ -14,7 +14,7 @@ export const initialColorGroups = [
         color: "#DE765F",
         description: "혼자만의 시간이 있어야 마음과 생각이 다시 정리돼요.",
         keywords: ["혼자", "회복", "정리"],
-        createdAt: "2026-07-01",
+        createdAt: "2026-05-01",
       },
       {
         id: 102,
@@ -23,7 +23,7 @@ export const initialColorGroups = [
         color: "#DD6866",
         description: "이유를 이해하고 나면 훨씬 편안하게 움직일 수 있어요.",
         keywords: ["이유", "WHY", "이해"],
-        createdAt: "2026-07-02",
+        createdAt: "2026-05-02",
       },
       {
         id: 103,
@@ -32,7 +32,7 @@ export const initialColorGroups = [
         color: "#C05A6C",
         description: "한 번 마음이 가면 오래 붙잡고 파고드는 편이에요.",
         keywords: ["집중", "탐구", "깊이"],
-        createdAt: "2026-07-03",
+        createdAt: "2026-05-03",
       },
       {
         id: 104,
@@ -42,7 +42,7 @@ export const initialColorGroups = [
         description:
           "스스로 선택하고 결정할 수 있을 때 가장 자연스럽게 움직여요.",
         keywords: ["선택", "독립", "자율성"],
-        createdAt: "2026-07-04",
+        createdAt: "2026-05-04",
       },
     ],
   },
@@ -128,7 +128,7 @@ export const initialColorGroups = [
         color: "#E79640",
         description: "아이디어가 실제 화면으로 구현되는 과정에 몰입해요.",
         keywords: ["React", "구현", "포트폴리오"],
-        createdAt: "2026-07-10",
+        createdAt: "2026-06-22",
       },
       {
         id: 302,
@@ -137,7 +137,7 @@ export const initialColorGroups = [
         color: "#E48C4A",
         description: "화면의 구조와 사용자의 흐름을 고민하는 일이 재미있어요.",
         keywords: ["UI", "UX", "레이아웃"],
-        createdAt: "2026-07-11",
+        createdAt: "2026-06-23",
       },
       {
         id: 303,
@@ -146,7 +146,7 @@ export const initialColorGroups = [
         color: "#E87D38",
         description: "긴장감 있는 도전과 함께 맞춰가는 플레이에 재미를 느껴요.",
         keywords: ["로스트아크", "도전", "레이드"],
-        createdAt: "2026-07-12",
+        createdAt: "2026-06-30",
       },
       {
         id: 304,
@@ -155,7 +155,7 @@ export const initialColorGroups = [
         color: "#E27B4D",
         description: "색조의 작은 차이로 분위기가 달라지는 과정이 흥미로워요.",
         keywords: ["메이크업", "코랄", "무드"],
-        createdAt: "2026-07-13",
+        createdAt: "2026-06-30",
       },
     ],
   },
@@ -211,7 +211,7 @@ export const initialColorGroups = [
         color: "#F1EFCB",
         description: "흔들려도 나만의 기준을 잃지 않는 사람이 되고 싶어요.",
         keywords: ["단정함", "기준", "단단함"],
-        createdAt: "2026-07-17",
+        createdAt: "2026-04-17",
       },
       {
         id: 502,
@@ -220,7 +220,7 @@ export const initialColorGroups = [
         color: "#E9DA8C",
         description: "지나온 생각과 감정을 차분히 남기는 사람이 되고 싶어요.",
         keywords: ["기록", "꾸준함", "아카이브"],
-        createdAt: "2026-07-18",
+        createdAt: "2026-04-22",
       },
       {
         id: 503,
@@ -230,7 +230,7 @@ export const initialColorGroups = [
         description:
           "내 취향과 생각이 담긴 화면을 직접 완성해가는 사람이 되고 싶어요.",
         keywords: ["서비스", "창작", "포트폴리오"],
-        createdAt: "2026-07-19",
+        createdAt: "2026-04-29",
       },
     ],
   },

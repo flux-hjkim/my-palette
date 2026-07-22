@@ -4,12 +4,6 @@ import "./PaletteLog.css";
 import SubColorModal from "../components/SubColorModal";
 
 function PaletteLog({ colorGroups, onDelete }) {
-  const year = 2026;
-  const month = 6;
-
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const firstDayOfMonth = new Date(year, month, 1).getDay();
-
   const [selectedSubColor, setSelectedSubColor] = useState(null);
 
   const navigate = useNavigate();
@@ -23,6 +17,31 @@ function PaletteLog({ colorGroups, onDelete }) {
       })),
     );
   }, [colorGroups]);
+
+  // YYYY-MM 형태로 createdAt만 모은 배열 생성
+  const recordedMonths = allSubColors.map((subColor) => {
+    return subColor.createdAt.slice(0, 7);
+  });
+
+  // 배열 내 중복 제거 후 새 배열 저장
+  const uniqueMonths = [...new Set(recordedMonths)];
+  // 중복 제거된 배열을 날짜순으로 정렬
+  const sortedMonths = [...uniqueMonths].sort();
+  // 가장 최근 월 위치 번호 state 기억
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(
+    sortedMonths.length > 0 ? sortedMonths.length - 1 : 0,
+  );
+  // 현재 보고 있는 월의 위치 번호 currentMonthIndex를 통해 현재 보고 있는 월 저장
+  const currentMonth = sortedMonths[currentMonthIndex] ?? "";
+  // 연, 월 분리
+  const [yearString, monthString] = currentMonth.split("-");
+  // 연, 월을 string에서 number로 변경
+  const year = currentMonth ? Number(yearString) : null;
+  const month = currentMonth ? Number(monthString) - 1 : null;
+
+  // 매월 몇일까지 있는지 계산, 각 달의 1일이 무슨 요일인지 계산(요일은 0부터 숫자로 나타남)
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDayOfMonth = new Date(year, month, 1).getDay();
 
   const groupedSubColors = useMemo(() => {
     return allSubColors.reduce((groupedByDate, subColor) => {
@@ -38,6 +57,9 @@ function PaletteLog({ colorGroups, onDelete }) {
 
   // 공백을 포함한 월별 날짜 배열 만들기
   const calendarDays = useMemo(() => {
+    if (!currentMonth) {
+      return []; // 기록이 없을 때 빈 배열 반환
+    }
     const emptyDays = Array(firstDayOfMonth).fill(null);
     const monthDays = Array.from(
       { length: daysInMonth },
@@ -63,7 +85,7 @@ function PaletteLog({ colorGroups, onDelete }) {
   return (
     <main className="palette-log-page">
       <header className="palette-log-header">
-        <h1>July</h1>
+        <h1>{currentMonth}</h1>
       </header>
 
       <section className="palette-log-calendar">
