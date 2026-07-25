@@ -3,7 +3,21 @@
 }
 
 .palette-log-header {
-  text-align: left;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.palette-log-prev-button {
+  justify-self: start;
+}
+
+.palette-log-next-button {
+  justify-self: end;
+}
+
+.palette-log-title {
+  text-align: center;
 }
 
 .palette-log-header h1 {

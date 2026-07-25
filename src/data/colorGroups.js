@@ -211,7 +211,7 @@ export const initialColorGroups = [
         color: "#F1EFCB",
         description: "흔들려도 나만의 기준을 잃지 않는 사람이 되고 싶어요.",
         keywords: ["단정함", "기준", "단단함"],
-        createdAt: "2026-04-17",
+        createdAt: "2026-01-17",
       },
       {
         id: 502,

@@ -8,6 +8,7 @@ function PaletteLog({ colorGroups, onDelete }) {
 
   const navigate = useNavigate();
 
+  // 전체 컬러를 한 배열로 만들기
   const allSubColors = useMemo(() => {
     return colorGroups.flatMap((group) =>
       group.subColors.map((subColor) => ({
@@ -18,29 +19,33 @@ function PaletteLog({ colorGroups, onDelete }) {
     );
   }, [colorGroups]);
 
+  /* 기록이 존재하는 월 목록 만들기 */
   // YYYY-MM 형태로 createdAt만 모은 배열 생성
   const recordedMonths = allSubColors.map((subColor) => {
     return subColor.createdAt.slice(0, 7);
   });
-
   // 배열 내 중복 제거 후 새 배열 저장
   const uniqueMonths = [...new Set(recordedMonths)];
   // 중복 제거된 배열을 날짜순으로 정렬
   const sortedMonths = [...uniqueMonths].sort();
-  // 가장 최근 월 위치 번호 state 기억
+
+  // 현재 보고 있는 월의 위치 번호
   const [currentMonthIndex, setCurrentMonthIndex] = useState(
     sortedMonths.length > 0 ? sortedMonths.length - 1 : 0,
   );
-  // 현재 보고 있는 월의 위치 번호 currentMonthIndex를 통해 현재 보고 있는 월 저장
+  // 현재 보고 있는 월 값 ("YYYY-MM")
   const currentMonth = sortedMonths[currentMonthIndex] ?? "";
+
+  /* 달력 계산 */
   // 연, 월 분리
   const [yearString, monthString] = currentMonth.split("-");
   // 연, 월을 string에서 number로 변경
   const year = currentMonth ? Number(yearString) : null;
   const month = currentMonth ? Number(monthString) - 1 : null;
 
-  // 매월 몇일까지 있는지 계산, 각 달의 1일이 무슨 요일인지 계산(요일은 0부터 숫자로 나타남)
+  // 해당 월이 며칠까지 있는지 계산
   const daysInMonth = new Date(year, month + 1, 0).getDate();
+  // 해당 월 1일이 무슨 요일인지 계산
   const firstDayOfMonth = new Date(year, month, 1).getDay();
 
   const groupedSubColors = useMemo(() => {
@@ -85,7 +90,27 @@ function PaletteLog({ colorGroups, onDelete }) {
   return (
     <main className="palette-log-page">
       <header className="palette-log-header">
-        <h1>{currentMonth}</h1>
+        <button
+          type="button"
+          className="palette-log-prev-button"
+          onClick={() => setCurrentMonthIndex((prevIndex) => prevIndex - 1)}
+          disabled={currentMonthIndex === 0}
+        >
+          ‹
+        </button>
+
+        <div className="palette-log-title">
+          <h1>{currentMonth}</h1>
+        </div>
+
+        <button
+          type="button"
+          className="palette-log-next-button"
+          onClick={() => setCurrentMonthIndex((prevIndex) => prevIndex + 1)}
+          disabled={currentMonthIndex === sortedMonths.length - 1}
+        >
+          ›
+        </button>
       </header>
 
       <section className="palette-log-calendar">
