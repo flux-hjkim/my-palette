@@ -42,8 +42,10 @@
 
 .palette-log-weekdays,
 .palette-log-grid {
+  width: 100%;
+  box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
 .palette-log-grid {
@@ -54,6 +56,12 @@
   margin-bottom: 0;
   border-top: 1px solid rgba(96, 72, 92, 0.25);
   border-left: 1px solid rgba(96, 72, 92, 0.25);
+}
+
+.palette-log-weekdays span,
+.palette-log-day {
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .palette-log-weekdays span {
@@ -114,4 +122,12 @@
   font-size: 13px;
   letter-spacing: 0.08em;
   opacity: 0.65;
+}
+
+@media (max-width: 480px) {
+  .palette-log-weekdays span {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding-inline: 2px;
+  }
 }

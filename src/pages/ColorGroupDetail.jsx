@@ -35,32 +35,11 @@ function ColorGroupDetail({ colorGroups, onDelete }) {
     return <div>컬러 그룹을 찾을 수 없습니다.</div>;
   }
 
-  // // const subColors = selectedGroup.subColors;
-
   // SubColor Delete 기능
   const handleDelete = (subColorId) => {
     onDelete(id, subColorId);
     setSelectedColor(null);
   };
-
-  // const deleteSubColor = (subColorId) => {
-  //   setColorGroups((prevGroups) =>
-  //     prevGroups.map((group) => {
-  //       if (group.id === Number(id)) {
-  //         return {
-  //           ...group,
-  //           subColors: group.subColors.filter(
-  //             (subColor) => subColor.id !== subColorId,
-  //           ),
-  //         };
-  //       }
-
-  //       return group;
-  //     }),
-  //   );
-
-  //   setSelectedColor(null);
-  // };
 
   // SubColor Edit 기능
   const handleEdit = (subColor) => {

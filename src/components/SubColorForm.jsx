@@ -87,6 +87,7 @@ function SubColorForm({
     };
   }, []);
 
+  // Body 스크롤바 잠금
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
 
