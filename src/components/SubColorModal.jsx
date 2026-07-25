@@ -2,14 +2,15 @@ import { useEffect } from "react";
 
 function SubColorModal({ subColor, onClose, onDelete, onEdit }) {
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
+    if (!subColor) return;
 
+    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     return () => {
       document.body.style.overflow = originalOverflow;
     };
-  }, []);
+  }, [subColor]);
 
   if (!subColor) return null; // 선택된 컬러가 없으면 모달 닫기
 
