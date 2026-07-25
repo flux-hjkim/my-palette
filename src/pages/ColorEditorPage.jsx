@@ -11,6 +11,7 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
 
   // 이전 화면 정보가 있으면 그곳으로, 없으면 그룹 상세 페이지로
   const returnTo = location.state?.returnTo ?? `/mypalette/${id}`;
+  const returnMonth = location.state?.returnMonth;
 
   const isEditMode = Boolean(subColorId);
 
@@ -48,7 +49,7 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
   const handleBack = () => {
     if (isEditMode && selectedSubColor) {
       navigate(returnTo, {
-        state: { reopenSubColorId: selectedSubColor.id },
+        state: { reopenSubColorId: selectedSubColor.id, returnMonth },
       });
       return;
     }
@@ -111,7 +112,7 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
       onUpdate(id, savedSubColor);
 
       navigate(returnTo, {
-        state: { reopenSubColorId: savedSubColor.id },
+        state: { reopenSubColorId: savedSubColor.id, returnMonth },
       });
 
       return;

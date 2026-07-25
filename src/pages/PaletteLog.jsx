@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./PaletteLog.css";
 import SubColorModal from "../components/SubColorModal";
 
@@ -22,6 +22,8 @@ function PaletteLog({ colorGroups, onDelete }) {
   const [selectedSubColor, setSelectedSubColor] = useState(null);
 
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   // 전체 컬러를 한 배열로 만들기
   const allSubColors = useMemo(() => {
@@ -59,6 +61,39 @@ function PaletteLog({ colorGroups, onDelete }) {
       setCurrentMonthIndex(sortedMonths.length - 1);
     }
   }, [sortedMonths.length, currentMonthIndex]);
+
+  useEffect(() => {
+    const returnMonth = location.state?.returnMonth;
+    const reopenSubColorId = location.state?.reopenSubColorId;
+
+    if (!returnMonth && !reopenSubColorId) return;
+
+    // Edit 후 원래 보고 있던 달로 리턴
+    if (returnMonth) {
+      const returnMonthIndex = sortedMonths.indexOf(returnMonth);
+
+      if (returnMonthIndex !== -1) {
+        setCurrentMonthIndex(returnMonthIndex);
+      }
+    }
+
+    // Edit 후 모달 재오픈
+    if (reopenSubColorId) {
+      const reopenedSubColor = allSubColors.find(
+        (subColor) => subColor.id === Number(reopenSubColorId),
+      );
+
+      if (reopenedSubColor) {
+        setSelectedSubColor(reopenedSubColor);
+      }
+    }
+
+    navigate(location.pathname, {
+      replace: true,
+      state: null,
+    });
+  }, [location.state, location.pathname, sortedMonths, allSubColors, navigate]);
+
   // 현재 보고 있는 월 값 ("YYYY-MM")
   const currentMonth = sortedMonths[currentMonthIndex] ?? "";
 
@@ -113,6 +148,7 @@ function PaletteLog({ colorGroups, onDelete }) {
     navigate(`/mypalette/${subColor.groupId}/edit/${subColor.id}`, {
       state: {
         returnTo: "/palette-log",
+        returnMonth: currentMonth,
       },
     });
   };

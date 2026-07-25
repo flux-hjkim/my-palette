@@ -17,7 +17,7 @@ function ColorGroupDetail({ colorGroups, onDelete }) {
 
   useEffect(() => {
     const reopenSubColorId = location.state?.reopenSubColorId;
-    console.log("reopenSubColorId", reopenSubColorId);
+
     if (!reopenSubColorId) return;
 
     const targetSubColor = subColors.find(
@@ -27,8 +27,6 @@ function ColorGroupDetail({ colorGroups, onDelete }) {
     if (targetSubColor) {
       setSelectedColor(targetSubColor);
     }
-
-    // navigate(location.pathname, { replace: true, state: null });
   }, [location.state, location.pathname, navigate, subColors]);
 
   if (!selectedGroup) {
