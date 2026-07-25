@@ -397,3 +397,34 @@ Add/Edit 공용 Editor Page에서 동일한 validation 흐름 사용 및 에러 
 
 **Result**  
 스크롤 초기화 책임을 하나의 컴포넌트에서 관리하고, 중복 코드 감소 및 일관된 페이지 이동 동작 유지.
+
+## Planned Improvements
+
+### 모달 재오픈 로직 공통화
+
+- 상태: 예정
+- 대상: ColorGroupDetail, PiecesOfMe, PaletteLog
+- 현재 문제: 각 페이지에서 `reopenSubColorId` 처리 로직이 중복됨
+- 개선 방향: `useReopenSubColor` 커스텀 훅으로 분리
+
+### Palette Log 기록 월 목록 계산 메모이제이션
+
+- 상태: 예정
+- 대상: `PaletteLog`
+- 현재 구조:
+  - `recordedMonths`, `uniqueMonths`, `sortedMonths`를 렌더링마다 새 배열로 생성
+  - `sortedMonths`가 `useEffect` 의존성에 포함되어 있어, 내용이 같아도 새로운 배열 참조로 인식될 수 있음
+
+- 개선 방향:
+  - 기록 월 목록 계산을 `useMemo`로 묶어 `allSubColors`가 변경될 때만 다시 계산
+  - 월 목록 생성, 중복 제거, 정렬 과정을 하나의 파생 데이터 블록으로 정리
+
+```js
+const sortedMonths = useMemo(() => {
+  const recordedMonths = allSubColors.map((subColor) =>
+    subColor.createdAt.slice(0, 7),
+  );
+
+  return [...new Set(recordedMonths)].sort();
+}, [allSubColors]);
+```
