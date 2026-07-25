@@ -18,7 +18,7 @@ MyPalette는 사용자가 자신을 이루는 여러 요소를 색상 카드로 
 
 단순 CRUD 연습을 넘어, 취향과 기억을 색상으로 분류하고 아카이빙하는 감성적 서비스 지향.
 
-v1.0 단계에서는 React 기본기를 바탕으로 핵심 사용자 흐름(User Flow)을 완성하는 데 집중.
+v1.2에서는 핵심 CRUD 흐름과 전체 컬러 통합 보기에 이어 SubColor의 생성 날짜를 활용한 월간 Palette Log 구현.
 
 ---
 
@@ -92,6 +92,17 @@ v1.0의 핵심 목표:
 - 그룹을 선택하여 새로운 컬러 추가 가능
 - 모바일에서는 보조 도구 영역을 접고 펼쳐 스티커 보드에 빠르게 접근
 
+### Palette Log
+
+- 모든 카테고리의 SubColor를 생성 날짜 기준으로 월간 달력에 표시
+- 기록이 존재하는 월만 날짜순으로 탐색
+- 이전·다음 기록 월 이동 및 첫·마지막 월 이동 제한
+- 같은 날짜에 여러 컬러 기록 표시
+- 컬러 원 클릭 시 기존 Detail Modal 재사용
+- Modal에서 수정·삭제 후 달력에 결과 반영
+- 수정 후 기존에 확인하던 기록 월로 복귀
+- 모바일 화면에서도 7열 달력 구조 유지
+
 ### SubColor CRUD
 
 - 카테고리별 SubColor 목록 확인
@@ -126,7 +137,7 @@ v1.0의 핵심 목표:
 
 - SubColor 생성 시 createdAt 생성
 - SubColor 수정 시 기존 createdAt 유지
-- 향후 Palette Log 기능 확장을 고려한 날짜 데이터 구조 준비
+- SubColor의 createdAt을 Palette Log의 월별·날짜별 기록 분류에 사용
 
 ---
 
@@ -253,7 +264,7 @@ npm run dev
 
 ## Current Limitations
 
-- v1.0 기준 데이터는 React state로 관리
+- 현재 데이터는 React state로 관리
 - 새로고침 시 사용자가 추가 / 수정 / 삭제한 데이터 유지 불가
 - 모바일 Editor Page의 세부 반응형 레이아웃 개선 필요
 - 로그인 및 사용자별 데이터 저장 기능 미포함
@@ -261,12 +272,6 @@ npm run dev
 ---
 
 ## Future Improvements
-
-### v1.2
-
-- Palette Log 페이지 추가
-- createdAt 기준 월별 컬러 기록 표시
-- 날짜별 컬러 클릭 시 기존 Detail Modal 재사용
 
 ### v1.3
 
@@ -314,3 +319,11 @@ npm run dev
 ### Color Editor
 
 ![Color Editor](./docs/images/color-editor.png)
+
+### Pieces of Me
+
+![Pieces of Me](./docs/images/pieces-of-me.png)
+
+### Palette Log
+
+![Palette Log](./docs/images/palette-log.png)

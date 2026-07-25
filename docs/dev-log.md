@@ -1112,3 +1112,77 @@
 - 달력 제목을 현재 기록 월에 맞게 표시
 - 기록이 없는 경우의 empty state UI 추가
 - 모바일 화면과 전체 Palette Log 동작 확인
+
+## 2026-07-25
+
+### 오늘 한 일
+
+- Palette Log의 이전·다음 기록 월 이동 기능 구현
+  - `currentMonthIndex`를 기준으로 이전·다음 월 이동
+  - 첫 번째 기록 월에서 이전 버튼 비활성화
+  - 마지막 기록 월에서 다음 버튼 비활성화
+- 현재 기록 월을 월 이름과 연도로 구분하여 표시
+  - `MONTH_NAMES` 배열을 사용해 `JUNE`, `JULY` 형태로 표시
+- 기록이 없을 때 Empty State 표시
+- 기록 삭제 후 `currentMonthIndex`가 배열 범위를 벗어나지 않도록 보정
+- 달력 마지막 주의 남은 빈칸을 채워 7열 구조 완성
+- Palette Log 달력 UI 개선
+  - 요일과 날짜 셀 구분선 추가
+  - 날짜를 두 자리 숫자로 표시
+  - 컬러 원을 스티커 형태로 표현
+  - 하단 감성 문구 추가
+- 모바일 화면 QA 및 레이아웃 수정
+  - 요일 행과 날짜 grid의 열 너비 정렬
+  - `minmax(0, 1fr)`, `box-sizing`, `min-width` 적용
+- 상세 Modal이 열렸을 때 배경 스크롤 방지
+- Modal이 닫혀 있을 때도 body 스크롤이 잠기던 문제 수정
+- Palette Log에서 컬러 수정 후 기존에 보던 달로 복귀하도록 처리
+- 수정한 컬러의 상세 Modal 재오픈 처리
+- 사용한 `location.state`를 제거하여 새로고침 시 Modal이 반복해서 열리는 문제 방지
+- 새로 추가한 컬러가 Palette Log에 표시되지 않는 문제 수정
+  - 시간 정보가 포함된 `createdAt`을 `YYYY-MM-DD` 형식으로 변환
+  - 날짜별 컬러 그룹의 key 형식을 달력의 날짜 key와 통일
+- 12월과 1월 사이의 연도 변경 확인
+- 데스크톱·모바일 Final QA 완료
+- README, requirements, improvements, backlog, v1.2 checklist 문서 정리
+
+### 문제
+
+- 요일 행과 날짜 grid의 셀 너비가 모바일 화면에서 맞지 않았음.
+- 상세 Modal이 닫힌 상태에서도 body의 스크롤이 잠기는 문제가 발생함.
+- 과거 기록 월에서 컬러를 수정하면 가장 최신 달로 돌아감.
+- 수정 후 전달된 navigation state가 남아 새로고침 시 Modal이 다시 열림.
+- 새로 추가한 컬러의 `createdAt`에는 시간이 포함되어 있어 달력의 날짜 key와 일치하지 않았음.
+
+### 해결
+
+- grid 열을 `repeat(7, minmax(0, 1fr))`로 설정하고 셀에 `box-sizing: border-box`와 `min-width: 0`을 적용.
+- `SubColorModal`에서 `subColor`가 있을 때만 body 스크롤을 잠그도록 수정.
+- Edit 화면으로 이동할 때 `returnMonth`를 전달하고, 복귀 후 `indexOf()`로 기존 월의 index를 찾아 복원.
+- 수정한 컬러 id를 `reopenSubColorId`로 전달하고, `find()`로 해당 컬러를 찾아 Modal 재오픈.
+- 복귀 정보를 사용한 뒤 `navigate()`의 `replace: true`, `state: null`로 navigation state 제거.
+- `createdAt.slice(0, 10)`으로 날짜만 추출하고, `groupedSubColors`의 생성과 조회에 동일한 `dateKey` 사용.
+
+### 배운 점
+
+- `indexOf()`는 배열에서 특정 값의 위치를 찾고, 값이 없으면 `-1`을 반환한다.
+- `find()`는 조건에 맞는 첫 번째 배열 요소 하나를 반환한다.
+- React state의 초기값은 컴포넌트가 처음 mount될 때만 적용된다.
+- 페이지를 이동해 컴포넌트가 다시 mount되면 local state도 초기화된다.
+- `navigate()`의 state를 사용하면 페이지 이동 후 필요한 화면 상태를 복원할 수 있다.
+- `replace: true`는 브라우저 기록을 새로 추가하지 않고 현재 기록을 교체한다.
+- 사용이 끝난 navigation state를 제거하지 않으면 새로고침 후에도 다시 처리될 수 있다.
+- 날짜 문자열을 key로 사용할 때는 저장과 조회에 동일한 형식을 사용해야 한다.
+- `YYYY-MM` 문자열은 연도와 월의 자리수가 일정하므로 문자열 정렬로도 날짜순 정렬이 가능하다.
+- `box-sizing`은 부모에 적용했다고 자식 요소에 자동 적용되지 않는다.
+- `minmax(0, 1fr)`와 `min-width: 0`은 grid 내부 콘텐츠 때문에 열 너비가 늘어나는 것을 방지한다.
+- 버그를 찾을 때는 `allSubColors → groupedSubColors → 날짜별 조회 결과` 순서로 콘솔을 확인하면 문제가 발생한 단계를 좁힐 수 있다.
+
+### 다음 할 일
+
+- 남은 문서 수정 및 문서 커밋
+- feature 브랜치를 GitHub에 Push
+- main 브랜치에 Merge 후 Push
+- `v1.2.0` tag와 GitHub Release 생성
+- Release 완료 후 dev-log에 Release 기록 추가
+- Description 200자 입력 시 삭제할 수 없는 버그를 다음 패치에서 수정
