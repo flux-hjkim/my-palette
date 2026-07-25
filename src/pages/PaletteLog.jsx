@@ -88,6 +88,7 @@ function PaletteLog({ colorGroups, onDelete }) {
       }
     }
 
+    // 복귀 정보 삭제
     navigate(location.pathname, {
       replace: true,
       state: null,
@@ -114,11 +115,13 @@ function PaletteLog({ colorGroups, onDelete }) {
 
   const groupedSubColors = useMemo(() => {
     return allSubColors.reduce((groupedByDate, subColor) => {
-      if (!groupedByDate[subColor.createdAt]) {
-        groupedByDate[subColor.createdAt] = [];
+      const dateKey = subColor.createdAt.slice(0, 10);
+
+      if (!groupedByDate[dateKey]) {
+        groupedByDate[dateKey] = [];
       }
 
-      groupedByDate[subColor.createdAt].push(subColor);
+      groupedByDate[dateKey].push(subColor);
 
       return groupedByDate;
     }, {});
