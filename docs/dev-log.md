@@ -1186,3 +1186,9 @@
 - `v1.2.0` tag와 GitHub Release 생성
 - Release 완료 후 dev-log에 Release 기록 추가
 - Description 200자 입력 시 삭제할 수 없는 버그를 다음 패치에서 수정
+
+### Release
+
+- `feat/palette-log-mvp` 브랜치를 `main`에 Merge
+- `v1.2.0` Git tag 생성 및 Push
+- GitHub Release 발행
