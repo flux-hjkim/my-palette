@@ -94,13 +94,19 @@ function PaletteLog({ colorGroups, onDelete }) {
     if (!currentMonth) {
       return []; // 기록이 없을 때 빈 배열 반환
     }
+
     const emptyDays = Array(firstDayOfMonth).fill(null);
+
     const monthDays = Array.from(
       { length: daysInMonth },
       (_, index) => index + 1,
     );
 
-    return [...emptyDays, ...monthDays];
+    const totalDays = emptyDays.length + monthDays.length;
+    const endEmptyCount = (7 - (totalDays % 7)) % 7; // 이미 7칸 단위인 달은 뒤에 빈칸 추가 x
+    const endEmptyDays = Array(endEmptyCount).fill(null);
+
+    return [...emptyDays, ...monthDays, ...endEmptyDays];
   }, [currentMonth, firstDayOfMonth, daysInMonth]); // 이 값들이 변경되면 계산 다시 실행
 
   const handleEdit = (subColor) => {
@@ -151,8 +157,8 @@ function PaletteLog({ colorGroups, onDelete }) {
 
           <section className="palette-log-calendar">
             <div className="palette-log-weekdays">
-              {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
-                <span key={`${day}-${index}`}>{day}</span>
+              {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((day) => (
+                <span key={day}>{day}</span>
               ))}
             </div>
 
@@ -175,7 +181,9 @@ function PaletteLog({ colorGroups, onDelete }) {
                 const colorsForDay = groupedSubColors[dateKey] || [];
                 return (
                   <div key={dateKey} className="palette-log-day">
-                    <span>{day}</span>
+                    <span className="palette-log-day-number">
+                      {String(day).padStart(2, "0")}
+                    </span>
 
                     <div className="palette-log-colors">
                       {colorsForDay.map((subColor) => (
@@ -194,6 +202,10 @@ function PaletteLog({ colorGroups, onDelete }) {
               })}
             </div>
           </section>
+
+          <p className="palette-log-message">
+            Every shade holds a piece of you.
+          </p>
 
           {selectedSubColor && (
             <SubColorModal
