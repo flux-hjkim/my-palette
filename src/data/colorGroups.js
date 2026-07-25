@@ -183,7 +183,7 @@ export const initialColorGroups = [
         color: "#95A35E",
         description: "기준이 흐릿할 때 쉽게 지치고 멈칫하게 돼요.",
         keywords: ["불분명함", "기준", "피로"],
-        createdAt: "2026-07-15",
+        createdAt: "2026-01-15",
       },
       {
         id: 403,
@@ -220,7 +220,7 @@ export const initialColorGroups = [
         color: "#E9DA8C",
         description: "지나온 생각과 감정을 차분히 남기는 사람이 되고 싶어요.",
         keywords: ["기록", "꾸준함", "아카이브"],
-        createdAt: "2026-04-22",
+        createdAt: "2025-12-22",
       },
       {
         id: 503,
@@ -230,7 +230,7 @@ export const initialColorGroups = [
         description:
           "내 취향과 생각이 담긴 화면을 직접 완성해가는 사람이 되고 싶어요.",
         keywords: ["서비스", "창작", "포트폴리오"],
-        createdAt: "2026-04-29",
+        createdAt: "2025-11-29",
       },
     ],
   },
