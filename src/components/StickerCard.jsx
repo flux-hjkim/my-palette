@@ -1,12 +1,34 @@
+import "./StickerCard.css";
+
+function getStickerRotation(index) {
+  const rotations = [-5, 3, -2, 6, -4, 2, 5, -3];
+
+  return rotations[index % rotations.length];
+}
+
+function getStickerOffset(index) {
+  const offsets = [0, 14, -6, 8, -12, 4];
+
+  return offsets[index % offsets.length];
+}
+
+function getStickerFrame(index) {
+  const frames = ["square", "round", "label"];
+
+  return frames[index % frames.length];
+}
+
 function StickerCard({ subColor, index, onSelect }) {
   // 제목 8자 제한
   const getShortText = (title, maxLength) =>
     title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
 
+  const frameType = getStickerFrame(index);
+
   return (
     <button
       type="button"
-      className="piece-sticker"
+      className={`piece-sticker piece-sticker--${frameType}`}
       style={{
         "--piece-color": subColor.color,
         "--piece-rotation": `${getStickerRotation(index)}deg`,
@@ -31,18 +53,6 @@ function StickerCard({ subColor, index, onSelect }) {
       </div>
     </button>
   );
-}
-
-function getStickerRotation(index) {
-  const rotations = [-5, 3, -2, 6, -4, 2, 5, -3];
-
-  return rotations[index % rotations.length];
-}
-
-function getStickerOffset(index) {
-  const offsets = [0, 14, -6, 8, -12, 4];
-
-  return offsets[index % offsets.length];
 }
 
 export default StickerCard;
