@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 import "./StickerCard.css";
 
 function getStickerRotation(index) {
@@ -12,6 +13,18 @@ function getStickerOffset(index) {
   return offsets[index % offsets.length];
 }
 
+function getStickerXOffset(index) {
+  const offsets = [-18, 14, -8, 20, -14, 10];
+
+  return offsets[index % offsets.length];
+}
+
+function getStickerScale(index) {
+  const scales = [1, 0.9, 1.05, 0.95, 1.02];
+
+  return scales[index % scales.length];
+}
+
 function getStickerFrame(index) {
   const frames = ["square", "round", "label"];
 
@@ -24,15 +37,36 @@ function StickerCard({ subColor, index, onSelect }) {
     title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
 
   const frameType = getStickerFrame(index);
+  const rotation = getStickerRotation(index);
+  const yOffset = getStickerOffset(index);
+  const xOffset = getStickerXOffset(index);
+  const stickerScale = getStickerScale(index);
 
   return (
-    <button
+    <motion.button
       type="button"
       className={`piece-sticker piece-sticker--${frameType}`}
       style={{
         "--piece-color": subColor.color,
-        "--piece-rotation": `${getStickerRotation(index)}deg`,
-        "--piece-offset": `${getStickerOffset(index)}px`,
+      }}
+      animate={{
+        x: xOffset,
+        y: yOffset,
+        rotate: rotation,
+        scale: stickerScale,
+      }}
+      whileHover={{
+        rotate: rotation + 2,
+        scale: stickerScale * 1.08,
+      }}
+      whileTap={{
+        rotate: rotation - 2,
+        scale: stickerScale * 0.96,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 320,
+        damping: 22,
       }}
       onClick={() => onSelect(subColor)}
     >
@@ -51,7 +85,7 @@ function StickerCard({ subColor, index, onSelect }) {
           ))}
         </div>
       </div>
-    </button>
+    </motion.button>
   );
 }
 
