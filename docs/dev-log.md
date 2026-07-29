@@ -1192,3 +1192,48 @@
 - `feat/palette-log-mvp` 브랜치를 `main`에 Merge
 - `v1.2.0` Git tag 생성 및 Push
 - GitHub Release 발행
+
+## 2026-07-27
+
+### 오늘 한 일
+
+- MyPalette v1.3 작업 범위 확장
+  - Pieces of Me UI 고도화뿐 아니라 Palette Log UI 고도화도 v1.3 범위에 포함
+- `v1.3-checklist.md` 초안 작성
+- Pieces of Me의 스티커 UI를 `StickerCard` 컴포넌트로 분리
+- Motion for React 설치 및 적용
+  - 일반 button을 `motion.button`으로 변경
+  - `animate`로 기본 회전과 크기 유지
+  - `whileHover`로 확대와 추가 회전 적용
+  - `whileTap`으로 클릭·터치 피드백 적용
+- 모바일 탭 후 스티커 잔상이 남는 문제 수정
+  - `-webkit-tap-highlight-color: transparent` 적용
+  - 키보드 접근성을 위해 `:focus-visible` 스타일 유지
+- Pieces of Me Board를 grid 목록에서 absolute 기반 콜라주 형태로 변경
+- 스티커 frame을 stamp, round, plaque, ticket 형태로 확장 시도
+
+### 문제
+
+- 모바일에서 스티커를 터치한 뒤 버튼 모양의 하이라이트 잔상이 남음.
+
+### 해결
+
+- 모바일 탭 하이라이트를 제거하고 `:focus-visible`에서만 outline 표시.
+
+### 배운 점
+
+- `index % 배열.length`를 사용하면 회전, 크기, frame type 패턴을 반복할 수 있다.
+- Motion을 사용할 때는 기본 상태도 `animate`에서 관리하면 hover와 tap 상태 전환이 안정적이다.
+- `whileHover`는 hover 상태, `whileTap`은 클릭하거나 터치해 누르는 동안의 상태를 제어한다.
+
+### 다음 할 일
+
+- `layoutGroup`, `groupOffset` 기반 세로 확장 방식 제거
+- Board 높이를 고정하고 모든 스티커를 같은 영역 안에 촘촘히 중첩
+- 데이터가 늘어날수록 Board가 길어지지 않고 스티커 밀도가 높아지도록 수정
+- Motion의 `drag`, `dragConstraints`, `dragMomentum` 검토 및 적용
+- 드래그한 스티커를 위로 올려 아래에 가려진 스티커를 확인할 수 있도록 구현
+- 클릭과 드래그가 충돌하지 않는지 확인
+- 스티커 frame과 내부 장식 디자인 재조정
+- Sidebar 버튼과 Select 디자인 마무리
+- Pieces of Me 완료 후 Palette Log UI 고도화 진행
