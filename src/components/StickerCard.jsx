@@ -1,34 +1,10 @@
+import { useMemo } from "react";
 import { motion } from "motion/react";
+import { STICKER_PRESETS } from "../data/stickerPresets.js";
 import "./StickerCard.css";
 
-function getStickerRotation(index) {
-  const rotations = [-5, 3, -2, 6, -4, 2, 5, -3];
-
-  return rotations[index % rotations.length];
-}
-
-function getStickerOffset(index) {
-  const offsets = [0, 14, -6, 8, -12, 4];
-
-  return offsets[index % offsets.length];
-}
-
-function getStickerXOffset(index) {
-  const offsets = [-18, 14, -8, 20, -14, 10];
-
-  return offsets[index % offsets.length];
-}
-
-function getStickerScale(index) {
-  const scales = [1, 0.9, 1.05, 0.95, 1.02];
-
-  return scales[index % scales.length];
-}
-
-function getStickerFrame(index) {
-  const frames = ["square", "round", "label"];
-
-  return frames[index % frames.length];
+function getRandomNumber(min, max) {
+  return Math.random() * (max - min) + min; // min 이상 max 미만 범위의 숫자
 }
 
 function StickerCard({ subColor, index, onSelect }) {
@@ -36,11 +12,23 @@ function StickerCard({ subColor, index, onSelect }) {
   const getShortText = (title, maxLength) =>
     title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
 
-  const frameType = getStickerFrame(index);
-  const rotation = getStickerRotation(index);
-  const yOffset = getStickerOffset(index);
-  const xOffset = getStickerXOffset(index);
-  const stickerScale = getStickerScale(index);
+  const preset = STICKER_PRESETS[index % STICKER_PRESETS.length];
+
+  // 렌더링될 때마다 새 랜덤값이 생기지 않도록 useMemo 사용
+  const randomStyle = useMemo(() => {
+    return {
+      rotation: getRandomNumber(preset.minRotation, preset.maxRotation),
+      width: getRandomNumber(preset.minWidth, preset.maxWidth),
+      left: getRandomNumber(15, 85),
+      top: getRandomNumber(10, 80),
+    };
+  }, [preset]);
+
+  const frameType = preset.frame;
+  const rotation = randomStyle.rotation;
+  const stickerWidth = randomStyle.width;
+  const left = randomStyle.left;
+  const top = randomStyle.top;
 
   return (
     <motion.button
@@ -48,20 +36,22 @@ function StickerCard({ subColor, index, onSelect }) {
       className={`piece-sticker piece-sticker--${frameType}`}
       style={{
         "--piece-color": subColor.color,
+        left: `${left}%`,
+        top: `${top}%`,
+        width: `${stickerWidth}px`,
+        marginLeft: `${stickerWidth / -2}px`,
       }}
       animate={{
-        x: xOffset,
-        y: yOffset,
         rotate: rotation,
-        scale: stickerScale,
+        scale: 1,
       }}
       whileHover={{
-        rotate: rotation + 2,
-        scale: stickerScale * 1.08,
+        rotate: rotation + 3,
+        scale: 1.08,
       }}
       whileTap={{
         rotate: rotation - 2,
-        scale: stickerScale * 0.96,
+        scale: 0.96,
       }}
       transition={{
         type: "spring",

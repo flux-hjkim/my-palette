@@ -1,17 +1,44 @@
 .pieces-of-me-page {
   display: grid;
-  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.6fr);
-  min-height: calc(100vh - var(--navbar-height, 0px));
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+  gap: 0;
+  align-items: stretch;
 }
 
 .pieces-of-me-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-  padding: 72px 48px;
-  border-right: 1px solid currentColor;
+  padding: 0;
+  border-right: 1px solid rgba(64, 54, 45, 0.25);
 }
 
+.pieces-of-me-sidebar-inner {
+  width: min(100%, 320px);
+}
+
+.pieces-of-me-intro {
+  text-align: left;
+}
+
+.pieces-of-me-eyebrow {
+  margin: 0 0 32px;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.pieces-of-me-intro h1 {
+  margin: 0 0 24px;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.pieces-of-me-description {
+  max-width: 180px;
+  margin: 0 0 32px;
+  font-size: 14px;
+  line-height: 1.8;
+}
 .pieces-of-me-tools-toggle {
   display: none;
 }
@@ -22,29 +49,10 @@
   gap: 48px;
 }
 
-.pieces-of-me-eyebrow,
-.pieces-of-me-section-title {
-  margin: 0 0 16px;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-}
-
-.pieces-of-me-intro h1 {
-  max-width: 420px;
-  margin: 0;
-  font-size: clamp(2rem, 4vw, 4rem);
-  line-height: 0.95;
-}
-
-.pieces-of-me-description {
-  max-width: 360px;
-  margin-top: 24px;
-  line-height: 1.7;
-}
-
 .pieces-of-me-add {
+  width: 240px;
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .pieces-of-me-add label {
@@ -54,9 +62,57 @@
 .pieces-of-me-add select,
 .pieces-of-me-add button {
   width: 100%;
-  min-height: 44px;
-  padding: 0 14px;
-  font: inherit;
+  min-height: 38px;
+  font-size: 13px;
+}
+
+.pieces-of-me-add select {
+  padding: 0 28px 0 0;
+
+  border: 0;
+  border-bottom: 1px solid rgba(64, 54, 45, 0.45);
+  border-radius: 0;
+  outline: 0;
+  box-shadow: none;
+
+  background-color: transparent;
+  color: inherit;
+
+  cursor: pointer;
+}
+
+.pieces-of-me-add button {
+  padding: 0 16px;
+  border: 1px solid rgba(64, 54, 45, 0.65);
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.pieces-of-me-add button:hover {
+  background: #3f3731;
+  color: #f7f1e5;
+}
+
+.pieces-of-me-add select:focus,
+.pieces-of-me-add select:focus-visible {
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+}
+
+.pieces-of-me-add button:focus-visible {
+  outline: 2px solid rgba(64, 54, 45, 0.75);
+  outline-offset: 3px;
+}
+
+.pieces-of-me-stats {
+  width: 220px;
 }
 
 .pieces-of-me-stats ul {
@@ -94,13 +150,18 @@
 @media (max-width: 768px) {
   .pieces-of-me-page {
     grid-template-columns: 1fr;
+    gap: 48px;
   }
 
-  .pieces-of-me-sidebar {
-    gap: 32px;
-    padding: 40px 24px;
-    border-right: none;
-    border-bottom: 1px solid currentColor;
+  .pieces-of-me-intro,
+  .pieces-of-me-add,
+  .pieces-of-me-stats {
+    text-align: left;
+  }
+
+  .pieces-of-me-description {
+    max-width: none;
+    margin-inline: auto;
   }
 
   .pieces-of-me-tools-toggle {

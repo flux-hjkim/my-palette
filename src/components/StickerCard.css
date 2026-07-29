@@ -1,4 +1,4 @@
-.pieces-of-me-board {
+/* .pieces-of-me-board {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   align-content: center;
@@ -7,11 +7,22 @@
   padding: 64px;
   overflow: hidden;
   background: #d8cfb8;
+} */
+.pieces-of-me-board {
+  position: relative;
+
+  min-width: 0;
+  min-height: 760px;
+  padding: 40px;
+
+  overflow: hidden;
+  background: #d8cfb8;
 }
 
 .piece-sticker {
-  position: relative;
-  aspect-ratio: 1.25 / 1;
+  position: absolute;
+  z-index: 1;
+
   padding: 18px;
   border: 2px solid rgba(255, 255, 255, 0.55);
   background: var(--piece-color);
@@ -21,13 +32,13 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.piece-sticker::before {
+/* .piece-sticker::before {
   position: absolute;
   inset: 5px;
   border: 1px dashed currentColor;
   content: "";
   pointer-events: none;
-}
+} */
 
 .piece-sticker:focus {
   outline: none;
@@ -84,17 +95,57 @@
   gap: 4px;
   flex-wrap: wrap;
 }
+.piece-sticker--stamp {
+  aspect-ratio: 1 / 1;
+  border-radius: 3px;
 
-.piece-sticker--square {
-  border-radius: 8px;
+  clip-path: polygon(
+    5% 0,
+    95% 0,
+    95% 4%,
+    100% 4%,
+    100% 96%,
+    95% 96%,
+    95% 100%,
+    5% 100%,
+    5% 96%,
+    0 96%,
+    0 4%,
+    5% 4%
+  );
 }
 
 .piece-sticker--round {
-  border-radius: 50%;
   aspect-ratio: 1 / 1;
+  border-radius: 50%;
 }
 
-.piece-sticker--label {
-  aspect-ratio: 1.8 / 1;
+.piece-sticker--plaque {
+  aspect-ratio: 2.1 / 1;
   border-radius: 999px;
+}
+
+.piece-sticker--ticket {
+  aspect-ratio: 1.55 / 1;
+  border-radius: 5px;
+
+  clip-path: polygon(
+    7% 0,
+    93% 0,
+    100% 10%,
+    100% 90%,
+    93% 100%,
+    7% 100%,
+    0 90%,
+    0 10%
+  );
+}
+
+.piece-sticker--round::before,
+.piece-sticker--plaque::before {
+  border-radius: inherit;
+}
+
+.piece-sticker--ticket::before {
+  border-radius: 3px;
 }

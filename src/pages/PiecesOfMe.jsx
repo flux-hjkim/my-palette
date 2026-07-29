@@ -62,93 +62,97 @@ function PiecesOfMe({ colorGroups, onDelete }) {
   };
 
   return (
-    <main className="pieces-of-me-page page-container">
-      <aside className="pieces-of-me-sidebar">
-        <div className="pieces-of-me-intro">
-          <p className="pieces-of-me-eyebrow">PIECES OF ME</p>
+    <main className="page-container">
+      <section className="pieces-of-me-page">
+        <aside className="pieces-of-me-sidebar">
+          <div className="pieces-of-me-sidebar-inner">
+            <div className="pieces-of-me-intro">
+              <p className="pieces-of-me-eyebrow">PIECES OF ME</p>
 
-          <h1>What color feels most like you today?</h1>
+              <h1>What color feels most like you today?</h1>
 
-          <p className="pieces-of-me-description">
-            작은 취향과 기억이 모여 지금의 나를 만듭니다.
-          </p>
-        </div>
+              <p className="pieces-of-me-description">
+                작은 취향과 기억이 모여 지금의 나를 만듭니다.
+              </p>
+            </div>
 
-        <button
-          type="button"
-          className="pieces-of-me-tools-toggle"
-          aria-expanded={isToolsOpen}
-          aria-controls="pieces-of-me-tools"
-          onClick={() => setIsToolsOpen((prev) => !prev)}
-        >
-          ADD COLOR & VIEW BALANCE
-        </button>
-
-        <div
-          id="pieces-of-me-tools"
-          className={`pieces-of-me-tools ${isToolsOpen ? "is-open" : ""}`}
-        >
-          <div className="pieces-of-me-add">
-            <label htmlFor="pieces-group-select">
-              Where does this color belong?
-            </label>
-
-            <select
-              id="pieces-group-select"
-              value={selectedGroupId}
-              onChange={(event) => setSelectedGroupId(event.target.value)}
+            <button
+              type="button"
+              className="pieces-of-me-tools-toggle"
+              aria-expanded={isToolsOpen}
+              aria-controls="pieces-of-me-tools"
+              onClick={() => setIsToolsOpen((prev) => !prev)}
             >
-              {colorGroups.map((group) => (
-                <option key={group.id} value={String(group.id)}>
-                  {group.groupName}
-                </option>
-              ))}
-            </select>
-
-            <button type="button" onClick={handleAddColor}>
-              ADD A NEW COLOR
+              ADD COLOR & VIEW BALANCE
             </button>
+
+            <div
+              id="pieces-of-me-tools"
+              className={`pieces-of-me-tools ${isToolsOpen ? "is-open" : ""}`}
+            >
+              <div className="pieces-of-me-add">
+                <label htmlFor="pieces-group-select">
+                  Where does this color belong?
+                </label>
+
+                <select
+                  id="pieces-group-select"
+                  value={selectedGroupId}
+                  onChange={(event) => setSelectedGroupId(event.target.value)}
+                >
+                  {colorGroups.map((group) => (
+                    <option key={group.id} value={String(group.id)}>
+                      {group.groupName}
+                    </option>
+                  ))}
+                </select>
+
+                <button type="button" onClick={handleAddColor}>
+                  ADD A NEW COLOR
+                </button>
+              </div>
+
+              <section className="pieces-of-me-stats">
+                <p className="pieces-of-me-section-title">YOUR COLOR BALANCE</p>
+
+                <ul>
+                  {groupCounts.map((group) => (
+                    <li key={group.id} className="pieces-of-me-stat">
+                      <div className="pieces-of-me-stat-info">
+                        <span>{group.name}</span>
+                        <span>{group.count}</span>
+                      </div>
+
+                      <div className="pieces-of-me-stat-track">
+                        <div
+                          className="pieces-of-me-stat-bar"
+                          style={{
+                            width: `${(group.count / maxCount) * 100}%`,
+                          }}
+                        />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            </div>
           </div>
+        </aside>
 
-          <section className="pieces-of-me-stats">
-            <p className="pieces-of-me-section-title">YOUR COLOR BALANCE</p>
+        <section className="pieces-of-me-board">
+          {allSubColors.map((subColor, index) => (
+            <StickerCard
+              key={`${subColor.groupId}-${subColor.id}`}
+              subColor={subColor}
+              index={index}
+              onSelect={setSelectedSubColor}
+            />
+          ))}
 
-            <ul>
-              {groupCounts.map((group) => (
-                <li key={group.id} className="pieces-of-me-stat">
-                  <div className="pieces-of-me-stat-info">
-                    <span>{group.name}</span>
-                    <span>{group.count}</span>
-                  </div>
-
-                  <div className="pieces-of-me-stat-track">
-                    <div
-                      className="pieces-of-me-stat-bar"
-                      style={{
-                        width: `${(group.count / maxCount) * 100}%`,
-                      }}
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
-      </aside>
-
-      <section className="pieces-of-me-board">
-        {allSubColors.map((subColor, index) => (
-          <StickerCard
-            key={`${subColor.groupId}-${subColor.id}`}
-            subColor={subColor}
-            index={index}
-            onSelect={setSelectedSubColor}
-          />
-        ))}
-
-        {allSubColors.length === 0 && (
-          <p className="pieces-of-me-empty">Your colors will gather here.</p>
-        )}
+          {allSubColors.length === 0 && (
+            <p className="pieces-of-me-empty">Your colors will gather here.</p>
+          )}
+        </section>
       </section>
 
       <SubColorModal
