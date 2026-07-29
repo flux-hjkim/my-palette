@@ -17,6 +17,13 @@ function PiecesOfMe({ colorGroups, onDelete }) {
 
   const boardRef = useRef(null);
 
+  const topZIndexRef = useRef(1);
+  const getNextZIndex = () => {
+    topZIndexRef.current += 1;
+
+    return topZIndexRef.current;
+  };
+
   // subColors에 그룹 정보 추가
   const allSubColors = useMemo(
     () =>
@@ -141,14 +148,20 @@ function PiecesOfMe({ colorGroups, onDelete }) {
           </div>
         </aside>
 
-        <section ref={boardRef} className="pieces-of-me-board">
+        <section
+          ref={boardRef}
+          className={`pieces-of-me-board ${
+            selectedSubColor ? "pieces-of-me-board--modal-open" : ""
+          }`}
+        >
           {allSubColors.map((subColor, index) => (
             <StickerCard
               key={`${subColor.groupId}-${subColor.id}`}
               subColor={subColor}
               index={index}
               onSelect={setSelectedSubColor}
-              constraintsRef={boardRef}
+              constraintsRef={boardRef} // 드래그 제한 기준
+              getNextZIndex={getNextZIndex}
             />
           ))}
 

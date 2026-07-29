@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { STICKER_PRESETS } from "../data/stickerPresets.js";
 import "./StickerCard.css";
@@ -7,10 +7,17 @@ function getRandomNumber(min, max) {
   return Math.random() * (max - min) + min; // min 이상 max 미만 범위의 숫자
 }
 
-function StickerCard({ subColor, index, onSelect, constraintsRef }) {
-  // 제목 8자 제한
-  const getShortText = (title, maxLength) =>
-    title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
+function StickerCard({
+  subColor,
+  index,
+  onSelect,
+  constraintsRef,
+  getNextZIndex,
+}) {
+  // 각 스티커가 자신의 현재 층을 기억하는 state
+  const [zIndex, setZIndex] = useState(1);
+  // hover 여부 state
+  const [isHovered, setIsHovered] = useState(false);
 
   const preset = STICKER_PRESETS[index % STICKER_PRESETS.length];
 
@@ -32,6 +39,15 @@ function StickerCard({ subColor, index, onSelect, constraintsRef }) {
 
   const wasDragged = useRef(false);
 
+  // 원형 스티커 전용 데이터
+  const roundTopPathId = `round-top-${subColor.id}`;
+  const roundBottomPathId = `round-bottom-${subColor.id}`;
+
+  const keywordText = subColor.keywords
+    .slice(0, 2)
+    .map((keyword) => `#${keyword}`)
+    .join("  ");
+
   return (
     <motion.button
       drag
@@ -47,10 +63,12 @@ function StickerCard({ subColor, index, onSelect, constraintsRef }) {
       className={`piece-sticker piece-sticker--${frameType}`}
       style={{
         "--piece-color": subColor.color,
+        "--sticker-width": `${stickerWidth}px`,
         left: `${left}%`,
         top: `${top}%`,
         width: `${stickerWidth}px`,
         marginLeft: `${stickerWidth / -2}px`,
+        zIndex: isHovered ? 9999 : zIndex,
       }}
       animate={{
         rotate: rotation,
@@ -69,8 +87,16 @@ function StickerCard({ subColor, index, onSelect, constraintsRef }) {
         stiffness: 320,
         damping: 22,
       }}
+      onHoverStart={() => {
+        setIsHovered(true);
+      }}
+      onHoverEnd={() => {
+        setIsHovered(false);
+      }}
       onDragStart={() => {
         wasDragged.current = true;
+        setIsHovered(false);
+        setZIndex(getNextZIndex());
       }}
       onDragEnd={() => {
         setTimeout(() => {
@@ -80,24 +106,65 @@ function StickerCard({ subColor, index, onSelect, constraintsRef }) {
       onClick={() => {
         if (wasDragged.current) return;
 
+        setIsHovered(false);
         onSelect(subColor);
       }}
     >
       <span className="piece-sticker-color-name">{subColor.colorName}</span>
 
-      <div className="piece-sticker-info">
-        <span className="piece-sticker-category">{subColor.groupName}</span>
-        <span className="piece-sticker-title">
-          {getShortText(subColor.name, 8)}
-        </span>
-        <div className="piece-sticker-keywords">
-          {subColor.keywords.slice(0, 2).map((keyword) => (
-            <span key={keyword} className="piece-sticker-keyword">
-              #{keyword}
-            </span>
-          ))}
+      {frameType === "round" ? (
+        <div className="piece-sticker-info piece-sticker-info--round">
+          <svg
+            className="piece-sticker-round-svg"
+            viewBox="0 0 100 100"
+            aria-hidden="true"
+          >
+            <defs>
+              <path id={roundTopPathId} d="M 8 50 A 42 42 0 0 1 92 50" />
+
+              <path id={roundBottomPathId} d="M 8 50 A 42 42 0 0 0 92 50" />
+            </defs>
+
+            <text className="piece-sticker-round-category" dy="4">
+              <textPath
+                href={`#${roundTopPathId}`}
+                startOffset="50%"
+                textAnchor="middle"
+              >
+                {subColor.groupName.toUpperCase()}
+              </textPath>
+            </text>
+
+            <text className="piece-sticker-round-keywords">
+              <textPath
+                href={`#${roundBottomPathId}`}
+                startOffset="50%"
+                textAnchor="middle"
+              >
+                {keywordText}
+              </textPath>
+            </text>
+          </svg>
+
+          <span className="piece-sticker-title piece-sticker-round-title">
+            {subColor.name}
+          </span>
         </div>
-      </div>
+      ) : (
+        <div className={`piece-sticker-info piece-sticker-info--${frameType}`}>
+          <span className="piece-sticker-category">{subColor.groupName}</span>
+
+          <span className="piece-sticker-title">{subColor.name}</span>
+
+          <div className="piece-sticker-keywords">
+            {subColor.keywords.slice(0, 2).map((keyword) => (
+              <span key={keyword} className="piece-sticker-keyword">
+                #{keyword}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
     </motion.button>
   );
 }
