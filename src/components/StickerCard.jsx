@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { motion } from "motion/react";
 import { STICKER_PRESETS } from "../data/stickerPresets.js";
 import "./StickerCard.css";
@@ -7,7 +7,7 @@ function getRandomNumber(min, max) {
   return Math.random() * (max - min) + min; // min 이상 max 미만 범위의 숫자
 }
 
-function StickerCard({ subColor, index, onSelect }) {
+function StickerCard({ subColor, index, onSelect, constraintsRef }) {
   // 제목 8자 제한
   const getShortText = (title, maxLength) =>
     title.length > maxLength ? title.slice(0, maxLength) + "..." : title;
@@ -30,8 +30,19 @@ function StickerCard({ subColor, index, onSelect }) {
   const left = randomStyle.left;
   const top = randomStyle.top;
 
+  const wasDragged = useRef(false);
+
   return (
     <motion.button
+      drag
+      dragConstraints={constraintsRef}
+      dragMomentum
+      dragTransition={{
+        power: 0.05,
+        timeConstant: 180,
+        bounceStiffness: 500,
+        bounceDamping: 30,
+      }}
       type="button"
       className={`piece-sticker piece-sticker--${frameType}`}
       style={{
@@ -58,7 +69,19 @@ function StickerCard({ subColor, index, onSelect }) {
         stiffness: 320,
         damping: 22,
       }}
-      onClick={() => onSelect(subColor)}
+      onDragStart={() => {
+        wasDragged.current = true;
+      }}
+      onDragEnd={() => {
+        setTimeout(() => {
+          wasDragged.current = false;
+        }, 0);
+      }}
+      onClick={() => {
+        if (wasDragged.current) return;
+
+        onSelect(subColor);
+      }}
     >
       <span className="piece-sticker-color-name">{subColor.colorName}</span>
 

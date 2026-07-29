@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./PiecesOfMe.css";
 import SubColorModal from "../components/SubColorModal";
@@ -14,6 +14,8 @@ function PiecesOfMe({ colorGroups, onDelete }) {
   const [selectedSubColor, setSelectedSubColor] = useState(null);
 
   const [isToolsOpen, setIsToolsOpen] = useState(false);
+
+  const boardRef = useRef(null);
 
   // subColors에 그룹 정보 추가
   const allSubColors = useMemo(
@@ -139,13 +141,14 @@ function PiecesOfMe({ colorGroups, onDelete }) {
           </div>
         </aside>
 
-        <section className="pieces-of-me-board">
+        <section ref={boardRef} className="pieces-of-me-board">
           {allSubColors.map((subColor, index) => (
             <StickerCard
               key={`${subColor.groupId}-${subColor.id}`}
               subColor={subColor}
               index={index}
               onSelect={setSelectedSubColor}
+              constraintsRef={boardRef}
             />
           ))}
 
