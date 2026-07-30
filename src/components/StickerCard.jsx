@@ -13,7 +13,9 @@ function StickerCard({
   onSelect,
   constraintsRef,
   getNextZIndex,
+  mode = "board",
 }) {
+  const isCalendar = mode === "calendar";
   // 각 스티커가 자신의 현재 층을 기억하는 state
   const [zIndex, setZIndex] = useState(1);
   // hover 여부 state
@@ -48,20 +50,12 @@ function StickerCard({
     .map((keyword) => `#${keyword}`)
     .join("  ");
 
-  return (
-    <motion.button
-      drag
-      dragConstraints={constraintsRef}
-      dragMomentum
-      dragTransition={{
-        power: 0.05,
-        timeConstant: 180,
-        bounceStiffness: 500,
-        bounceDamping: 30,
-      }}
-      type="button"
-      className={`piece-sticker piece-sticker--${frameType}`}
-      style={{
+  // 페이지별 스타일 분리
+  const stickerStyle = isCalendar
+    ? {
+        "--piece-color": subColor.color,
+      }
+    : {
         "--piece-color": subColor.color,
         "--sticker-width": `${stickerWidth}px`,
         left: `${left}%`,
@@ -69,17 +63,34 @@ function StickerCard({
         width: `${stickerWidth}px`,
         marginLeft: `${stickerWidth / -2}px`,
         zIndex: isHovered ? 9999 : zIndex,
+      };
+
+  return (
+    <motion.button
+      drag={!isCalendar}
+      dragConstraints={isCalendar ? undefined : constraintsRef}
+      dragMomentum={!isCalendar}
+      dragTransition={{
+        power: 0.05,
+        timeConstant: 180,
+        bounceStiffness: 500,
+        bounceDamping: 30,
       }}
+      type="button"
+      className={`piece-sticker piece-sticker--${frameType} ${
+        isCalendar ? "piece-sticker--calendar" : ""
+      }`}
+      style={stickerStyle}
       animate={{
-        rotate: rotation,
+        rotate: isCalendar ? 0 : rotation,
         scale: 1,
       }}
       whileHover={{
-        rotate: rotation + 3,
+        rotate: isCalendar ? 0 : rotation + 3,
         scale: 1.08,
       }}
       whileTap={{
-        rotate: rotation - 2,
+        rotate: isCalendar ? 0 : rotation - 2,
         scale: 0.96,
       }}
       transition={{
@@ -94,11 +105,15 @@ function StickerCard({
         setIsHovered(false);
       }}
       onDragStart={() => {
+        if (isCalendar) return;
+
         wasDragged.current = true;
         setIsHovered(false);
         setZIndex(getNextZIndex());
       }}
       onDragEnd={() => {
+        if (isCalendar) return;
+
         setTimeout(() => {
           wasDragged.current = false;
         }, 0);
@@ -111,6 +126,14 @@ function StickerCard({
       }}
     >
       <span className="piece-sticker-color-name">{subColor.colorName}</span>
+
+      {isCalendar && (
+        <span className="piece-sticker-calendar-title">
+          {subColor.name.length > 8
+            ? `${subColor.name.slice(0, 8)}…`
+            : subColor.name}
+        </span>
+      )}
 
       {frameType === "round" ? (
         <div className="piece-sticker-info piece-sticker-info--round">

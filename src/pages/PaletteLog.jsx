@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./PaletteLog.css";
 import SubColorModal from "../components/SubColorModal";
+import StickerCard from "../components/StickerCard";
+import PaletteLogDay from "../components/PaletteLogDay";
 
 const MONTH_NAMES = [
   "JANUARY",
@@ -219,24 +221,14 @@ function PaletteLog({ colorGroups, onDelete }) {
 
                 const colorsForDay = groupedSubColors[dateKey] || [];
                 return (
-                  <div key={dateKey} className="palette-log-day">
-                    <span className="palette-log-day-number">
-                      {String(day).padStart(2, "0")}
-                    </span>
-
-                    <div className="palette-log-colors">
-                      {colorsForDay.map((subColor) => (
-                        <button
-                          key={`${subColor.groupId}-${subColor.id}`}
-                          type="button"
-                          className="palette-log-color"
-                          style={{ backgroundColor: subColor.color }}
-                          aria-label={`${subColor.name} 상세 보기`}
-                          onClick={() => setSelectedSubColor(subColor)}
-                        />
-                      ))}
-                    </div>
-                  </div>
+                  <PaletteLogDay
+                    key={dateKey}
+                    day={day}
+                    dateKey={dateKey}
+                    colorsForDay={colorsForDay}
+                    allSubColors={allSubColors}
+                    onSelect={setSelectedSubColor}
+                  />
                 );
               })}
             </div>
