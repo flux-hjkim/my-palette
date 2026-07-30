@@ -1,3 +1,4 @@
+/* Board */
 .pieces-of-me-board {
   position: relative;
 
@@ -9,6 +10,7 @@
   background: #d8cfb8;
 }
 
+/* Sticker base */
 .piece-sticker {
   --sticker-border-color: #f1ead8;
 
@@ -34,10 +36,7 @@
   outline-offset: 4px;
 }
 
-.piece-sticker:hover {
-  box-shadow: 0 14px 24px rgba(0, 0, 0, 0.2);
-}
-
+/* 공통 콘텐츠 */
 .piece-sticker-color-name,
 .piece-sticker-info {
   position: absolute;
@@ -63,16 +62,6 @@
   transform: translateY(6px);
 }
 
-.piece-sticker:hover .piece-sticker-color-name {
-  opacity: 0;
-  transform: translateY(-6px);
-}
-
-.piece-sticker:hover .piece-sticker-info {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .piece-sticker-title {
   display: block;
   width: 100%;
@@ -90,6 +79,8 @@
   gap: 4px;
   flex-wrap: wrap;
 }
+
+/* 프레임 형태 */
 .piece-sticker--stamp {
   aspect-ratio: 1 / 1;
   border-radius: 3px;
@@ -136,6 +127,7 @@
   );
 }
 
+/* 프레임 외곽선 처리 */
 .piece-sticker--stamp,
 .piece-sticker--ticket {
   border: 0;
@@ -182,6 +174,7 @@
     0 10%
   );
 }
+
 /* 스티커 프리셋 */
 /* stamp */
 .piece-sticker-info--stamp {
@@ -207,6 +200,70 @@
   font-size: clamp(9px, calc(var(--sticker-width) * 0.08), 13px);
   line-height: 1;
   letter-spacing: 0.01em;
+}
+
+/* round */
+.piece-sticker-info--round {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+}
+
+.piece-sticker-round-svg {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: visible;
+  pointer-events: none;
+}
+
+.piece-sticker-round-category,
+.piece-sticker-round-keywords {
+  fill: currentColor;
+  font-weight: 600;
+}
+
+.piece-sticker-round-category {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+}
+
+.piece-sticker-round-keywords {
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.piece-sticker-round-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+
+  display: -webkit-box;
+  width: 72%;
+  overflow: hidden;
+
+  transform: translate(-50%, -50%);
+
+  white-space: normal;
+  text-overflow: clip;
+  text-align: center;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+
+  font-size: clamp(16px, calc(var(--sticker-width) * 0.135), 22px);
+  line-height: 1.05;
+  font-weight: 600;
+
+  pointer-events: none;
 }
 
 /* plaque */
@@ -273,69 +330,7 @@
   letter-spacing: 0;
 }
 
-/* round */
-.piece-sticker-info--round {
-  display: block;
-  padding: 0;
-  overflow: hidden;
-}
-
-.piece-sticker-round-svg {
-  position: absolute;
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  overflow: visible;
-  pointer-events: none;
-}
-
-.piece-sticker-round-category,
-.piece-sticker-round-keywords {
-  fill: currentColor;
-  font-weight: 600;
-}
-
-.piece-sticker-round-category {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 1.1px;
-  text-transform: uppercase;
-}
-
-.piece-sticker-round-keywords {
-  font-size: 8.5px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-}
-
-.piece-sticker-round-title {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-
-  display: -webkit-box;
-  width: 72%;
-  overflow: hidden;
-
-  transform: translate(-50%, -50%);
-
-  white-space: normal;
-  text-overflow: clip;
-  text-align: center;
-
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-
-  font-size: clamp(16px, calc(var(--sticker-width) * 0.135), 22px);
-  line-height: 1.05;
-  font-weight: 600;
-
-  pointer-events: none;
-}
-
+/* hover 미디어 쿼리 */
 @media (hover: hover) and (pointer: fine) {
   .pieces-of-me-board:not(.pieces-of-me-board--modal-open)
     .piece-sticker:hover {
