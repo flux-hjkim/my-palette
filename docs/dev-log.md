@@ -1376,3 +1376,58 @@
 - 다중 기록 점 선택과 대표 스티커 Modal 내용 확인
 - 테스트용 다중 기록 데이터 삭제
 - `v1.3-checklist.md`에서 Palette Log 완료 항목 점검
+
+## 2026-07-31
+
+### 작업 내용
+
+- Palette Log 데스크톱·모바일 최종 QA
+  - 다중 기록 가로 스크롤과 마지막 기록 접근 확인
+  - 컬러 버튼 선택, 대표 스티커 변경, Detail Modal 내용 일치 확인
+  - 월 이동 버튼, 날짜 셀 높이, 마지막 행, 일요일 표시 확인
+- Home, MyPalette, Color Group Detail, Add/Edit/Delete 회귀 테스트
+- QA용 다중 기록 테스트 데이터 삭제
+- `npm run build`로 프로덕션 빌드 성공 확인
+- v1.3 릴리스 문서 정리
+  - `roadmap.md`
+  - `requirements.md`
+  - `improvements.md`
+  - `README.md`
+  - `v1.3-checklist.md`
+- feature 브랜치를 main에 Merge하고 Push
+- `v1.3.0` tag와 GitHub Release 생성
+- v1.0~v1.2 Release note 형식 정리
+
+### 주요 결정
+
+- `requirements.md`에는 핵심 사용자 경험만 기록하고 세부 완료 기준은 체크리스트에서 관리한다.
+- v1.3 체크리스트는 v1.2와 비슷한 수준으로 간소화한다.
+- Release note는 포트폴리오 검토자를 위해 Summary, Key Changes, Why & How, References 구조로 작성한다.
+- 모바일 다중 기록 탐색은 별도 drag 이벤트가 아닌 브라우저 기본 가로 스크롤을 유지한다.
+- 움직임 감소 설정 대응은 이후 접근성 개선 버전으로 이관한다.
+
+### 문제와 해결
+
+- 모바일에서 마지막 컬러 버튼의 활성 외곽선 일부가 잘림
+  - padding, margin, 가상 요소를 확인했으나 해결 범위가 커져 이후 반응형 개선으로 이관
+- v1.3 체크리스트가 구현 과정까지 지나치게 세분화되어 문서 정리에 시간이 오래 걸림
+  - Documents, Git, Release 항목을 v1.2 수준으로 간소화
+- `roadmap.md`의 v1.3 범위가 Pieces of Me에만 한정되어 있었음
+  - Palette Log UI 고도화까지 포함하도록 Goal, Problem, Scope와 완료 기준 수정
+- README에서 v1.3이 Future Improvements로 남아 있었음
+  - 현재 버전 설명과 두 페이지의 주요 개선 내용으로 갱신
+
+### 학습 내용
+
+- `findIndex()`로 현재 SubColor의 전체 배열 위치를 찾을 수 있다.
+- 나머지 연산자 `%`로 index를 제한된 프레임 범위 안에서 반복시킬 수 있다.
+- `reduce()`의 누적값은 최종 결과물의 중간 형태이며, 날짜별 객체를 만들 때 `{}`를 초기값으로 사용한다.
+- 처음 등장한 날짜는 누적 객체에 빈 배열을 만든 뒤 `push()`해야 한다.
+- `npm run build`는 소스 코드를 배포 가능한 산출물로 변환하며 결과는 `dist`에 생성된다.
+- trade-off는 기술 선택으로 얻는 장점과 함께 감수해야 하는 비용을 비교하는 것이다.
+
+### 다음 작업
+
+- v1.5 TypeScript Migration 시작 전 범위와 작업 순서 확인
+- 모바일 양 끝 컬러 버튼 외곽선과 월 이동 버튼 위치는 이후 반응형 개선에서 재검토
+- `prefers-reduced-motion` 접근성 대응은 이후 버전에서 적용
