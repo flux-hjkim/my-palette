@@ -303,6 +303,38 @@ SubColor의 `createdAt`을 기준으로 컬러를 날짜별로 분류하고,
 
 ---
 
+### 19. Pieces of Me 스티커 보드 UI 고도화
+
+**Before**  
+컬러 스티커의 모양과 크기가 비슷하고 일정한 간격으로 배치되어, 컬러 목록처럼 보였음.
+
+**After**  
+4종 프레임과 서로 다른 크기, 위치, 기울기를 적용하고 hover, tap, drag 동작을 추가.
+
+**Reason**  
+컬러마다 형태와 배치에 차이를 주고, 사용자가 스티커의 정보를 확인하거나 직접 위치를 옮길 수 있도록 하기 위함.
+
+**Result**  
+스티커의 모양과 배치가 다양해졌으며, hover로 정보를 확인하고 drag로 위치를 옮길 수 있게 됨.
+
+---
+
+### 20. Palette Log 다중 기록 탐색 UI 개선
+
+**Before**  
+같은 날짜에 기록이 여러 개 있으면 좁은 날짜 셀 안에서 각 컬러를 구분하고 선택하기 어려웠음.
+
+**After**  
+날짜마다 대표 스티커 1개를 표시하고, 같은 날짜의 다른 기록은 작은 컬러 점으로 선택하도록 변경. 모바일에서는 컬러 점 목록을 좌우로 스크롤할 수 있도록 구성.
+
+**Reason**  
+날짜 셀의 크기를 유지하면서 같은 날짜에 저장된 모든 기록을 선택할 수 있게 하기 위함.
+
+**Result**  
+기록이 여러 개여도 날짜 셀의 높이가 변하지 않으며, 사용자가 컬러 점으로 대표 기록을 바꾼 뒤 해당 기록의 상세 Modal을 열 수 있게 됨.
+
+---
+
 ## Technical Decisions
 
 ### 1. preset color 데이터 분리
@@ -474,6 +506,24 @@ Add/Edit 공용 Editor Page에서 동일한 validation 흐름 사용 및 에러 
 **Result**  
 기존 데이터 구조를 유지하면서 월 이동, 날짜별 컬러 표시,
 추가·수정·삭제 결과의 즉시 반영이 가능한 Palette Log 구성.
+
+---
+
+### 14. Motion for React 도입
+
+**Description**  
+`StickerCard`에 Motion for React의 hover, tap, drag 기능을 적용.
+
+**Reason**  
+스티커의 확대, 회전, 누르기, 끌기 동작을 하나의 컴포넌트 안에서 관리하기 위함.
+
+**Trade-off**  
+외부 라이브러리 의존성이 추가되고 페이지마다 필요한 동작을 구분해야 함. Pieces of Me에서만 drag와 rotation을 사용하고, Palette Log에서는 해당 동작을 비활성화.
+
+**Result**  
+Pieces of Me의 스티커 동작을 공통 방식으로 관리하고, Palette Log에서는 달력에 필요한 클릭 동작만 유지.
+
+---
 
 ## Planned Improvements
 

@@ -18,7 +18,7 @@ MyPalette는 사용자가 자신을 이루는 여러 요소를 색상 카드로 
 
 단순 CRUD 연습을 넘어, 취향과 기억을 색상으로 분류하고 아카이빙하는 감성적 서비스 지향.
 
-v1.2에서는 핵심 CRUD 흐름과 전체 컬러 통합 보기에 이어 SubColor의 생성 날짜를 활용한 월간 Palette Log 구현.
+v1.3에서는 Pieces of Me에 4종 스티커 프레임과 hover, tap, drag 인터랙션을 적용하고, Palette Log에 대표 스티커와 컬러 점을 이용한 다중 기록 탐색 UI를 구현.
 
 ---
 
@@ -54,7 +54,7 @@ v1.0의 핵심 목표:
 ### JavaScript
 
 - 배열과 객체 기반 데이터 구조 관리
-- map, filter, find 등을 활용한 CRUD 로직 구현
+- map, filter, find, flatMap, reduce, findIndex를 활용한 CRUD 및 화면용 데이터 재가공
 - Form validation 및 이벤트 처리 구현
 
 ### CSS
@@ -62,6 +62,11 @@ v1.0의 핵심 목표:
 - 별도 UI 라이브러리 없이 직접 레이아웃과 스타일 구성
 - editorial tone의 Home / MyPalette / Detail 화면 설계
 - Modal, Editor Page, Color Picker, Card UI 스타일링
+
+### Motion for React
+
+- Pieces of Me 스티커의 hover, tap, drag 인터랙션 구현
+- StickerCard의 board와 calendar mode에 따라 필요한 동작 분리
 
 ### Vite
 
@@ -85,23 +90,27 @@ v1.0의 핵심 목표:
 
 ### Pieces of Me
 
-- 모든 카테고리의 SubColor를 한 화면에서 모아보기
-- 카테고리별 컬러 개수와 비율 확인
-- 컬러 스티커 hover 시 카테고리, 제목, keyword 표시
-- 컬러 스티커 클릭 시 기존 Detail Modal 재사용
-- 그룹을 선택하여 새로운 컬러 추가 가능
-- 모바일에서는 보조 도구 영역을 접고 펼쳐 스티커 보드에 빠르게 접근
+- 모든 카테고리의 SubColor를 하나의 스티커 보드에서 확인
+- stamp, round, plaque, ticket 4종 프레임 적용
+- 스티커마다 서로 다른 크기, 위치, 기울기 적용
+- hover 시 카테고리, 제목, keyword 표시
+- hover, tap, drag 인터랙션 제공
+- drag 후 상세 Modal이 잘못 열리지 않도록 클릭 동작 분리
+- 스티커 클릭 시 기존 Detail Modal 재사용
+- 카테고리별 컬러 개수 확인 및 새로운 컬러 추가
+- 모바일에서 보조 도구 영역 접기·펼치기 지원
 
 ### Palette Log
 
-- 모든 카테고리의 SubColor를 생성 날짜 기준으로 월간 달력에 표시
-- 기록이 존재하는 월만 날짜순으로 탐색
-- 이전·다음 기록 월 이동 및 첫·마지막 월 이동 제한
-- 같은 날짜에 여러 컬러 기록 표시
-- 컬러 원 클릭 시 기존 Detail Modal 재사용
+- SubColor를 생성 날짜 기준으로 월간 달력에 표시
+- 기록이 존재하는 월만 탐색하고 첫·마지막 월 이동 제한
+- 날짜별 대표 스티커 1개와 다중 기록 컬러 점 표시
+- 컬러 점 선택 시 대표 스티커 변경
+- 대표 스티커 클릭 시 현재 기록의 Detail Modal 표시
+- 데스크톱 hover 시 짧은 제목 표시
+- 모바일에서 스티커 텍스트를 숨기고 컬러 점 목록 가로 스크롤 지원
 - Modal에서 수정·삭제 후 달력에 결과 반영
 - 수정 후 기존에 확인하던 기록 월로 복귀
-- 모바일 화면에서도 7열 달력 구조 유지
 
 ### SubColor CRUD
 
@@ -181,6 +190,14 @@ Add/Edit 저장 후 navigate state로 `reopenSubColorId` 전달.
 
 - 저장 후 방금 추가하거나 수정한 SubColor 상세 Modal 자동 오픈
 - 사용자가 저장 결과를 바로 확인할 수 있는 흐름 구성
+
+### StickerCard 페이지별 재사용
+
+Pieces of Me와 Palette Log에서 하나의 `StickerCard`를 재사용하고 `mode`에 따라 동작을 구분.
+
+- Pieces of Me에서는 hover, tap, drag와 rotation 적용
+- Palette Log에서는 drag와 rotation을 끄고 클릭과 hover 정보만 사용
+- 페이지별 스티커 컴포넌트 중복 없이 공통 프레임과 스타일 유지
 
 ---
 
@@ -272,11 +289,6 @@ npm run dev
 ---
 
 ## Future Improvements
-
-### v1.3
-
-- Pieces of Me 스티커 UI 고도화
-- 다양한 frame과 hover interaction 추가
 
 ### v1.5
 

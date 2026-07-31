@@ -28,7 +28,7 @@ MyPalette는 한 번 완성하고 끝나는 프로젝트가 아니라, 버전별
 | v1.0.0  | React Foundation     | React 기본기로 핵심 CRUD 완성           |
 | v1.1.0  | Pieces of Me         | 전체 컬러칩 모아보기 페이지 추가        |
 | v1.2.0  | Palette Log          | createdAt 기반 월별 기록 화면 추가      |
-| v1.3.0  | Pieces of Me UI      | 스티커 배치와 인터랙션 고도화           |
+| v1.3.0  | Visual UI            | Pieces of Me와 Palette Log UI 고도화    |
 | v1.5.0  | TypeScript Migration | 데이터와 props 타입 안정성 확보         |
 | v2.0.0  | Zustand Refactoring  | 상태 관리 구조 개선                     |
 | v2.5.0  | UI System            | Tailwind 또는 스타일 시스템 정리        |
@@ -74,17 +74,13 @@ v1.0은 모든 아이디어를 구현하는 버전이 아니라, 사용자가 �
 
 ## Technologies
 
-- React
-- JavaScript
-- React Router
-- Props
-- State
-- Event handling
-- Conditional rendering
-- List rendering
-- Form handling
-- CSS
-- Git / GitHub
+- React: 컴포넌트와 상태를 기반으로 MyPalette의 기본 화면 구성
+- React Router: 카테고리 상세 및 Add/Edit 페이지의 동적 경로 연결
+- Props / State: 상위 데이터와 CRUD 함수를 하위 컴포넌트에 전달
+- Event / Form Handling: SubColor 입력, 저장, 수정, 삭제 처리
+- Conditional / List Rendering: 데이터와 선택 상태에 따라 목록과 Modal 표시
+- Component Reuse: Add와 Edit에서 공용 ColorEditorPage 사용
+- Git / GitHub / Vercel: 버전 관리, Release 작성 및 웹 배포
 
 ## What This Version Proves
 
@@ -146,12 +142,12 @@ v1.0에서는 컬러가 카테고리별로 분리되어 있어, 사용자가 자
 
 ## Technologies
 
-- React Router
-- Array `flatMap`
-- Component reuse
-- Modal reuse
-- Hover interaction
-- Conditional rendering
+- React Router: Pieces of Me 페이지와 기존 상세 흐름 연결
+- Array flatMap: 카테고리별 SubColor 배열을 하나의 배열로 재가공
+- useMemo: colorGroups가 변경될 때 전체 SubColor 배열 재계산
+- Derived Data: 원본 데이터를 변경하지 않고 화면용 allSubColors 생성
+- Component Reuse: v1.0에서 만든 SubColorModal 재사용
+- Hover Interaction: 마우스 오버 시 title, category, keywords 표시
 
 ## What This Version Proves
 
@@ -202,12 +198,13 @@ createdAt 기준으로 사용자의 컬러 기록을 월별 달력 형태로 보
 
 ## Technologies
 
-- Date handling
-- Array grouping
-- Calendar UI
-- Conditional rendering
-- Hover interaction
-- Modal reuse
+- Array reduce: 같은 날짜의 SubColor를 날짜별 객체와 배열로 그룹화
+- Set / sort: 중복 없는 기록 월 목록을 만들고 시간순 정렬
+- Date Handling: 월별 날짜 수와 첫 요일을 계산해 달력 구성
+- useMemo: 전체 기록과 날짜별 그룹 데이터를 필요할 때만 재계산
+- useEffect: 삭제 후 월 index 보정과 Modal 스크롤 제어
+- CSS Grid: 7열 월간 달력과 날짜 셀 배치
+- Navigation State: 수정 후 기존에 보던 기록 월로 복귀
 
 ## What This Version Proves
 
@@ -236,57 +233,70 @@ createdAt 기준으로 사용자의 컬러 기록을 월별 달력 형태로 보
 
 ---
 
-# v1.3.0 — Pieces of Me Sticker UI Improvement
+# v1.3.0 — Pieces of Me & Palette Log UI Improvement
 
 ## Goal
 
-v1.1에서 구현한 Pieces of Me의 기본 스티커 보드를 시각적 배치와 인터랙션 중심으로 고도화한다.
+v1.1의 Pieces of Me와 v1.2의 Palette Log를 공통 StickerCard를 중심으로 고도화하여, MyPalette의 감성적 정체성과 기록 탐색 경험을 강화한다.
 
 ## Problem
 
-v1.1의 Pieces of Me가 단순 컬러칩 나열에 그치면 MyPalette의 감성적 정체성이 약하게 보일 수 있다.
+v1.1의 Pieces of Me는 컬러칩이 단순하게 나열되어 MyPalette의 감성적 정체성이 충분히 드러나지 않았다. v1.2의 Palette Log는 같은 날짜에 기록이 많을 때 달력 셀이 복잡해지고, 기록을 탐색하는 인터랙션과 시각적 구분도 보완할 필요가 있었다.
 
 ## Scope
 
-- Pieces of Me 전용 StickerCard 컴포넌트 추가
-- CSS 이중 테두리 또는 SVG frame 방식 검토
-- 컬러칩마다 frame type 다르게 적용
-- hover 확대 및 애니메이션 고도화
-- hover 시 텍스트가 아래에서 위로 등장
-- 기본 카테고리 카드와 다른 시각 스타일 적용
+- Pieces of Me와 Palette Log에서 공통 StickerCard 재사용
+- `mode="board"`와 `mode="calendar"`로 페이지별 동작 분리
+- stamp, round, plaque, ticket 4종 프레임 적용
+- Pieces of Me에 위치, 크기, 회전 차이 적용
+- Pieces of Me에 hover, tap, drag 인터랙션 적용
+- drag 후 Modal이 잘못 열리지 않도록 클릭 흐름 분리
+- Palette Log에 날짜별 대표 스티커 1개와 컬러 점 선택 UI 적용
+- 컬러 점 클릭 시 대표 스티커 변경, 대표 스티커 클릭 시 Modal 열기
+- Palette Log에서는 rotation과 drag 비활성화
+- 데스크톱 hover 시 짧은 title 표시
+- 모바일에서 스티커 텍스트 숨김
+- 모바일 다중 기록 점 목록에 네이티브 가로 스크롤 적용
+- 날짜 셀과 월 이동 버튼, 일요일 표시 스타일 개선
 
 ## Technologies
 
-- Component variant
-- CSS border
-- SVG frame optional
-- Hover animation
-- UI interaction
-- CSS transform / transition
+- Motion for React: 스티커의 hover, tap, drag 인터랙션 구현
+- Component Variant: StickerCard를 board와 calendar mode로 재사용
+- useRef: drag 발생 여부를 렌더링 없이 기억해 잘못된 Modal 열림 방지
+- Array findIndex: 현재 SubColor의 전체 배열 위치 계산
+- Remainder Operator: 전체 index를 4종 프레임 범위로 반복 변환
+- SVG / CSS: 다양한 스티커 프레임과 배치 스타일 구현
+- Representative Item Pattern: 같은 날짜의 기록을 대표 스티커와 컬러 점으로 구성
+- Native Horizontal Scrolling: 모바일에서 다중 기록을 좌우로 탐색
 
 ## What This Version Proves
 
-- 같은 데이터를 다른 UI 패턴으로 표현하는 능력
-- 컴포넌트 variant 설계
-- 감성적 UI와 정보 표시의 균형 조정
-- 인터랙션 polish 경험
+- 하나의 컴포넌트를 페이지 목적에 따라 variant로 재사용하는 능력
+- 감성적인 스티커 UI와 정보 가독성의 균형 조정
+- hover, tap, drag 인터랙션 구현 경험
+- useState와 useRef의 역할을 구분해 사용하는 능력
+- 여러 기록을 좁은 달력 셀에서 탐색할 수 있도록 재구성한 경험
+- 복잡한 이벤트보다 CSS와 네이티브 동작을 우선하는 판단
 
 ## Required Outputs
 
-- StickerCard 컴포넌트
-- frame type 기준 정리
-- Pieces of Me 전용 스타일
-- hover interaction 구현
-- improvements.md에 Before / After 기록
+- 공통 StickerCard 컴포넌트
+- Pieces of Me 스티커 보드 UI
+- Palette Log 대표 스티커와 컬러 점 UI
+- 4종 스티커 프레임
+- 데스크톱·모바일 인터랙션
+- README와 improvements.md의 v1.3 기록
 - Git tag: `v1.3.0`
 - GitHub Release: `v1.3.0`
 
 ## Completion Criteria
 
-- Pieces of Me 페이지에서 컬러칩이 스티커 형태로 보인다.
-- frame type이 2개 이상 적용된다.
-- hover interaction이 자연스럽게 동작한다.
-- 정보 가독성이 유지된다.
+- Pieces of Me의 스티커 배치와 인터랙션이 정상적으로 동작한다.
+- Palette Log에서 모든 날짜별 기록을 선택하고 상세 Modal을 열 수 있다.
+- 모바일에서 7열 달력과 다중 기록을 탐색할 수 있다.
+- 기존 Add, Edit, Delete와 주요 화면에 회귀 문제가 없다.
+- 프로덕션 빌드가 오류 없이 완료된다.
 
 ---
 
