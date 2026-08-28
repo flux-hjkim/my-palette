@@ -1,4 +1,13 @@
-export const presetColorsByGroup = {
+type PresetColor = {
+  name: string;
+  color: string;
+};
+
+type PresetColorsByGroup = {
+  [groupName: string]: PresetColor[];
+};
+
+export const presetColorsByGroup: PresetColorsByGroup = {
   red: [
     { name: "Tomato Red", color: "#DE765F" },
     { name: "Cherry Blossom", color: "#DD6866" },

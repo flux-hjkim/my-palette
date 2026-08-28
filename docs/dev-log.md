@@ -1431,3 +1431,55 @@
 - v1.5 TypeScript Migration 시작 전 범위와 작업 순서 확인
 - 모바일 양 끝 컬러 버튼 외곽선과 월 이동 버튼 위치는 이후 반응형 개선에서 재검토
 - `prefers-reduced-motion` 접근성 대응은 이후 버전에서 적용
+
+## 2026-08-28
+
+### 작업 내용
+
+- MyPalette v1.4.0 TypeScript Migration 시작
+- TypeScript 적용 전 현재 프로젝트 설정 확인
+  - `package.json`에서 TypeScript 설치 여부 확인
+  - `tsconfig.json` 유무 확인
+- TypeScript 개발 의존성 설치
+  - `npm install -D typescript`
+- 프로젝트 루트에 `tsconfig.json` 생성 및 기본 설정 추가
+  - 기존 JavaScript 파일을 점진적으로 이전하기 위해 `allowJs: true` 적용
+- `npx tsc --noEmit`으로 초기 TypeScript 설정 검사
+  - 타입 검사 오류 없이 통과
+- 첫 번째 마이그레이션 대상으로 `presetColors.js` 선택
+- `presetColors.js` → `presetColors.ts` 변경
+- preset color 데이터 타입 정의
+  - `PresetColor`
+  - `PresetColorsByGroup`
+- `presetColorsByGroup` 전체 데이터에 타입 적용
+
+### 주요 결정
+
+- 기존 `.jsx` 파일을 한 번에 `.tsx`로 변경하지 않고 의존성이 적은 파일부터 점진적으로 마이그레이션한다.
+- JSX가 없는 데이터 파일은 `.ts`, JSX를 사용하는 React 컴포넌트는 `.tsx`를 사용한다.
+- 데이터 타입은 작은 데이터 단위부터 정의한 뒤 배열과 상위 객체 구조에서 재사용한다.
+- 기존 JavaScript 파일을 유지하면서 마이그레이션하기 위해 초기 `tsconfig.json`에서 `allowJs: true`를 사용한다.
+
+### 문제와 해결
+
+- `@types/react`, `@types/react-dom`이 설치되어 있어 TypeScript도 설치된 것으로 볼 수 있는지 확인
+  - React 타입 정의 패키지와 TypeScript 컴파일러는 별개임을 확인하고 `typescript`를 devDependency로 추가
+- `PresetColorsByGroup`의 `[groupName: string]` 문법이 익숙하지 않음
+  - 객체의 key는 문자열이고 각 key에 대응하는 value는 `PresetColor[]`라는 규칙을 정의하는 index signature임을 확인
+
+### 학습 내용
+
+- `type PresetColor = { name: string; color: string }`은 같은 구조를 가진 객체에 `PresetColor`라는 타입 이름을 붙이는 것이다.
+- `PresetColor[]`는 `PresetColor` 타입 객체가 여러 개 들어 있는 배열을 의미한다.
+- `[groupName: string]: PresetColor[]`는 문자열 key마다 `PresetColor[]` 형태의 value를 갖는 객체 타입을 의미한다.
+- index signature의 `groupName`은 예약어가 아니며 `key`, `name` 등 다른 이름으로 변경할 수 있다.
+- 변수에 상위 객체 타입을 지정하면 내부 배열과 배열 안의 객체까지 해당 타입 규칙에 따라 검사된다.
+- TypeScript 타입은 객체와 배열을 한 번에 작성할 수도 있지만, 작은 데이터 단위의 타입을 먼저 정의하면 재사용하고 이해하기 쉽다.
+- `npx tsc --noEmit`은 결과 파일을 생성하지 않고 TypeScript 타입 오류만 검사한다.
+- `-D`는 패키지를 `devDependencies`에 설치하는 옵션이다.
+
+### 다음 작업
+
+- `presetColors.ts`의 타입 검사와 기존 기능 동작을 다시 확인
+- `stickerPresets.js`, `colorGroups.js`처럼 JSX가 없는 데이터 파일을 순서대로 `.ts`로 마이그레이션
+- 데이터 파일 정리 후 작은 컴포넌트부터 `.jsx` → `.tsx` 전환을 시작하고 props 타입을 직접 정의
