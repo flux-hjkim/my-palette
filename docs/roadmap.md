@@ -29,13 +29,14 @@ MyPalette는 한 번 완성하고 끝나는 프로젝트가 아니라, 버전별
 | v1.1.0  | Pieces of Me         | 전체 컬러칩 모아보기 페이지 추가        |
 | v1.2.0  | Palette Log          | createdAt 기반 월별 기록 화면 추가      |
 | v1.3.0  | Visual UI            | Pieces of Me와 Palette Log UI 고도화    |
-| v1.5.0  | TypeScript Migration | 데이터와 props 타입 안정성 확보         |
-| v2.0.0  | Zustand Refactoring  | 상태 관리 구조 개선                     |
-| v2.5.0  | UI System            | Tailwind 또는 스타일 시스템 정리        |
-| v3.0.0  | Data Persistence     | localStorage로 데이터 유지              |
-| v3.5.0  | Quality Improvement  | 접근성, 예외 처리, custom hook 개선     |
-| v3.8.0  | External Color API   | 색상 이름과 컬러 조합 추천 기능 추가    |
-| v4.0.0  | Backend Expansion    | Firebase 또는 Supabase 기반 서비스 확장 |
+| v1.4.0  | TypeScript Migration | 데이터와 props 타입 안정성 확보         |
+| v2.0.0  | Next.js Migration    | SPA를 Next.js 구조로 마이그레이션       |
+| v2.1.0  | Zustand Refactoring  | 상태 관리 구조 개선                     |
+| v2.2.0  | UI System            | Tailwind 또는 스타일 시스템 정리        |
+| v2.3.0  | Data Persistence     | localStorage로 데이터 유지              |
+| v2.4.0  | Quality Improvement  | 접근성, 예외 처리, custom hook 개선     |
+| v2.5.0  | External Color API   | 색상 이름과 컬러 조합 추천 기능 추가    |
+| v3.0.0  | Backend Expansion    | Supabase 또는 Firebase 기반 서비스 확장 |
 
 ---
 
@@ -300,7 +301,7 @@ v1.1의 Pieces of Me는 컬러칩이 단순하게 나열되어 MyPalette의 감�
 
 ---
 
-# v1.5.0 — TypeScript Migration
+# v1.4.0 — TypeScript Migration
 
 ## Goal
 
@@ -347,8 +348,8 @@ JavaScript 상태에서는 selectedColor, subColor, colorGroup 같은 데이터 
 - TypeScript 에러 없는 빌드
 - README에 TypeScript migration 설명 추가
 - improvements.md에 migration Before / After 기록
-- Git tag: `v1.5.0`
-- GitHub Release: `v1.5.0`
+- Git tag: `v1.4.0`
+- GitHub Release: `v1.4.0`
 
 ## Completion Criteria
 
@@ -360,7 +361,84 @@ JavaScript 상태에서는 selectedColor, subColor, colorGroup 같은 데이터 
 
 ---
 
-# v2.0.0 — Zustand State Management Refactoring
+# v2.0.0 — Next.js Migration
+
+## Goal
+
+기존 Vite + React 기반 SPA를 Next.js로 마이그레이션하여 페이지와 라우팅 구조를 재구성하고, React와 Next.js의 구조적 차이를 학습한다.
+
+## Problem
+
+Pieces of Me와 Palette Log 등 독립적인 페이지가 추가되고, 향후 데이터 영구 저장, 외부 API, DB 연동까지 기능 확장을 계획하고 있어 기존 프로젝트의 페이지와 라우팅 구조를 재정비할 필요가 있다.
+
+기존 Vite + React Router 구조에서도 기능 구현은 가능하지만, 파일 기반 라우팅을 통해 페이지와 URL 구조를 관리하고 향후 서버 측 데이터 처리와 API 로직까지 동일한 프로젝트 안에서 구성하는 방식을 경험하기 위해 Next.js로 마이그레이션한다.
+
+이 과정에서 React Router 기반 SPA와 Next.js App Router의 구조적 차이를 비교하고, 파일 기반 라우팅, Dynamic Route, Server Component와 Client Component의 역할을 학습한다.
+
+## Scope
+
+- Vite 기반 프로젝트를 Next.js로 마이그레이션
+- React Router → Next.js App Router 전환
+- 기존 페이지 구조를 `app` 기반 구조로 변경
+- 공통 Layout 적용
+- 카테고리 상세 페이지에 Dynamic Route 적용
+- Add/Edit 페이지의 동적 route 구조 이전
+- 기존 CRUD 및 상세 Modal 동작 유지
+- Client Component가 필요한 컴포넌트 구분
+- Next.js 서버 기능을 활용하는 기능 최소 1개 구현
+- 기존 TypeScript 타입 구조 유지
+
+## Technologies
+
+- Next.js
+- App Router
+- File-based Routing
+- Dynamic Route
+- Layout
+- Server Component
+- Client Component
+- TypeScript
+- Next.js Server Features
+
+## What This Version Proves
+
+- 기존 React SPA를 Next.js로 직접 마이그레이션하는 경험
+- React Router와 Next.js App Router의 구조적 차이 이해
+- 파일 기반 라우팅과 Dynamic Route를 활용한 페이지 구성 능력
+- 기존 React 컴포넌트를 Next.js 구조에 맞게 이전하는 능력
+- Server Component와 Client Component의 역할을 구분하는 능력
+- 기존 기능을 유지하면서 프로젝트 기반 구조를 변경하는 경험
+- 향후 API 및 Backend 연동을 고려한 프로젝트 구조 확장 경험
+
+## Required Outputs
+
+- Next.js 기반 MyPalette 프로젝트
+- App Router 기반 페이지 및 route 구조
+- Dynamic Route가 적용된 카테고리 및 Editor 페이지
+- 기존 Add/Edit/Delete/Detail Modal 동작 유지
+- Next.js 서버 기능을 활용한 기능 최소 1개
+- TypeScript 에러 없는 빌드
+- README에 Next.js 도입 이유 작성
+- improvements.md에 Before / After / Trade-off 기록
+- Git tag: `v2.0.0`
+- GitHub Release: `v2.0.0`
+
+## Completion Criteria
+
+- 기존 주요 화면이 Next.js 환경에서 동일하게 동작한다.
+- React Router 없이 App Router를 통해 페이지 이동이 동작한다.
+- 카테고리 및 Add/Edit 페이지의 동적 route가 정상적으로 동작한다.
+- 기존 Add/Edit/Delete/Detail Modal 흐름이 유지된다.
+- 기존 TypeScript 타입이 정상적으로 적용된다.
+- Server Component와 Client Component의 역할을 구분하여 사용할 수 있다.
+- Next.js 서버 기능을 활용한 기능이 최소 1개 구현되어 있다.
+- 프로덕션 빌드가 오류 없이 완료된다.
+- Vite + React SPA와 Next.js App Router 구조의 차이를 설명할 수 있다.
+- Next.js를 도입한 이유와 trade-off를 설명할 수 있다.
+
+---
+
+# v2.1.0 — Zustand State Management Refactoring
 
 ## Goal
 
@@ -368,7 +446,7 @@ JavaScript 상태에서는 selectedColor, subColor, colorGroup 같은 데이터 
 
 ## Problem
 
-v1.x에서는 colorGroups state와 Add/Edit/Delete 함수가 상위 컴포넌트에 집중된다. 프로젝트가 커질수록 props 전달이 길어지고, App 컴포넌트의 책임이 커질 수 있다.
+Next.js 마이그레이션 이후에도 colorGroups state와 Add/Edit/Delete 함수가 상위 컴포넌트에 집중되어 있다. 프로젝트가 커질수록 props 전달이 길어지고, 상위 컴포넌트의 책임이 커질 수 있다.
 
 ## Scope
 
@@ -403,8 +481,8 @@ v1.x에서는 colorGroups state와 Add/Edit/Delete 함수가 상위 컴포넌트
 - props 전달 감소한 코드 구조
 - README에 Zustand 도입 이유 작성
 - improvements.md에 Before / After / Trade-off 기록
-- Git tag: `v2.0.0`
-- GitHub Release: `v2.0.0`
+- Git tag: `v2.1.0`
+- GitHub Release: `v2.1.0`
 
 ## Completion Criteria
 
@@ -416,7 +494,7 @@ v1.x에서는 colorGroups state와 Add/Edit/Delete 함수가 상위 컴포넌트
 
 ---
 
-# v2.5.0 — UI System & Styling Improvement
+# v2.2.0 — UI System & Styling Improvement
 
 ## Goal
 
@@ -462,8 +540,8 @@ v1.x에서는 colorGroups state와 Add/Edit/Delete 함수가 상위 컴포넌트
 - Tailwind 미도입 시 CSS 구조 정리 문서
 - README에 UI 개선 방향 작성
 - improvements.md에 스타일 개선 Before / After 기록
-- Git tag: `v2.5.0`
-- GitHub Release: `v2.5.0`
+- Git tag: `v2.2.0`
+- GitHub Release: `v2.2.0`
 
 ## Completion Criteria
 
@@ -475,7 +553,7 @@ v1.x에서는 colorGroups state와 Add/Edit/Delete 함수가 상위 컴포넌트
 
 ---
 
-# v3.0.0 — Data Persistence with LocalStorage
+# v2.3.0 — Data Persistence with LocalStorage
 
 ## Goal
 
@@ -483,7 +561,7 @@ v1.x에서는 colorGroups state와 Add/Edit/Delete 함수가 상위 컴포넌트
 
 ## Problem
 
-v1~v2에서는 데이터가 메모리 상태에만 존재하므로 새로고침하면 변경 내용이 사라진다. 기록형 서비스로 보기에는 데이터 유지가 필요하다.
+이전 버전에서는 데이터가 메모리 상태에만 존재하므로 새로고침하면 변경 내용이 사라진다. 기록형 서비스로 보기에는 데이터 유지가 필요하다.
 
 ## Scope
 
@@ -517,8 +595,8 @@ v1~v2에서는 데이터가 메모리 상태에만 존재하므로 새로고침�
 - storage key 정의
 - README에 데이터 저장 방식 설명
 - improvements.md에 Data Persistence 기록
-- Git tag: `v3.0.0`
-- GitHub Release: `v3.0.0`
+- Git tag: `v2.3.0`
+- GitHub Release: `v2.3.0`
 
 ## Completion Criteria
 
@@ -530,7 +608,7 @@ v1~v2에서는 데이터가 메모리 상태에만 존재하므로 새로고침�
 
 ---
 
-# v3.5.0 — Quality Improvement
+# v2.4.0 — Quality Improvement
 
 ## Goal
 
@@ -577,8 +655,8 @@ v1~v2에서는 데이터가 메모리 상태에만 존재하므로 새로고침�
 - custom hook 최소 1개 이상
 - README에 품질 개선 항목 추가
 - improvements.md에 품질 개선 Before / After 기록
-- Git tag: `v3.5.0`
-- GitHub Release: `v3.5.0`
+- Git tag: `v2.4.0`
+- GitHub Release: `v2.4.0`
 
 ## Completion Criteria
 
@@ -589,7 +667,7 @@ v1~v2에서는 데이터가 메모리 상태에만 존재하므로 새로고침�
 
 ---
 
-# v3.8.0 — External Color API Integration
+# v2.5.0 — External Color API Integration
 
 ## Goal
 
@@ -647,8 +725,8 @@ v1~v2에서는 데이터가 메모리 상태에만 존재하므로 새로고침�
 - API 실패 시 기존 Editor 기능 유지
 - README에 사용한 API와 기능 설명
 - improvements.md에 API 도입 Before / After / Trade-off 기록
-- Git tag: `v3.8.0`
-- GitHub Release: `v3.8.0`
+- Git tag: `v2.5.0`
+- GitHub Release: `v2.5.0`
 
 ## Completion Criteria
 
@@ -663,7 +741,7 @@ v1~v2에서는 데이터가 메모리 상태에만 존재하므로 새로고침�
 
 ---
 
-# v4.0.0 — Backend Expansion
+# v3.0.0 — Backend Expansion
 
 ## Goal
 
@@ -710,8 +788,8 @@ localStorage는 브라우저 단위 저장소이므로 사용자 계정 기반 �
 - `.env.example`
 - README에 Backend 구조 설명
 - improvements.md에 Backend 확장 기록
-- Git tag: `v4.0.0`
-- GitHub Release: `v4.0.0`
+- Git tag: `v3.0.0`
+- GitHub Release: `v3.0.0`
 
 ## Completion Criteria
 
@@ -729,7 +807,7 @@ MyPalette는 단순한 컬러 기록 앱이 아니라, React 프로젝트를 버
 
 핵심 메시지는 다음과 같다.
 
-> v1.0에서는 React 기본기로 핵심 CRUD를 완성하고, v1.1에서는 전체 컬러를 한 화면에 모아보는 Pieces of Me를, v1.2에서는 createdAt을 활용한 Palette Log를 추가합니다. 이후 Pieces of Me의 스티커 UI를 고도화하고, TypeScript, Zustand, 스타일 시스템, localStorage, 접근성, 외부 색상 API, Backend 연동을 단계적으로 적용하며 프로젝트의 안정성, 유지보수성, 사용성을 개선합니다.
+> v1.0에서는 React 기본기로 핵심 CRUD를 완성하고, v1.1에서는 전체 컬러를 한 화면에 모아보는 Pieces of Me를, v1.2에서는 createdAt을 활용한 Palette Log를 추가합니다. 이후 Pieces of Me와 Palette Log의 UI를 고도화하고, TypeScript와 Next.js 마이그레이션, Zustand, 스타일 시스템, localStorage, 접근성, 외부 색상 API, Backend 연동을 단계적으로 적용하며 프로젝트의 안정성, 유지보수성, 사용성을 개선합니다.
 
 ---
 
@@ -763,7 +841,7 @@ MyPalette는 단순한 컬러 기록 앱이 아니라, React 프로젝트를 버
 - StickerCard를 별도 컴포넌트로 분리한 이유는 무엇인가?
 - 시각적 표현과 정보 가독성 사이의 균형을 어떻게 맞췄는가?
 
-## v1.5
+## v1.4
 
 - TypeScript 마이그레이션에서 가장 먼저 정의한 타입은 무엇인가?
 - selectedColor 타입을 어떻게 설계했는가?
@@ -771,29 +849,39 @@ MyPalette는 단순한 컬러 기록 앱이 아니라, React 프로젝트를 버
 
 ## v2.0
 
+- 기존 Vite + React 프로젝트를 왜 Next.js로 마이그레이션했는가?
+- React Router와 Next.js App Router의 차이는 무엇인가?
+- 기존 페이지와 동적 route 구조를 App Router로 어떻게 이전했는가?
+- Server Component와 Client Component는 어떤 기준으로 구분했는가?
+- Next.js 서버 기능을 어디에 활용했는가?
+- 기존 React SPA를 직접 마이그레이션하면서 무엇을 배웠는가?
+- Next.js를 도입하면서 생긴 trade-off는 무엇인가?
+
+## v2.1
+
 - Zustand를 왜 도입했는가?
 - 기존 state lifting 구조의 한계는 무엇이었는가?
 - 작은 프로젝트에서 Zustand가 과할 수 있다는 점을 어떻게 판단했는가?
 
-## v2.5
+## v2.2
 
 - Tailwind를 도입했다면 왜 도입했는가?
 - 도입하지 않았다면 기존 CSS를 어떻게 정리했는가?
 - 반응형 대응에서 어떤 레이아웃 문제가 있었고 어떻게 해결했는가?
 
-## v3.0
+## v2.3
 
 - localStorage를 선택한 이유는 무엇인가?
 - 저장 데이터가 깨졌을 때 어떻게 처리할 수 있는가?
 - Backend보다 localStorage를 먼저 적용한 이유는 무엇인가?
 
-## v3.5
+## v2.4
 
 - 접근성을 위해 무엇을 개선했는가?
 - custom hook으로 분리한 로직은 무엇인가?
 - 성능 최적화를 무조건 적용하지 않은 이유는 무엇인가?
 
-## v3.8
+## v2.5
 
 - 외부 색상 API를 선택한 이유는 무엇인가?
 - HEX 값을 API 요청에 어떻게 전달했는가?
@@ -802,7 +890,7 @@ MyPalette는 단순한 컬러 기록 앱이 아니라, React 프로젝트를 버
 - 추천 색상을 기존 Editor Form state와 어떻게 연결했는가?
 - API가 실패해도 preset color를 유지한 이유는 무엇인가?
 
-## v4.0
+## v3.0
 
 - Firebase와 Supabase 중 무엇을 선택했고 이유는 무엇인가?
 - 사용자별 데이터 구조를 어떻게 설계했는가?
