@@ -1483,3 +1483,62 @@
 - `presetColors.ts`의 타입 검사와 기존 기능 동작을 다시 확인
 - `stickerPresets.js`, `colorGroups.js`처럼 JSX가 없는 데이터 파일을 순서대로 `.ts`로 마이그레이션
 - 데이터 파일 정리 후 작은 컴포넌트부터 `.jsx` → `.tsx` 전환을 시작하고 props 타입을 직접 정의
+
+## 2026-09-02
+
+### 작업 내용
+
+- MyPalette TypeScript Migration 계속 진행
+- 데이터 파일 `.ts` 전환 및 타입 정의 완료
+  - `presetColors.ts`
+  - `colorGroups.ts`
+  - `stickerPresets.ts`
+- 공통 데이터 타입 정의
+  - `PresetColor`
+  - `PresetColorsByGroup`
+  - `SubColor`
+  - `ColorGroup`
+  - `StickerPreset`
+- 작은 컴포넌트부터 `.tsx` 전환
+  - `AddSubColorSquare.tsx`
+  - `ColorGroupCard.tsx`
+  - `SubColorSquare.tsx`
+  - `StickerCard.tsx`
+- 컴포넌트 props 타입 정의
+  - 함수 props
+  - `number | null`
+  - `RefObject`
+  - `SubColor` 재사용 및 확장 타입 적용
+- TypeScript 파일 import 경로 정리
+  - `.js` 확장자 제거
+  - 타입 전용 import에 `import type` 사용
+
+### 문제와 해결
+
+- `ColorGroup`과 `ColorGroup[]` 차이를 혼동
+  - 객체 하나와 객체 배열의 타입 차이를 확인
+- `activeId`가 `number`뿐 아니라 `null`도 가질 수 있음을 확인
+  - `number | null` union type 적용
+- `StickerCard`에서 기존 `SubColor`에 없는 `groupId`, `groupName` 사용
+  - 기존 타입을 확장한 `StickerSubColor` 타입 생성
+- `RefObject` 타입 오류
+  - React에서 `import type`으로 가져와 해결
+
+### 학습 내용
+
+- `Type[]`는 해당 타입의 값이 여러 개 들어 있는 배열을 의미한다.
+- TypeScript의 `number`에는 정수, 소수, 양수, 음수가 모두 포함된다.
+- 함수 타입은 전달받는 값과 반환값을 기준으로 정의한다.
+  - `() => void`
+  - `(id: number | null) => void`
+  - `() => number`
+- `void`는 함수가 아무 동작도 하지 않는다는 뜻이 아니라 사용할 반환값이 없다는 뜻이다.
+- `|`는 여러 타입 중 하나를 허용하는 union type이다.
+- `&`를 사용하면 기존 타입에 새로운 필드를 추가하여 확장할 수 있다.
+- 초기값이 명확한 `useState`는 TypeScript가 타입을 자동으로 추론할 수 있다.
+
+### 다음 작업
+
+- `StickerCard.tsx` 최종 타입 확인
+- `PiecesOfMe.jsx` 등 부모 컴포넌트의 `.tsx` 전환 시작
+- 이후 작은 컴포넌트부터 순서대로 TypeScript 마이그레이션 계속 진행
