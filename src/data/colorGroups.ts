@@ -1,4 +1,24 @@
-export const initialColorGroups = [
+export type SubColor = {
+  id: number;
+  name: string;
+  colorName: string;
+  color: string;
+  description: string;
+  keywords: string[];
+  createdAt: string;
+};
+
+export type ColorGroup = {
+  id: number;
+  groupName: string;
+  colorKey: string;
+  colorName: string;
+  mainColor: string;
+  description: string;
+  subColors: SubColor[];
+};
+
+export const initialColorGroups: ColorGroup[] = [
   {
     id: 1,
     groupName: "About Me",

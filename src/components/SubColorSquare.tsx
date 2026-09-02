@@ -1,6 +1,12 @@
 import { useState } from "react";
+import type { SubColor } from "../data/colorGroups";
 
-function SubColorSquare({ subColor, onClick }) {
+type SubColorSquareProps = {
+  subColor: SubColor;
+  onClick: () => void;
+};
+
+function SubColorSquare({ subColor, onClick }: SubColorSquareProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (

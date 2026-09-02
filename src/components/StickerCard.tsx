@@ -1,9 +1,25 @@
 import { useMemo, useRef, useState } from "react";
+import type { RefObject } from "react";
 import { motion } from "motion/react";
-import { STICKER_PRESETS } from "../data/stickerPresets.js";
+import { STICKER_PRESETS } from "../data/stickerPresets";
 import "./StickerCard.css";
+import type { SubColor } from "../data/colorGroups";
 
-function getRandomNumber(min, max) {
+type StickerSubColor = SubColor & {
+  groupId: number;
+  groupName: string;
+};
+
+type StickerCardProps = {
+  subColor: StickerSubColor;
+  index: number;
+  onSelect: (subColor: StickerSubColor) => void;
+  constraintsRef: RefObject<HTMLDivElement | null>;
+  getNextZIndex: () => number;
+  mode?: "board" | "calendar";
+};
+
+function getRandomNumber(min: number, max: number): number {
   return Math.random() * (max - min) + min; // min 이상 max 미만 범위의 숫자
 }
 
@@ -14,7 +30,7 @@ function StickerCard({
   constraintsRef,
   getNextZIndex,
   mode = "board",
-}) {
+}: StickerCardProps) {
   const isCalendar = mode === "calendar";
   // 각 스티커가 자신의 현재 층을 기억하는 state
   const [zIndex, setZIndex] = useState(1);

@@ -1,9 +1,9 @@
-type PresetColor = {
+export type PresetColor = {
   name: string;
   color: string;
 };
 
-type PresetColorsByGroup = {
+export type PresetColorsByGroup = {
   [groupName: string]: PresetColor[];
 };
 

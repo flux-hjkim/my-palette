@@ -1,3 +1,11 @@
+export type StickerPreset = {
+  frame: string;
+  minWidth: number;
+  maxWidth: number;
+  minRotation: number;
+  maxRotation: number;
+};
+
 export const STICKER_PRESETS = [
   {
     frame: "stamp",
