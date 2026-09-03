@@ -1542,3 +1542,47 @@
 - `StickerCard.tsx` 최종 타입 확인
 - `PiecesOfMe.jsx` 등 부모 컴포넌트의 `.tsx` 전환 시작
 - 이후 작은 컴포넌트부터 순서대로 TypeScript 마이그레이션 계속 진행
+
+## 2026-09-03
+
+### 작업 내용
+
+- MyPalette TypeScript Migration 계속 진행
+- 부모 컴포넌트 및 공용 Modal `.tsx` 전환
+  - `PiecesOfMe.tsx`
+  - `SubColorModal.tsx`
+  - `ColorGroupDetail.tsx`
+- 공통 타입 흐름 정리
+  - `StickerSubColor` 공용 타입으로 이동
+  - `SubColor`와 `StickerSubColor` 역할 구분
+  - `SubColorModal`은 공용 컴포넌트이므로 `SubColor` 기준으로 타입 정의
+- props 및 state 타입 적용
+  - `ColorGroup[]`
+  - `SubColor | null`
+  - `StickerSubColor | null`
+  - 함수 props의 parameter와 return type 정의
+- URL param 타입 차이 처리
+  - `useParams()`의 `id`를 `Number(id)`로 변환하여 숫자 타입이 필요한 함수에 전달
+
+### 문제와 해결
+
+- `PiecesOfMe`와 `ColorGroupDetail`에서 `SubColorModal`에 서로 다른 형태의 데이터를 전달
+  - Modal이 실제로 사용하는 최소 타입인 `SubColor`를 기준으로 유지
+- `PiecesOfMe`의 `handleEdit`은 `groupId`가 필요해 `StickerSubColor`를 요구
+  - `selectedSubColor`를 사용하는 wrapper 함수를 `onEdit`으로 전달하여 타입 충돌 해결
+- `find()` 결과가 없을 수 있어 `undefined` 가능성이 존재
+  - 조건문에서 존재 여부를 확인한 후 `SubColor`로 사용
+
+### 학습 내용
+
+- state 타입은 setter에 실제로 들어가는 값들을 기준으로 정의한다.
+- `StickerSubColor`처럼 더 많은 필드를 가진 객체도 `SubColor`가 필요한 곳에 전달할 수 있다.
+- 공용 컴포넌트는 실제 전달되는 가장 구체적인 타입보다 동작에 필요한 최소 타입을 요구하는 것이 재사용에 유리하다.
+- 함수를 prop으로 전달하는 것과 함수를 즉시 실행하는 것은 다르다.
+- TypeScript 마이그레이션 과정에서 기존 데이터 흐름과 컴포넌트 의존성을 더 명확하게 확인할 수 있다.
+
+### 다음 작업
+
+- `SubColorForm.jsx` → `SubColorForm.tsx` 전환
+- Form 입력과 관련된 React event type 학습
+- 남은 컴포넌트 TypeScript 마이그레이션 계속 진행
