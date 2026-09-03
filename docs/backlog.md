@@ -106,3 +106,13 @@
 - 현재 동작: 글자를 삭제할 수 없다.
 - 기대 동작: 200자에서는 추가 입력만 제한하고, 삭제와 수정은 가능해야 한다.
 - 우선순위: 다음 패치에서 수정
+
+### Pieces of Me 데이터 흐름 단순화 검토
+
+**Current Problem**
+`SubColor` 데이터를 `PiecesOfMe`에서 `groupId`, `groupName`이 포함된 형태로 재가공하고,
+이를 `StickerCard`와 `selectedSubColor` state에서 다시 사용하면서 데이터 흐름 추적이 복잡해짐.
+
+**Future Improvement**
+Zustand 도입 시 전체 컬러 목록 또는 선택된 컬러 상태를 store에서 관리하고,
+화면별 파생 데이터 생성 위치를 정리하여 props 전달과 타입 중복을 줄이는 구조 검토.
