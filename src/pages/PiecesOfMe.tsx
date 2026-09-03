@@ -3,15 +3,23 @@ import { useNavigate } from "react-router-dom";
 import "./PiecesOfMe.css";
 import SubColorModal from "../components/SubColorModal";
 import StickerCard from "../components/StickerCard";
+import type { ColorGroup } from "../data/colorGroups";
+import type { StickerSubColor } from "../data/colorGroups";
 
-function PiecesOfMe({ colorGroups, onDelete }) {
+type PiecesOfMeProps = {
+  colorGroups: ColorGroup[];
+  onDelete: (groupId: number, subColorId: number) => void;
+};
+
+function PiecesOfMe({ colorGroups, onDelete }: PiecesOfMeProps) {
   const navigate = useNavigate();
 
   const [selectedGroupId, setSelectedGroupId] = useState(
     String(colorGroups[0]?.id ?? ""),
   );
 
-  const [selectedSubColor, setSelectedSubColor] = useState(null);
+  const [selectedSubColor, setSelectedSubColor] =
+    useState<StickerSubColor | null>(null);
 
   const [isToolsOpen, setIsToolsOpen] = useState(false);
 
@@ -57,7 +65,7 @@ function PiecesOfMe({ colorGroups, onDelete }) {
     navigate(`/mypalette/${selectedGroupId}/new`);
   };
 
-  const handleEdit = (subColor) => {
+  const handleEdit = (subColor: StickerSubColor) => {
     navigate(`/mypalette/${subColor.groupId}/edit/${subColor.id}`, {
       state: {
         returnTo: "/pieces-of-me",
@@ -65,7 +73,9 @@ function PiecesOfMe({ colorGroups, onDelete }) {
     });
   };
 
-  const handleDelete = (subColorId) => {
+  const handleDelete = (subColorId: number) => {
+    if (!selectedSubColor) return;
+
     onDelete(selectedSubColor.groupId, subColorId);
     setSelectedSubColor(null);
   };
@@ -175,7 +185,11 @@ function PiecesOfMe({ colorGroups, onDelete }) {
         subColor={selectedSubColor}
         onClose={() => setSelectedSubColor(null)}
         onDelete={handleDelete}
-        onEdit={handleEdit}
+        onEdit={() => {
+          if (!selectedSubColor) return;
+
+          handleEdit(selectedSubColor);
+        }}
       />
     </main>
   );

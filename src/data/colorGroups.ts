@@ -18,6 +18,11 @@ export type ColorGroup = {
   subColors: SubColor[];
 };
 
+export type StickerSubColor = SubColor & {
+  groupId: number;
+  groupName: string;
+};
+
 export const initialColorGroups: ColorGroup[] = [
   {
     id: 1,

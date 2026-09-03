@@ -3,12 +3,7 @@ import type { RefObject } from "react";
 import { motion } from "motion/react";
 import { STICKER_PRESETS } from "../data/stickerPresets";
 import "./StickerCard.css";
-import type { SubColor } from "../data/colorGroups";
-
-type StickerSubColor = SubColor & {
-  groupId: number;
-  groupName: string;
-};
+import type { StickerSubColor } from "../data/colorGroups";
 
 type StickerCardProps = {
   subColor: StickerSubColor;
