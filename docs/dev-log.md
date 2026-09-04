@@ -1586,3 +1586,66 @@
 - `SubColorForm.jsx` → `SubColorForm.tsx` 전환
 - Form 입력과 관련된 React event type 학습
 - 남은 컴포넌트 TypeScript 마이그레이션 계속 진행
+
+## 2026-09-04
+
+### 작업 내용
+
+- MyPalette TypeScript Migration 계속 진행
+- Form 및 주요 페이지 `.tsx` 전환
+  - `SubColorForm.tsx`
+  - `ColorEditorPage.tsx`
+  - `MyPalette.tsx`
+  - `Home.tsx`
+  - `Navbar.tsx`
+- `SubColorForm` 타입 정의
+  - `FormData`, `FormErrors`, `SubColorFormProps`
+  - `Dispatch<SetStateAction<FormData>>`를 사용한 state setter prop 타입 적용
+  - `keyof FormData`, `FormData[keyof FormData]`를 사용한 공통 update 함수 타입 정의
+- React 이벤트 및 DOM ref 타입 적용
+  - `React.KeyboardEvent<HTMLTextAreaElement>`
+  - `React.KeyboardEvent<HTMLInputElement>`
+  - `useRef<HTMLDivElement | null>`
+  - `useRef<HTMLButtonElement | null>`
+  - DOM 외부 클릭 이벤트에 `MouseEvent` 적용
+- `ColorEditorPage` 타입 정리
+  - `ColorGroup[]`, `SubColor` props 타입 적용
+  - `onAdd`, `onUpdate` 함수 타입 정의
+  - `useParams()`의 `id`를 `Number(id)`로 변환
+  - `find()` 결과가 없을 수 있는 경우 early return 처리
+  - 오래된 `selectedGroup.name`을 `groupName`으로 수정
+- `MyPalette`, `Navbar` props 타입 정리
+  - `colorGroups: ColorGroup[]`
+  - 사용하지 않는 `count` prop 제거
+  - `Navbar`의 불필요한 `colorGroups = []` 기본값 제거
+- `Home.tsx` 이미지 import 타입 오류 해결
+  - `global.d.ts`에 이미지 확장자 module 선언 추가
+
+### 문제와 해결
+
+- React state setter prop의 타입을 단순 함수 타입으로 정의하기 어려움
+  - `Dispatch<SetStateAction<FormData>>`를 사용해 `useState` setter 타입을 그대로 적용
+- 객체의 특정 key와 value 타입을 어떻게 정의할지 혼동
+  - `keyof FormData`와 `FormData[keyof FormData]` 사용
+- textarea와 input의 키보드 이벤트 타입 차이 확인
+  - 이벤트가 연결된 HTML 요소에 따라 `KeyboardEvent`의 제네릭 타입을 구분
+- DOM ref를 `useRef(null)`만으로 선언했을 때 `.contains()` 사용 불가
+  - 실제 ref가 연결된 HTML 요소 타입을 명시하여 해결
+- `find()` 결과의 `undefined` 가능성 때문에 하위 필드 접근 오류 발생
+  - 필수 데이터가 없으면 먼저 return하도록 처리
+
+### 학습 내용
+
+- `useState`의 setter를 prop으로 넘길 때 `Dispatch<SetStateAction<T>>` 타입을 사용할 수 있다.
+- `keyof Type`은 객체 타입의 key 이름들을 의미하고, `Type[keyof Type]`은 해당 key들이 가질 수 있는 value 타입들을 의미한다.
+- React 이벤트 타입은 `React.이벤트종류<HTML요소>` 형태로 정의할 수 있다.
+- `e.currentTarget`은 이벤트 핸들러가 실제로 연결된 요소를 가리킨다.
+- DOM ref 타입은 ref가 연결되는 실제 HTML 태그를 기준으로 정의한다.
+- `find()`는 찾지 못하면 `undefined`를 반환할 수 있으므로 이후 사용 전에 존재 여부를 확인해야 한다.
+- TypeScript 마이그레이션 과정에서 오래된 필드명과 사용하지 않는 props 같은 기존 코드 잔재를 발견할 수 있다.
+
+### 다음 작업
+
+- `PaletteLog.jsx` → `PaletteLog.tsx` 전환
+- 남은 컴포넌트 TypeScript 마이그레이션 계속 진행
+- 마지막 단계에서 `App.jsx` → `App.tsx` 전환 및 전체 state / CRUD 함수 타입 정리
