@@ -1,5 +1,29 @@
 import { useState, useRef, useEffect } from "react";
 import "./SubColorForm.css";
+import type { PresetColor } from "../data/presetColors";
+import type { Dispatch, SetStateAction } from "react";
+
+type SubColorFormData = {
+  name: string;
+  description: string;
+  selectedColor: PresetColor;
+  keywords: string[];
+};
+
+type SubColorFormErrors = {
+  name: string;
+  description: string;
+  selectedColor: string;
+};
+
+type SubColorFormProps = {
+  formData: SubColorFormData;
+  setFormData: Dispatch<SetStateAction<SubColorFormData>>;
+  presetColors: PresetColor[];
+  groupColorName: string;
+  groupMainColor: string;
+  errors: SubColorFormErrors;
+};
 
 function SubColorForm({
   formData,
@@ -8,10 +32,13 @@ function SubColorForm({
   groupColorName,
   groupMainColor,
   errors,
-}) {
+}: SubColorFormProps) {
   const { name, description, selectedColor, keywords } = formData;
 
-  const updateFormData = (key, value) => {
+  const updateFormData = (
+    key: keyof SubColorFormData,
+    value: SubColorFormData[keyof SubColorFormData],
+  ) => {
     setFormData((prev) => ({
       ...prev,
       [key]: value,
@@ -22,27 +49,30 @@ function SubColorForm({
 
   const [showAllColors, setShowAllColors] = useState(false);
 
-  const colorPickerRef = useRef(null);
-  const colorButtonRef = useRef(null); // 컬러 선택하기 버튼
+  const colorPickerRef = useRef<HTMLDivElement | null>(null);
+  const colorButtonRef = useRef<HTMLButtonElement | null>(null); // 컬러 선택하기 버튼
 
   // 키워드 추가·삭제 기능
   const [keywordInput, setKeywordInput] = useState("");
 
   const MAX_DESCRIPTION_LINES = 6;
 
-  const handleDescriptionKeyDown = (e) => {
+  const handleDescriptionKeyDown = (
+    e: React.KeyboardEvent<HTMLTextAreaElement>,
+  ) => {
     if (e.key !== "Enter") return;
 
     const lines = description.split("\n");
 
-    const hasSelectedText = e.target.selectionStart !== e.target.selectionEnd;
+    const hasSelectedText =
+      e.currentTarget.selectionStart !== e.currentTarget.selectionEnd;
 
     if (lines.length >= MAX_DESCRIPTION_LINES && !hasSelectedText) {
       e.preventDefault();
     }
   };
 
-  const handleKeywordKeyDown = (e) => {
+  const handleKeywordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
 
     e.preventDefault();
@@ -59,7 +89,7 @@ function SubColorForm({
     setKeywordInput("");
   };
 
-  const removeKeyword = (indexToRemove) => {
+  const removeKeyword = (indexToRemove: number) => {
     updateFormData(
       "keywords",
       keywords.filter((_, index) => index !== indexToRemove),
@@ -68,11 +98,15 @@ function SubColorForm({
 
   // Color Picker 외부 클릭 닫기 기능
   useEffect(() => {
-    function handleClickOutside(event) {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target;
+
+      if (!(target instanceof Node)) return; // 클릭된 대상이 DOM Node인지 확인
+
       const clickedPicker =
-        colorPickerRef.current && colorPickerRef.current.contains(event.target);
+        colorPickerRef.current && colorPickerRef.current.contains(target);
       const clickedButton =
-        colorButtonRef.current && colorButtonRef.current.contains(event.target);
+        colorButtonRef.current && colorButtonRef.current.contains(target);
 
       if (!clickedPicker && !clickedButton) {
         // 버튼 & 드롭다운 바깥 클릭 시 드롭다운 닫기

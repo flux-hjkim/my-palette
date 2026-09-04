@@ -1,5 +1,10 @@
 import { NavLink, useLocation } from "react-router-dom";
 import "./Navbar.css";
+import type { ColorGroup } from "../data/colorGroups";
+
+type NavbarProps = {
+  colorGroups: ColorGroup[];
+};
 
 const navItems = [
   { label: "HOME", path: "/" },
@@ -8,7 +13,7 @@ const navItems = [
   { label: "PALETTE LOG", path: "/palette-log" },
 ];
 
-function Navbar({ colorGroups = [] }) {
+function Navbar({ colorGroups }: NavbarProps) {
   const location = useLocation();
   const isMyPalettePage = location.pathname.startsWith("/mypalette");
 

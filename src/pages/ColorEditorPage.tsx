@@ -3,8 +3,20 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { presetColorsByGroup } from "../data/presetColors";
 import SubColorForm from "../components/SubColorForm";
 import "./ColorEditorPage.css";
+import type { ColorGroup } from "../data/colorGroups";
+import type { SubColor } from "../data/colorGroups";
 
-function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
+type ColorEditorPageProps = {
+  colorGroups: ColorGroup[];
+  onAdd: (id: number, savedSubColor: SubColor) => void;
+  onUpdate: (id: number, savedSubColor: SubColor) => void;
+};
+
+function ColorEditorPage({
+  colorGroups,
+  onAdd,
+  onUpdate,
+}: ColorEditorPageProps) {
   const { id, subColorId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,11 +29,15 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
 
   const selectedGroup = colorGroups.find((group) => group.id === Number(id));
 
-  const selectedSubColor = selectedGroup?.subColors.find(
+  if (!selectedGroup) {
+    return <div>컬러 그룹을 찾을 수 없습니다.</div>;
+  }
+
+  const selectedSubColor = selectedGroup.subColors.find(
     (subColor) => subColor.id === Number(subColorId),
   );
 
-  const presetColors = presetColorsByGroup[selectedGroup?.colorKey] || [];
+  const presetColors = presetColorsByGroup[selectedGroup.colorKey] || [];
 
   const [formData, setFormData] = useState({
     name: selectedSubColor?.name || "",
@@ -109,7 +125,7 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
 
     // ADD/EDIT 분기
     if (selectedSubColor) {
-      onUpdate(id, savedSubColor);
+      onUpdate(Number(id), savedSubColor);
 
       navigate(returnTo, {
         state: { reopenSubColorId: savedSubColor.id, returnMonth },
@@ -118,7 +134,7 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
       return;
     }
 
-    onAdd(id, savedSubColor);
+    onAdd(Number(id), savedSubColor);
 
     // 페이지 이동 (모달)
     navigate(`/mypalette/${id}`, {
@@ -139,7 +155,7 @@ function ColorEditorPage({ colorGroups, onAdd, onUpdate }) {
           </button>
 
           <div className="editor-page__title-group">
-            <p className="editor-page__eyebrow">{selectedGroup.name}</p>
+            <p className="editor-page__eyebrow">{selectedGroup.groupName}</p>
             <h1 className="editor-page__title">
               {isEditMode ? "EDIT COLOR" : "NEW COLOR"}
             </h1>

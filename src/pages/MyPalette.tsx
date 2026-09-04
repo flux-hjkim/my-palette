@@ -1,10 +1,15 @@
 import { useState } from "react";
 import ColorGroupCard from "../components/ColorGroupCard";
 import "./MyPalette.css";
+import type { ColorGroup } from "../data/colorGroups";
 
-function MyPalette({ colorGroups }) {
+type MyPaletteProps = {
+  colorGroups: ColorGroup[];
+};
+
+function MyPalette({ colorGroups }: MyPaletteProps) {
   //현재 hover중인 컬러 그룹 기억
-  const [activeId, setActiveId] = useState(null);
+  const [activeId, setActiveId] = useState<number | null>(null);
   //그룹 내 특성 퍼센티지 계산
   const totalSubColorCount = colorGroups.reduce(
     (sum, group) => sum + group.subColors.length,
@@ -36,7 +41,6 @@ function MyPalette({ colorGroups }) {
               id={group.id}
               colorName={group.colorName}
               groupName={group.groupName}
-              count={group.subColors.length}
               mainColor={group.mainColor}
               activeId={activeId}
               setActiveId={setActiveId}
