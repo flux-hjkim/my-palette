@@ -1,7 +1,20 @@
 import { useState } from "react";
 import StickerCard from "./StickerCard";
+import type { StickerSubColor } from "../data/colorGroups";
 
-function PaletteLogDay({ day, dateKey, colorsForDay, allSubColors, onSelect }) {
+type PaletteLogDayProps = {
+  day: number;
+  colorsForDay: StickerSubColor[];
+  allSubColors: StickerSubColor[];
+  onSelect: (subColor: StickerSubColor) => void;
+};
+
+function PaletteLogDay({
+  day,
+  colorsForDay,
+  allSubColors,
+  onSelect,
+}: PaletteLogDayProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const activeSubColor = colorsForDay[activeIndex];

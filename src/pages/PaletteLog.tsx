@@ -2,8 +2,14 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./PaletteLog.css";
 import SubColorModal from "../components/SubColorModal";
-import StickerCard from "../components/StickerCard";
 import PaletteLogDay from "../components/PaletteLogDay";
+import type { ColorGroup } from "../data/colorGroups";
+import type { StickerSubColor } from "../data/colorGroups";
+
+type PaletteLogProps = {
+  colorGroups: ColorGroup[];
+  onDelete: (groupId: number, subColorId: number) => void;
+};
 
 const MONTH_NAMES = [
   "JANUARY",
@@ -20,8 +26,9 @@ const MONTH_NAMES = [
   "DECEMBER",
 ];
 
-function PaletteLog({ colorGroups, onDelete }) {
-  const [selectedSubColor, setSelectedSubColor] = useState(null);
+function PaletteLog({ colorGroups, onDelete }: PaletteLogProps) {
+  const [selectedSubColor, setSelectedSubColor] =
+    useState<StickerSubColor | null>(null);
 
   const navigate = useNavigate();
 
@@ -104,8 +111,8 @@ function PaletteLog({ colorGroups, onDelete }) {
   // 연, 월 분리
   const [yearString, monthString] = currentMonth.split("-");
   // 연, 월을 string에서 number로 변경
-  const year = currentMonth ? Number(yearString) : null;
-  const month = currentMonth ? Number(monthString) - 1 : null;
+  const year = Number(yearString);
+  const month = Number(monthString) - 1;
 
   // 해당 월이 며칠까지 있는지 계산
   const daysInMonth = currentMonth ? new Date(year, month + 1, 0).getDate() : 0;
@@ -116,17 +123,20 @@ function PaletteLog({ colorGroups, onDelete }) {
   const monthName = currentMonth ? MONTH_NAMES[Number(monthString) - 1] : "";
 
   const groupedSubColors = useMemo(() => {
-    return allSubColors.reduce((groupedByDate, subColor) => {
-      const dateKey = subColor.createdAt.slice(0, 10);
+    return allSubColors.reduce<Record<string, StickerSubColor[]>>(
+      (groupedByDate, subColor) => {
+        const dateKey = subColor.createdAt.slice(0, 10);
 
-      if (!groupedByDate[dateKey]) {
-        groupedByDate[dateKey] = [];
-      }
+        if (!groupedByDate[dateKey]) {
+          groupedByDate[dateKey] = [];
+        }
 
-      groupedByDate[dateKey].push(subColor);
+        groupedByDate[dateKey].push(subColor);
 
-      return groupedByDate;
-    }, {});
+        return groupedByDate;
+      },
+      {},
+    );
   }, [allSubColors]);
 
   // 공백을 포함한 월별 날짜 배열 만들기
@@ -149,7 +159,7 @@ function PaletteLog({ colorGroups, onDelete }) {
     return [...emptyDays, ...monthDays, ...endEmptyDays];
   }, [currentMonth, firstDayOfMonth, daysInMonth]); // 이 값들이 변경되면 계산 다시 실행
 
-  const handleEdit = (subColor) => {
+  const handleEdit = (subColor: StickerSubColor) => {
     navigate(`/mypalette/${subColor.groupId}/edit/${subColor.id}`, {
       state: {
         returnTo: "/palette-log",
@@ -158,7 +168,9 @@ function PaletteLog({ colorGroups, onDelete }) {
     });
   };
 
-  const handleDelete = (subColorId) => {
+  const handleDelete = (subColorId: number) => {
+    if (!selectedSubColor) return;
+
     onDelete(selectedSubColor.groupId, subColorId);
     setSelectedSubColor(null);
   };
@@ -224,7 +236,7 @@ function PaletteLog({ colorGroups, onDelete }) {
                   <PaletteLogDay
                     key={dateKey}
                     day={day}
-                    dateKey={dateKey}
+                    // dateKey={dateKey}
                     colorsForDay={colorsForDay}
                     allSubColors={allSubColors}
                     onSelect={setSelectedSubColor}
@@ -243,7 +255,7 @@ function PaletteLog({ colorGroups, onDelete }) {
               subColor={selectedSubColor}
               onClose={() => setSelectedSubColor(null)}
               onDelete={handleDelete}
-              onEdit={handleEdit}
+              onEdit={() => handleEdit(selectedSubColor)}
             />
           )}
         </>

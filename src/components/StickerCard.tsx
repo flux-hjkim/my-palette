@@ -9,8 +9,8 @@ type StickerCardProps = {
   subColor: StickerSubColor;
   index: number;
   onSelect: (subColor: StickerSubColor) => void;
-  constraintsRef: RefObject<HTMLDivElement | null>;
-  getNextZIndex: () => number;
+  constraintsRef?: RefObject<HTMLDivElement | null>;
+  getNextZIndex?: () => number;
   mode?: "board" | "calendar";
 };
 
@@ -117,6 +117,7 @@ function StickerCard({
       }}
       onDragStart={() => {
         if (isCalendar) return;
+        if (!getNextZIndex) return;
 
         wasDragged.current = true;
         setIsHovered(false);
