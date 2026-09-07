@@ -1649,3 +1649,51 @@
 - `PaletteLog.jsx` → `PaletteLog.tsx` 전환
 - 남은 컴포넌트 TypeScript 마이그레이션 계속 진행
 - 마지막 단계에서 `App.jsx` → `App.tsx` 전환 및 전체 state / CRUD 함수 타입 정리
+
+## 2026-09-07
+
+### 작업 내용
+
+- Palette Log TypeScript Migration 진행
+  - `PaletteLog.jsx` → `PaletteLog.tsx`
+  - `PaletteLogDay.jsx` → `PaletteLogDay.tsx`
+- `PaletteLog` props 타입 정의
+  - `colorGroups: ColorGroup[]`
+  - `onDelete: (groupId: number, subColorId: number) => void`
+- 선택된 컬러 state 타입 정의
+  - `StickerSubColor | null`
+- 날짜별 컬러 그룹핑 타입 정리
+  - `Record<string, StickerSubColor[]>` 적용
+- `PaletteLogDay` props 타입 정의
+  - `day: number`
+  - `colorsForDay: StickerSubColor[]`
+  - `allSubColors: StickerSubColor[]`
+  - `onSelect: (subColor: StickerSubColor) => void`
+- 사용하지 않는 `dateKey` prop 제거
+- `StickerCard`의 calendar mode에서 불필요한 props를 optional로 수정
+  - `constraintsRef`
+  - `getNextZIndex`
+
+### 문제와 해결
+
+- `year`, `month`가 `number | null`로 추론되어 `Date` 계산에서 타입 오류 발생
+  - `currentMonth` 조건이 이미 날짜 계산을 막고 있어 `year`, `month`에서 불필요한 `null` 제거
+- `reduce()`의 초기값 `{}` 때문에 문자열 key 접근 시 타입 오류 발생
+  - `Record<string, StickerSubColor[]>`로 누적 객체 구조 정의
+- `SubColorModal`의 `onEdit` 타입과 `handleEdit`의 `StickerSubColor` 타입이 맞지 않음
+  - wrapper 함수에서 부모가 가진 `selectedSubColor`를 직접 전달
+- `StickerCard`의 board 전용 props가 calendar mode에서도 필수로 요구됨
+  - 해당 props를 optional로 변경하고 함수 호출 전 존재 여부 확인
+
+### 학습 내용
+
+- `reduce()`에서 빈 객체에 문자열 key로 값을 쌓을 때 `Record<K, V>`를 사용할 수 있다.
+- 함수 prop이 현재 컴포넌트에서 직접 실행되지 않고 다른 자식에게 전달되면, 실제로 사용하는 자식의 prop 타입을 확인한다.
+- `SubColor`에 없는 `groupId`가 필요하면 `StickerSubColor` 타입을 사용한다.
+- optional 함수 prop은 호출 전에 존재 여부를 확인하면 안전하게 사용할 수 있다.
+
+### 다음 작업
+
+- `ScrollToTop.jsx` → `ScrollToTop.tsx`
+- `App.jsx` → `App.tsx`
+- `main.jsx` → `main.tsx`
